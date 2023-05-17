@@ -52,7 +52,6 @@ export default function FriendsList({ friends, uid }: Props) {
         <Search
           variant="solid-dark"
           filter={handleFilter}
-          style={{ display: "none" }}
         />
       </div>
       <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">

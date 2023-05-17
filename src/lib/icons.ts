@@ -1,4 +1,3 @@
-export { TbAdjustmentsHorizontal as FilterIcon } from "react-icons/tb";
 export { GrArticle as ArticleIcon } from "react-icons/gr";
 export { BsPerson as PersonIcon } from "react-icons/bs";
 export { IoAddSharp as AddIcon } from "react-icons/io5";

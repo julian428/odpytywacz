@@ -44,7 +44,6 @@ export default function QuizList({ quizes, uid }: Props) {
         <Search
           variant="solid-light"
           filter={handleFilter}
-          style={{ display: "none" }}
         />
       </div>
       <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">

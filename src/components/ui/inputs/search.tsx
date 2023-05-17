@@ -8,7 +8,7 @@ import {
 } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { FilterIcon } from "@/lib/icons";
+import { SearchIcon } from "@/lib/icons";
 import Input from "./input";
 import Container from "../container";
 
@@ -60,7 +60,7 @@ export default forwardRef(function Search(
         {...props}
         className={cn(searchVariants({ position, className }))}
       >
-        <FilterIcon className="w-5 h-5" />
+        <SearchIcon className="w-5 h-5" />
       </button>
     </section>
   );

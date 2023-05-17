@@ -14,7 +14,7 @@ interface Props {
 
 export default function QuizList({ uid, quizes, likes }: Props) {
   return (
-    <section className="w-full flex flex-wrap gap-4 justify-center content-start">
+    <section className="w-full flex flex-wrap gap-8 justify-center content-start mt-12">
       {quizes.map((quiz) => (
         <QuizLink
           key={quiz.id}

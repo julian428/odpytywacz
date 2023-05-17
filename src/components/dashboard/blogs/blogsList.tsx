@@ -8,10 +8,7 @@ export default function BlogsList() {
       variant="solid-normal"
     >
       <div className="mb-4">
-        <Search
-          variant="solid-normal"
-          style={{ display: "none" }}
-        />
+        <Search variant="solid-normal" />
       </div>
     </Container>
   );
