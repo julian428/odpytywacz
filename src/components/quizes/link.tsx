@@ -19,7 +19,7 @@ export default function QuizLink({ uid, quiz, isLiked }: Props) {
   return (
     <Container
       variant="gradient-dark"
-      className="relative p-6 space-y-4 w-[25%]"
+      className="relative p-6 space-y-4 lg:w-[25%] w-full"
     >
       <Link
         href={`quizes/${quiz.id}`}
@@ -36,6 +36,7 @@ export default function QuizLink({ uid, quiz, isLiked }: Props) {
       <LikeQuiz
         uid={uid}
         qid={quiz.id}
+        likes={quiz.likes}
         isLiked={isLiked}
       />
     </Container>

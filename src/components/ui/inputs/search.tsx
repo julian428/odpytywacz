@@ -5,6 +5,7 @@ import {
   ChangeEvent,
   ForwardedRef,
   forwardRef,
+  useRef,
 } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -36,28 +37,42 @@ interface Props
     | "solid-dark"
     | null
     | undefined;
+  defaultValue?: string;
   filter?: (event: ChangeEvent<HTMLInputElement>) => any;
 }
 
 export default forwardRef(function Search(
-  { position, className, variant, filter, children, ...props }: Props,
+  {
+    position,
+    className,
+    variant,
+    filter,
+    children,
+    defaultValue,
+    ...props
+  }: Props,
   ref: ForwardedRef<HTMLInputElement>
 ) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const handleFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!filter) return;
-    filter(event);
+    if (filter) {
+      filter(event);
+    }
   };
 
   return (
     <section className="relative w-fit">
       <Input
         variant={variant}
+        defaultValue={defaultValue}
         onChange={handleFilter}
+        onKeyUp={(event) => event.key === "Enter" && buttonRef.current?.click()}
         className="pr-8"
         ref={ref}
       />
       <button
         {...props}
+        ref={buttonRef}
         className={cn(searchVariants({ position, className }))}
       >
         <SearchIcon className="w-5 h-5" />

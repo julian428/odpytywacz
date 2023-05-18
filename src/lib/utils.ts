@@ -56,3 +56,34 @@ export function getSearchParams(url: string) {
   });
   return parsedParams;
 }
+
+export function getSearchParamsString(
+  params: { [index: string]: string },
+  modifiers?: {
+    blacklist?: string[];
+    replace?: [string, string][];
+  }
+) {
+  let searchString = "";
+  Object.entries(params).map((value) => {
+    if (
+      modifiers &&
+      modifiers.blacklist &&
+      modifiers.blacklist.includes(value[0])
+    ) {
+      return;
+    }
+    let modifiedValue = value;
+
+    if (
+      modifiers &&
+      modifiers.replace &&
+      modifiers.replace.map((val) => val[0]).includes(value[0])
+    ) {
+      modifiedValue = modifiers.replace.filter((val) => val[0] === value[0])[0];
+    }
+
+    searchString += `${modifiedValue[0]}=${modifiedValue[1]}&`;
+  });
+  return searchString;
+}
