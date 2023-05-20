@@ -135,6 +135,7 @@ export default function Quiz({ quiz, uid }: Props) {
           {quiz.Questions.map((question, i) => {
             return (
               <Question
+                key={question.id}
                 question={question}
                 visible={i === index}
                 addIndex={addIndex}

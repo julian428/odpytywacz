@@ -28,7 +28,7 @@ export default function PointsProvider({ children, initKeys }: Props) {
       return obj;
     }, {});
     pointsRef.current = newKeys;
-  }, []);
+  }, [initKeys]);
 
   const managePoints = (action: actionType, key?: string) => {
     switch (action) {
