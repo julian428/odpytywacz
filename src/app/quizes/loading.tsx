@@ -8,9 +8,6 @@ export default function loading() {
     <article className="flex flex-col items-center mt-8 gap-6 lg:gap-12 lg:p-0 p-4">
       <Search />
       <footer className="relative">
-        <section className="absolute -left-4 top-1/2 -translate-y-1/2">
-          {"<"}
-        </section>
         <section className="flex gap-2">
           <div className="w-6 h-6 flex justify-center items-center rounded-lg border-2 border-color1">
             1
@@ -66,9 +63,6 @@ export default function loading() {
       </section>
       <section className="lg:hidden">
         <footer className="relative">
-          <section className="absolute -left-4 top-1/2 -translate-y-1/2">
-            {"<"}
-          </section>
           <section className="flex gap-2">
             <div className="w-6 h-6 flex justify-center items-center rounded-lg border-2 border-color1">
               1

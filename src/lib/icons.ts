@@ -8,6 +8,8 @@ export { AiFillStar as FullStarIcon } from "react-icons/ai";
 export { AiOutlineSearch as SearchIcon } from "react-icons/ai";
 export { AiOutlineCheck as ApproveIcon } from "react-icons/ai";
 export { AiOutlineClose as DeclineIcon } from "react-icons/ai";
+export { AiOutlineLeft as ArrowLeftIcon } from "react-icons/ai";
+export { AiOutlineRight as ArrowRightIcon } from "react-icons/ai";
 export { MdOutlineQuiz as QuizIcon } from "react-icons/md";
 export { MdOutlineModeEditOutline as EditIcon } from "react-icons/md";
 export { MdOutlinePersonRemove as RemovePersonIcon } from "react-icons/md";

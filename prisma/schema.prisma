@@ -39,18 +39,19 @@ model FriendRequest {
 }
 
 model Quiz {
-  id           String     @id @default(uuid())
-  likes        Int        @default(0)
-  timesPlayed  Int        @default(0)
-  title        String     @default("Nowy quiz")
-  topic        String     @default("Brak tematu")
-  description  String     @default("Nowy quiz")
-  contributors String[]
-  Questions    Question[]
-  ownerId      String
-  Owner        User       @relation(fields: [ownerId], references: [id])
-  updatedAt    DateTime   @updatedAt
-  createdAt    DateTime   @default(now())
+  id            String          @id @default(uuid())
+  likes         Int             @default(0)
+  timesPlayed   Int             @default(0)
+  title         String          @default("Nowy quiz")
+  topic         String          @default("Brak tematu")
+  description   String          @default("Nowy quiz")
+  contributors  String[]
+  Questions     Question[]
+  ownerId       String
+  Owner         User            @relation(fields: [ownerId], references: [id])
+  updatedAt     DateTime        @updatedAt
+  createdAt     DateTime        @default(now())
+  UserQuizStats UserQuizStats[]
 }
 
 model Question {
@@ -61,4 +62,19 @@ model Question {
   owner     Quiz     @relation(fields: [quizId], references: [id])
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+}
+
+model UserQuizStats {
+  id                String   @id @default(uuid())
+  ownerId           String
+  quiz              Quiz     @relation(fields: [quizId], references: [id])
+  quizId            String
+  candidateErrors   String[]
+  mostErrors        String[]
+  avgTime           Int
+  avgPercentage     Int
+  prevTime          Int      @default(0)
+  prevPercentage    Int      @default(0)
+  currentTime       Int
+  currentPercentage Int
 }

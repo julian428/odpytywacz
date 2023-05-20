@@ -16,7 +16,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <ToasterProviders>
-        <body className="bg-color0 text-white">
+        <body className="bg-color0 text-white min-h-screen">
           <header>
             <MainNav />
           </header>
