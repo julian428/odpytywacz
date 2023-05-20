@@ -71,13 +71,16 @@ export default function Quiz({ quiz, uid }: Props) {
     try {
       await axios.put("/api/quiz/add-timePlayed", { quizId: quiz.id });
     } catch (error) {}
+
     try {
       await axios.put("/api/quiz-stats", {
         ownerId: uid,
         quizId: quiz.id,
         candidateErrors: getErrors(),
         currentTime: new Date().getTime() - managePoints("TIME"),
-        currentPercentage: (managePoints("GET") / quiz._count.Questions) * 100,
+        currentPercentage: Math.round(
+          (managePoints("GET") / quiz._count.Questions) * 100
+        ),
       });
       router.push(`/quizes/${quiz.id}/stats/${uid}`);
     } catch (error) {
@@ -90,8 +93,9 @@ export default function Quiz({ quiz, uid }: Props) {
               quizId: quiz.id,
               candidateErrors: getErrors(),
               currentTime: new Date().getTime() - managePoints("TIME"),
-              currentPercentage:
-                (managePoints("GET") / quiz._count.Questions) * 100,
+              currentPercentage: Math.round(
+                (managePoints("GET") / quiz._count.Questions) * 100
+              ),
             });
             router.push(`/quizes/${quiz.id}/stats/${uid}`);
           } catch (error) {
@@ -118,16 +122,16 @@ export default function Quiz({ quiz, uid }: Props) {
           <p className="opacity-80">100%</p>
         </section>
       </section>
-      <article className="flex w-fit justify-center gap-4 relative mx-auto mt-16">
+      <article className="flex lg:w-fit w-full justify-center gap-4 relative mx-auto lg:mt-16 mt-48">
         <button
-          className={`text-9xl ${
+          className={`lg:text-9xl text-3xl ${
             index === 0 && "hidden"
-          } absolute left-0 -translate-x-full top-1/2 -translate-y-1/2`}
+          } absolute lg:left-0 lg:-translate-x-full lg:top-1/2 top-6 left-12 lg:-translate-y-1/2 z-10`}
           onClick={substractIndex}
         >
           <ArrowLeftIcon />
         </button>
-        <section>
+        <section className="w-full">
           {quiz.Questions.map((question, i) => {
             return (
               <Question
@@ -140,9 +144,9 @@ export default function Quiz({ quiz, uid }: Props) {
           })}
         </section>
         <button
-          className={`text-9xl ${
+          className={`lg:text-9xl text-3xl ${
             index === quiz._count.Questions - 1 && "hidden"
-          } absolute right-0 translate-x-full top-1/2 -translate-y-1/2`}
+          } absolute lg:right-0 lg:translate-x-full lg:top-1/2 top-5 right-12 lg:-translate-y-1/2 z-10`}
           onClick={addIndex}
         >
           <ArrowRightIcon />

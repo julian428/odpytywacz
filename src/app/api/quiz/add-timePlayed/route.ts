@@ -14,5 +14,8 @@ export async function PUT(req: Request) {
         timesPlayed: { increment: 1 },
       },
     });
-  } catch (error) {}
+    return new Response("updated", { status: 200 });
+  } catch (error) {
+    return new Response("Internal server error.", { status: 500 });
+  }
 }

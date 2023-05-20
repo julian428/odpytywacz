@@ -44,6 +44,14 @@ export default function Question({
     }
   };
 
+  const autoCheck = () => {
+    if (!inputRef.current) return;
+    if (inputRef.current.value.length < 1) return;
+    if (question.answears.includes(inputRef.current.value)) {
+      checkAnswear();
+    }
+  };
+
   const helpHandler = () => {
     setHelped(true);
   };
@@ -56,17 +64,19 @@ export default function Question({
 
   return (
     <Container
-      className="w-[800px] h-[450px] flex-col justify-center items-center gap-8 relative"
+      className="lg:w-[800px] lg:h-[450px] p-4 w-full flex-col lg:bg-opacity-50 bg-opacity-0 justify-center items-center lg:gap-8 gap-4 relative"
       style={{ display: visible ? "flex" : "none" }}
     >
       <H2>{question.question}</H2>
       <Input
         ref={inputRef}
-        onKeyUp={(event) => event.key === "Enter" && checkAnswear()}
-        className="text-5xl p-4 w-[400px] border-2 border-transparent"
+        onKeyUp={(event) =>
+          event.key === "Enter" ? checkAnswear() : autoCheck()
+        }
+        className="lg:text-5xl lg:p-4 lg:w-[400px] w-4/5 border-2 border-transparent"
       />
       {helped && (
-        <section className="absolute top-12">
+        <section className="absolute lg:top-12 -top-10">
           <Container
             variant="solid-dark"
             opacity="full"
@@ -80,7 +90,7 @@ export default function Question({
         </section>
       )}
 
-      <footer className="absolute flex w-full justify-between px-2 bottom-2">
+      <footer className="absolute flex lg:w-full gap-4 lg:scale-100 scale-75 w-fit justify-between px-2 lg:bottom-2 -bottom-8">
         <Button
           variant="ghost"
           bg="dark"

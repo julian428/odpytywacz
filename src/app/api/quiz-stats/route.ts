@@ -91,11 +91,13 @@ export async function PUT(req: Request) {
     );
     const newCandidateErrors = candidateErrors;
     const newPrevPercentage = quizStats.currentPercentage;
-    const newPrevTime = quizStats.prevTime;
+    const newPrevTime = quizStats.currentTime;
     const newCurrentPercentage = currentPercentage;
     const newCurrentTime = currentTime;
-    const newAvgPercentage = (quizStats.avgPercentage + currentPercentage) / 2;
-    const newAvgTime = (quizStats.avgTime + currentTime) / 2;
+    const newAvgPercentage = Math.round(
+      (quizStats.avgPercentage + currentPercentage) / 2
+    );
+    const newAvgTime = Math.round((quizStats.avgTime + currentTime) / 2);
 
     await prisma.userQuizStats.update({
       where: {
