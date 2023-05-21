@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import Container from "../container";
 import { toast } from "react-hot-toast";
 import Button from "../button";
@@ -34,9 +34,18 @@ export default function ApproveModal({
     }
   };
 
+  useEffect(() => {
+    document.body.style.overflow = visible ? "hidden" : "auto";
+
+    // Clean up the effect by restoring the overflow property when the component unmounts
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [visible]);
+
   return (
     <div
-      className="absolute top-0 bottom-0 left-0 right-0 text-base bg-black bg-opacity-50 justify-center items-center"
+      className="fixed inset-0 px-4 text-base bg-black bg-opacity-50 justify-center items-center"
       style={{ display: `${visible ? "flex" : "none"}` }}
     >
       <Container

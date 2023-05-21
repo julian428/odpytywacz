@@ -1,4 +1,4 @@
-import { Dispatch, useRef, useState } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import Container from "../container";
 import H3 from "../headings/h3";
 import Input from "../inputs/input";
@@ -20,6 +20,14 @@ export default function SecureApprove({
 }: Props) {
   const keywordRef = useRef<HTMLInputElement>(null);
   const [performingAction, setPerformingAction] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = visibility ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [visibility]);
 
   const handleClose = () => {
     if (keywordRef.current) {
@@ -48,7 +56,7 @@ export default function SecureApprove({
 
   return (
     <div
-      className="absolute top-0 bottom-0 left-0 right-0 z-50 bg-black bg-opacity-50 justify-center items-center"
+      className="fixed inset-0 z-50 bg-black bg-opacity-50 justify-center items-center"
       style={{ display: visibility ? "flex" : "none" }}
     >
       <Container

@@ -58,7 +58,10 @@ export default function AddFriendModal({ uid, setOpenState }: Props) {
   };
 
   return (
-    <Container className="z-10 p-8 flex flex-col gap-4 items-center text-white">
+    <Container
+      opacity="full"
+      className="z-10 p-8 flex flex-col gap-4 items-center text-white"
+    >
       <H3>Dodaj znajomego</H3>
       <form
         onSubmit={getUsers}
@@ -66,7 +69,8 @@ export default function AddFriendModal({ uid, setOpenState }: Props) {
       >
         <Input
           ref={filterRef}
-          className="pr-10"
+          variant="solid-normal"
+          className="pr-10 text-black"
         />
         <button
           disabled={loading}
