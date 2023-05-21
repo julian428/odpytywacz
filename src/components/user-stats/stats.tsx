@@ -79,8 +79,9 @@ export default function Stats({ stats }: Props) {
         </div>
         <H3>to twój</H3>
         <div className="bg-gradient-to-b from-color3 to-color2 text-transparent bg-clip-text font-bold">
-          <H3>przeciętny wynik</H3>
+          <H3>przeciętny</H3>
         </div>
+        <H3>wynik</H3>
       </div>
       <div className="flex gap-2">
         <div className="bg-gradient-to-b from-color3 to-color2 text-transparent bg-clip-text font-bold">
