@@ -97,10 +97,10 @@ export default async function page({ params }: Props) {
   const stats = await getStats(params.userId, params.quizId);
   if (!stats) {
     return (
-      <article>
+      <article className="flex flex-col justify-evenly items-center gap-16 mt-16">
         <H1>Brak statystyk</H1>
         <H4>zagraj w ten quiz przynajmniej raz aby je wygenerować.</H4>
-        <Link href={`/quiz/${params.quizId}`}>
+        <Link href={`/quizes/${params.quizId}`}>
           <Button className="px-6">wróć</Button>
         </Link>
       </article>

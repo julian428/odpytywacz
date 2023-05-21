@@ -69,6 +69,8 @@ export default function Quiz({ quiz, uid }: Props) {
           quiz._count.Questions
         )}&t=${new Date().getTime() - managePoints("TIME")}`
       );
+      toast.dismiss();
+      toast.success("przekierowano");
       return;
     }
     try {
@@ -101,6 +103,8 @@ export default function Quiz({ quiz, uid }: Props) {
               ),
             });
             router.push(`/quizes/${quiz.id}/stats/${uid}`);
+            toast.dismiss();
+            toast.success("przekierowano");
           } catch (error) {
             toast.dismiss();
             toast.error("Nie udało się utworzyć statystyk");
