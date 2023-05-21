@@ -40,27 +40,25 @@ export default function SaveQuestion({ qid }: Props) {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const formData = { ...event.target } as {
-      [index: number]: HTMLInputElement;
-    };
-    const question = formData[0].value;
+    const question = questionRef.current?.value || "";
     if (question.length < 1) return;
     const answears = [
-      formData[1].value,
-      formData[2].value,
-      formData[3].value,
-      formData[4].value,
-      formData[5].value,
+      answear0Ref.current?.value || "",
+      answear1Ref.current?.value || "",
+      answear2Ref.current?.value || "",
+      answear3Ref.current?.value || "",
+      answear4Ref.current?.value || "",
     ];
     try {
       setLoading(true);
       toast.loading("dodawanie pytania");
       await axios.post("/api/question", { qid, question, answears });
-      Object.entries(formData).map(([key, input], index) => {
-        if (index < 6) {
-          return (input.value = "");
-        }
-      });
+      questionRef.current!.value = "";
+      answear0Ref.current!.value = "";
+      answear1Ref.current!.value = "";
+      answear2Ref.current!.value = "";
+      answear3Ref.current!.value = "";
+      answear4Ref.current!.value = "";
 
       toast.dismiss();
       toast.success("dodano pytanie");
