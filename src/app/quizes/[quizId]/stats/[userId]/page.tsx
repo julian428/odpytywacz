@@ -136,7 +136,7 @@ export default async function page({ params }: Props) {
           <WrongQuestions questions={errors!} />
         </section>
       ) : (
-        <section className="text-center">
+        <section className="text-center mt-8">
           <H2>Brak błędów</H2>
         </section>
       )}
