@@ -61,6 +61,7 @@ export default function Quiz({ quiz, uid }: Props) {
 
   const endQuizHandler = async () => {
     //! I'm sorry for this mess :)
+    toast.loading("generowanie statystyk...");
     if (!uid) {
       router.push(
         `/quizes/${quiz.id}/stats?p=${getPercentage(
@@ -101,13 +102,17 @@ export default function Quiz({ quiz, uid }: Props) {
             });
             router.push(`/quizes/${quiz.id}/stats/${uid}`);
           } catch (error) {
+            toast.dismiss();
             toast.error("Nie udało się utworzyć statystyk");
           }
           return;
         }
+        toast.dismiss();
         toast.error("Nie udało się przekierować do statystyk");
       }
     }
+    toast.dismiss();
+    toast.success("przekierowywanie");
   };
 
   return (
