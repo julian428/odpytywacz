@@ -58,7 +58,7 @@ export default function SecureApprove({
         <div className="flex items-center ">
           <H3>
             potwierdź wpisując{" "}
-            <span className="text-red-700 bg-black bg-opacity-50 px-2 rounded-md">
+            <span className="text-red-800 tracking-wide font-black">
               {keyword}
             </span>
           </H3>

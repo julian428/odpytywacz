@@ -12,7 +12,7 @@ export default function QuizLink({ quiz, uid }: Props) {
   return (
     <Link
       className="w-full"
-      href={`/quizes/${quiz.id}/edit`}
+      href={`/quizes/${quiz.id}/${uid !== quiz.ownerId ? "question" : "edit"}`}
     >
       <Container
         variant="solid-light"
