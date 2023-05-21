@@ -74,7 +74,7 @@ export default async function page({ params, searchParams }: Props) {
           </Button>
         </Link>
       </header>
-      <section className="lg:space-x-40">
+      <section className="lg:space-x-40 flex flex-wrap justify-center">
         <div
           className="radial-progress text-color4 lg:scale-100 scale-75"
           style={

@@ -20,7 +20,7 @@ export default function loading() {
           <p className="opacity-80">100%</p>
         </section>
       </section>
-      <article className="flex lg:w-fit w-full justify-center gap-4 relative mx-auto lg:mt-16 mt-48">
+      <article className="flex lg:w-fit w-full justify-center gap-4 relative mx-auto lg:mt-16 mt-8">
         <section className="w-full">
           <Container className="lg:w-[800px] lg:h-[450px] p-4 w-full flex flex-col lg:bg-opacity-50 bg-opacity-0 justify-center items-center lg:gap-8 gap-4 relative animate-pulse">
             <H2>pytanie</H2>

@@ -133,7 +133,7 @@ export default function Quiz({ quiz, uid }: Props) {
           <p className="opacity-80">100%</p>
         </section>
       </section>
-      <article className="flex lg:w-fit w-full justify-center gap-4 relative mx-auto lg:mt-16 mt-48">
+      <article className="flex lg:w-fit w-full justify-center gap-4 relative mx-auto lg:mt-16 mt-8">
         <button
           className={`lg:text-9xl text-3xl ${
             index === 0 && "hidden"
