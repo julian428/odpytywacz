@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
 import { usePoints } from "@/providers/points";
 import { toast } from "react-hot-toast";
+import { getPercentage } from "@/lib/utils";
 
 interface Props {
   uid?: string | null;
@@ -62,9 +63,10 @@ export default function Quiz({ quiz, uid }: Props) {
     //! I'm sorry for this mess :)
     if (!uid) {
       router.push(
-        `/quizes/${quiz.id}/stats?p=${managePoints("GET")}&t=${managePoints(
-          "TIME"
-        )}`
+        `/quizes/${quiz.id}/stats?p=${getPercentage(
+          managePoints("GET"),
+          quiz._count.Questions
+        )}&t=${new Date().getTime() - managePoints("TIME")}`
       );
       return;
     }

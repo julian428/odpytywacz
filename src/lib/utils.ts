@@ -87,3 +87,8 @@ export function getSearchParamsString(
   });
   return searchString;
 }
+
+export function getPercentage(points: number, maxPoints: number) {
+  console.log(points, maxPoints);
+  return Math.round((points / maxPoints) * 100);
+}
