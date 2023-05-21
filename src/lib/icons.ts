@@ -15,3 +15,4 @@ export { MdOutlineModeEditOutline as EditIcon } from "react-icons/md";
 export { MdOutlinePersonRemove as RemovePersonIcon } from "react-icons/md";
 export { MdOutlinePersonAddAlt as AddPersonIcon } from "react-icons/md";
 export { MdOutlineDeleteOutline as DeleteIcon } from "react-icons/md";
+export { MdContentPaste as PasteIcon } from "react-icons/md";

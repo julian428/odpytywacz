@@ -16,7 +16,7 @@ export default function Footer({ qid }: Props) {
   };
 
   return (
-    <footer className="flex justify-evenly mt-8">
+    <footer className="flex justify-evenly mt-8 pb-4">
       <Link href={`/quizes/${qid}/questions`}>
         <Button className="px-6">wróć</Button>
       </Link>

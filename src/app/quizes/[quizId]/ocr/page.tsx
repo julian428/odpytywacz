@@ -13,8 +13,8 @@ interface Props {
 export default function page({ params }: Props) {
   return (
     <OcrTextProvider>
-      <article className="flex gap-4 justify-evenly">
-        <section className="flex flex-col justify-evenly">
+      <article className="flex lg:flex-row flex-col gap-4 justify-evenly px-4 mt-4">
+        <section className="flex flex-col justify-evenly gap-4">
           <SaveQuestion qid={params.quizId} />
           <UploadFile />
         </section>

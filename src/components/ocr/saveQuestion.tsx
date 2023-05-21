@@ -5,9 +5,10 @@ import Button from "../ui/button";
 import Container from "../ui/container";
 import H3 from "../ui/headings/h3";
 import Input from "../ui/inputs/input";
-import { FormEvent, KeyboardEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, RefObject, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { PasteIcon } from "@/lib/icons";
 
 interface Props {
   qid: string;
@@ -17,11 +18,24 @@ export default function SaveQuestion({ qid }: Props) {
   const [state, Dispatch] = useOcrText();
   const [loading, setLoading] = useState(false);
 
-  const handleCopy = (event: KeyboardEvent) => {
+  const questionRef = useRef<HTMLInputElement>(null);
+
+  const answear0Ref = useRef<HTMLInputElement>(null);
+  const answear1Ref = useRef<HTMLInputElement>(null);
+  const answear2Ref = useRef<HTMLInputElement>(null);
+  const answear3Ref = useRef<HTMLInputElement>(null);
+  const answear4Ref = useRef<HTMLInputElement>(null);
+
+  const handlePaste = (event: KeyboardEvent) => {
     if (event.key === "v" && event.ctrlKey) {
       event.preventDefault();
       (event.target as HTMLInputElement).value += state.clipBoard;
     }
+  };
+
+  const handleButtonPaste = (ref?: RefObject<HTMLInputElement>) => {
+    if (!ref || !ref.current) return;
+    ref.current.value += state.clipBoard;
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -63,39 +77,99 @@ export default function SaveQuestion({ qid }: Props) {
       <Container className="w-full space-y-4 p-4">
         <section className="space-y-4 text-right">
           <H3>pytanie</H3>
-          <Input
-            onKeyDown={handleCopy}
-            disabled={loading}
-            className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100"
-          />
+          <div className="relative">
+            <Input
+              ref={questionRef}
+              onKeyDown={handlePaste}
+              disabled={loading}
+              className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
+            />
+            <button
+              type="button"
+              onClick={handleButtonPaste.bind(null, questionRef)}
+              className="text-black text-3xl absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <PasteIcon />
+            </button>
+          </div>
         </section>
         <section className="flex flex-col gap-4">
           <H3>odpowiedzi</H3>
-          <Input
-            onKeyDown={handleCopy}
-            disabled={loading}
-            className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100"
-          />
-          <Input
-            onKeyDown={handleCopy}
-            disabled={loading}
-            className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100"
-          />
-          <Input
-            onKeyDown={handleCopy}
-            disabled={loading}
-            className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100"
-          />
-          <Input
-            onKeyDown={handleCopy}
-            disabled={loading}
-            className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100"
-          />
-          <Input
-            onKeyDown={handleCopy}
-            disabled={loading}
-            className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100"
-          />
+          <div className="relative">
+            <Input
+              ref={answear0Ref}
+              onKeyDown={handlePaste}
+              disabled={loading}
+              className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
+            />
+            <button
+              type="button"
+              onClick={handleButtonPaste.bind(null, answear0Ref)}
+              className="text-black text-3xl absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <PasteIcon />
+            </button>
+          </div>
+          <div className="relative">
+            <Input
+              ref={answear1Ref}
+              onKeyDown={handlePaste}
+              disabled={loading}
+              className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
+            />
+            <button
+              type="button"
+              onClick={handleButtonPaste.bind(null, answear1Ref)}
+              className="text-black text-3xl absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <PasteIcon />
+            </button>
+          </div>
+          <div className="relative">
+            <Input
+              ref={answear2Ref}
+              onKeyDown={handlePaste}
+              disabled={loading}
+              className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
+            />
+            <button
+              type="button"
+              onClick={handleButtonPaste.bind(null, answear2Ref)}
+              className="text-black text-3xl absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <PasteIcon />
+            </button>
+          </div>
+          <div className="relative">
+            <Input
+              ref={answear3Ref}
+              onKeyDown={handlePaste}
+              disabled={loading}
+              className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
+            />
+            <button
+              type="button"
+              onClick={handleButtonPaste.bind(null, answear3Ref)}
+              className="text-black text-3xl absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <PasteIcon />
+            </button>
+          </div>
+          <div className="relative">
+            <Input
+              ref={answear4Ref}
+              onKeyDown={handlePaste}
+              disabled={loading}
+              className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
+            />
+            <button
+              type="button"
+              onClick={handleButtonPaste.bind(null, answear4Ref)}
+              className="text-black text-3xl absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <PasteIcon />
+            </button>
+          </div>
         </section>
         <Button disabled={loading}>dodaj</Button>
       </Container>
