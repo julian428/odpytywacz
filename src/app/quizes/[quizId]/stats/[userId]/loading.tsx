@@ -6,12 +6,12 @@ import H3 from "@/components/ui/headings/h3";
 
 export default function loading() {
   return (
-    <article>
+    <article className="pb-4">
       <section className="flex flex-col lg:gap-16 gap-8 items-center mt-12">
         <header className="flex gap-4 items-end">
           <H1>tytuł</H1>
         </header>
-        <section className="lg:space-x-40">
+        <section className="lg:space-x-40 flex flex-wrap justify-center">
           <div
             className="radial-progress text-color4 animate-pulse lg:scale-100 scale-75"
             style={{ "--value": 100, "--size": "12rem" } as any}

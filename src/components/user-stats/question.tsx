@@ -35,7 +35,7 @@ export default function Question({ visible, question }: Props) {
         ref={inputRef}
         onKeyUp={checkAnswear}
         variant="solid-light"
-        className="w-2/3 text-2xl bg-opacity-100 text-black py-2 border-2 border-transparent disabled:opacity-50 disabled:text-center transition-all duration-700"
+        className="w-2/3 lg:text-2xl text-base bg-opacity-100 text-black lg:py-2 border-2 border-transparent disabled:opacity-50 disabled:text-center transition-all duration-700"
       />
     </Container>
   );

@@ -130,7 +130,7 @@ export default async function page({ params }: Props) {
         {areErrors && <ScrollTo destination={0} />}
       </section>
       {areErrors ? (
-        <section className="h-screen pt-8 mt-24 text-center flex flex-col gap-8 items-center relative">
+        <section className="min-h-screen pb-4 pt-8 lg:mt-24 text-center flex flex-col gap-8 items-center relative">
           <H1>{errors?.length} powtarzanych błędów</H1>
           <NavButtons quizId={params.quizId} />
           <WrongQuestions questions={errors!} />

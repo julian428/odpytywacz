@@ -50,7 +50,7 @@ export default async function page({ params, searchParams }: Props) {
   const currentSeconds = Math.round((parseInt(searchParams.t) % 60000) / 1000);
 
   return (
-    <article className="flex flex-col items-center justify-evenly gap-32 mt-32">
+    <article className="flex flex-col items-center justify-evenly lg:gap-32 lg:mt-32 mt-8 gap-8">
       <p className="lg:text-lg text-sm">
         <span className="bg-gradient-to-r from-color3 to-color2 text-transparent bg-clip-text font-bold">
           <GoogleSignInButton
