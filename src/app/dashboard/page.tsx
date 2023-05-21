@@ -1,6 +1,7 @@
 import BlogDashboard from "@/components/dashboard/blogs";
 import FriendsDashboard from "@/components/dashboard/friends";
 import QuizDashboard from "@/components/dashboard/quizes";
+import GoogleSignInButton from "@/components/ui/googleSignInButton";
 import authOptions from "@/lib/auth";
 import prisma from "@/lib/db";
 import { type Session, getServerSession } from "next-auth";
@@ -86,7 +87,22 @@ async function getFriendRequests(uid: string | null | undefined) {
 }
 
 export default async function DashboardPage() {
-  const session = (await getServerSession(authOptions)) as Session;
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.id) {
+    return (
+      <article className="flex justify-center mt-32">
+        <p className="lg:text-lg">
+          <span className="text-transparent bg-gradient-to-r from-color4 to-color3 bg-clip-text">
+            <GoogleSignInButton
+              isLoggedIn={false}
+              loggedOut="zaloguj się"
+            />{" "}
+          </span>
+          aby edytować quizy
+        </p>
+      </article>
+    );
+  }
   const editableQuizes = await getEditableQuizes(session.user?.id);
   const friends = await getFriends(session.user?.id);
   const requests = await getFriendRequests(session.user?.id);
