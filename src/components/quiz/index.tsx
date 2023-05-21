@@ -50,7 +50,7 @@ export default function Quiz({ quiz, uid }: Props) {
     const questionIds = quiz.Questions.map((question) => question.id);
     const errorIds = questionIds.filter((questionId) => {
       const point = managePoints("GET", questionId);
-      if (point === 0 || point === 0.5) {
+      if (point === 0) {
         return true;
       }
       return false;
