@@ -26,7 +26,7 @@ export default function WrongQuestions({ questions }: Props) {
 
   return (
     <section className="space-y-16 mt-8">
-      <article className="grid grid-cols-3 grid-rows-2 gap-8">
+      <article className="lg:grid overflow-y-auto lg:grid-cols-3 lg:grid-rows-2 flex flex-col h-[500px] lg:h-fit gap-8 px-4">
         {questions.map((question, index) => {
           return (
             <Question

@@ -120,7 +120,7 @@ export default async function page({ params }: Props) {
 
   return (
     <article>
-      <section className="flex flex-col gap-16 items-center mt-12">
+      <section className="flex flex-col lg:gap-16 gap-8 items-center mt-12">
         <header className="flex gap-4 items-end">
           <H1>{quiz.title}</H1>
         </header>

@@ -24,9 +24,9 @@ export default function RadialStats({ stats }: Props) {
   );
 
   return (
-    <section className="space-x-40">
+    <section className="lg:space-x-40">
       <div
-        className="radial-progress text-color4"
+        className="radial-progress text-color4 lg:scale-100 scale-75"
         style={{ "--value": stats.currentPercentage, "--size": "12rem" } as any}
       >
         <section className="text-white scale-90">
@@ -37,7 +37,7 @@ export default function RadialStats({ stats }: Props) {
         </section>
       </div>
       <div
-        className="radial-progress text-color3"
+        className="radial-progress text-color3 lg:scale-100 scale-75"
         style={
           {
             "--value": timeImprovement < 0 ? 0 : timeImprovement,
