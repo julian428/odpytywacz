@@ -12,7 +12,7 @@ export default function UploadFile() {
   useEffect(() => {
     if (!text) return;
     Dispatch({ type: "set-words", payload: text });
-  }, [text]);
+  }, [text, Dispatch]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;

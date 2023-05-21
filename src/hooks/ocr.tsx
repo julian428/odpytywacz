@@ -47,7 +47,7 @@ export default function useOcr(language: string = "eng"): ReturnValues {
       setText(text);
     };
     ocr();
-  }, [imgData]);
+  }, [imgData, language]);
 
   return { progress, text, setFile };
 }
