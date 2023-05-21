@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -42,21 +42,17 @@ interface Props
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
-export default function Button({
-  children,
-  variant,
-  bg,
-  tp,
-  sz,
-  className,
-  ...props
-}: Props) {
+export default forwardRef(function Button(
+  { children, variant, bg, tp, sz, className, ...props }: Props,
+  ref: ForwardedRef<HTMLButtonElement>
+) {
   return (
     <button
+      ref={ref}
       className={cn(buttonVariants({ variant, bg, tp, sz, className }))}
       {...props}
     >
       {children}
     </button>
   );
-}
+});

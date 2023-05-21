@@ -3,10 +3,10 @@
 import { useState } from "react";
 import ContributorsList from "./contributors/contributors";
 import FriendsList from "./contributors/friends";
-import H3 from "../ui/headings/h3";
-import Button from "../ui/button";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import H3 from "../ui/headings/h3";
+import Button from "../ui/button";
 
 export type user = {
   id: string;

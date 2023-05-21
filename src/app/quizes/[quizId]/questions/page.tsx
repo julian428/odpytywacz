@@ -60,14 +60,16 @@ export default async function page({ params, searchParams }: Props) {
         questions={quiz.Questions}
         qid={params.quizId}
       />
-      {quiz.Owner.id === session.user?.id && (
-        <Link
-          href={`/quizes/${params.quizId}/edit`}
-          className="lg:absolute lg:bottom-4"
-        >
-          <Button className="px-8">wróć</Button>
+      <footer className="lg:absolute lg:bottom-4 flex gap-4">
+        {quiz.Owner.id === session.user?.id && (
+          <Link href={`/quizes/${params.quizId}/edit`}>
+            <Button className="px-8">wróć</Button>
+          </Link>
+        )}
+        <Link href={`/quizes/${params.quizId}/ocr`}>
+          <Button className="px-8">foto</Button>
         </Link>
-      )}
+      </footer>
     </article>
   );
 }
