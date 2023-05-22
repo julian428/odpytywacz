@@ -39,7 +39,7 @@ export default function Question({ visible, question }: Props) {
     <Container
       variant="gradient-dark"
       style={{ display: visible ? "flex" : "none" }}
-      className="lg:w-[500px] w-full h-[250px] p-4 flex-col justify-evenly items-center"
+      className="lg:w-[500px] w-full max-w-full h-[250px] p-4 flex-col justify-evenly items-center"
     >
       <H2>{question.question}</H2>
       <Container

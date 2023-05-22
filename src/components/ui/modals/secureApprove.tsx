@@ -63,13 +63,11 @@ export default function SecureApprove({
         opacity="full"
         className="p-8 flex flex-col items-center gap-8"
       >
-        <div className="flex items-center ">
-          <H3>
-            potwierdź wpisując{" "}
-            <span className="text-red-800 tracking-wide font-black">
-              {keyword}
-            </span>
-          </H3>
+        <div className="flex lg:flex-row flex-col items-center gap-2">
+          <H3>potwierdź wpisując </H3>
+          <span className="text-red-800 tracking-wide font-black lg:text-3xl text-xl">
+            {keyword}
+          </span>
         </div>
         <Input
           ref={keywordRef}

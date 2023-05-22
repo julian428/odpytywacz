@@ -53,6 +53,7 @@ export async function DELETE(req: Request) {
     await prisma.quiz.delete({ where: { id: searchParams.id } });
     return new Response("deleted");
   } catch (error) {
+    console.log(error);
     return new Response("Internal server error.", { status: 500 });
   }
 }

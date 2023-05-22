@@ -2,6 +2,7 @@
 
 import Container from "@/components/ui/container";
 import H3 from "@/components/ui/headings/h3";
+import H4 from "@/components/ui/headings/h4";
 import { getTimeAgo, getTimeUpdateFrequency } from "@/lib/utils";
 import type { Question } from "@prisma/client";
 import Link from "next/link";
@@ -41,7 +42,9 @@ export default function QuestionLink({ qid, question }: Props) {
       >
         <header className="sapce-y-0">
           <H3>{question.question}</H3>
-          <p className="opacity-80">{question.answears[0]}</p>
+          <div className="opacity-70">
+            <H4>{question.answears[0]}</H4>
+          </div>
         </header>
         <p className="text-right opacity-50 text-xs">{timeAgo}</p>
       </Container>

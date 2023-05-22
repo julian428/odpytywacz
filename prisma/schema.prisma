@@ -59,7 +59,7 @@ model Question {
   question  String
   answears  String[]
   quizId    String
-  owner     Quiz     @relation(fields: [quizId], references: [id])
+  owner     Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
@@ -67,7 +67,7 @@ model Question {
 model UserQuizStats {
   id                String   @id @default(uuid())
   ownerId           String
-  quiz              Quiz     @relation(fields: [quizId], references: [id])
+  quiz              Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId            String
   candidateErrors   String[]
   mostErrors        String[]

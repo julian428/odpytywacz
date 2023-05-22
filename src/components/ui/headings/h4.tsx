@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function H4({ children }: Props) {
-  return <h5 className="text-lg">{children}</h5>;
+  return <h5 className="text-lg truncate">{children}</h5>;
 }
