@@ -20,7 +20,10 @@ export default function Title({ qid, title }: Props) {
     setLoading(true);
     try {
       toast.loading("nadpisywanie tytułu.");
-      await axios.put("/api/quiz", { id: qid, title: titleRef.current?.value });
+      await axios.put("/api/quiz", {
+        id: qid,
+        title: titleRef.current?.value.slice(0, 20),
+      });
       toast.dismiss();
       toast.success("nadpisano tytuł.");
     } catch (error) {
@@ -43,15 +46,19 @@ export default function Title({ qid, title }: Props) {
         id="title-change"
         ref={titleRef}
         defaultValue={title}
+        maxLength={20}
         className="w-full lg:w-[400px] h-[80px] text-4xl"
       />
-      <Button
-        onClick={updateTitle}
-        disabled={loading}
-        className="mr-4 px-4"
-      >
-        zapisz
-      </Button>
+      <footer className="flex w-full items-center pl-4 justify-between">
+        <p>max 20 znaków</p>
+        <Button
+          onClick={updateTitle}
+          disabled={loading}
+          className="mr-4 px-4"
+        >
+          zapisz
+        </Button>
+      </footer>
     </section>
   );
 }

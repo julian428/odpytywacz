@@ -40,14 +40,14 @@ export default function SaveQuestion({ qid }: Props) {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const question = questionRef.current?.value || "";
+    const question = questionRef.current?.value.slice(0, 20) || "";
     if (question.length < 1) return;
     const answears = [
-      answear0Ref.current?.value || "",
-      answear1Ref.current?.value || "",
-      answear2Ref.current?.value || "",
-      answear3Ref.current?.value || "",
-      answear4Ref.current?.value || "",
+      answear0Ref.current?.value.slice(0, 20) || "",
+      answear1Ref.current?.value.slice(0, 20) || "",
+      answear2Ref.current?.value.slice(0, 20) || "",
+      answear3Ref.current?.value.slice(0, 20) || "",
+      answear4Ref.current?.value.slice(0, 20) || "",
     ];
     try {
       setLoading(true);
@@ -74,12 +74,16 @@ export default function SaveQuestion({ qid }: Props) {
     <form onSubmit={handleSubmit}>
       <Container className="w-full space-y-4 p-4">
         <section className="space-y-4 text-right">
-          <H3>pytanie</H3>
+          <header className="flex items-end justify-end w-full gap-2">
+            <p className="text-sm opacity-50">max 20 znakóws</p>
+            <H3>pytanie</H3>
+          </header>
           <div className="relative">
             <Input
               ref={questionRef}
               onKeyDown={handlePaste}
               disabled={loading}
+              maxLength={20}
               className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
             />
             <button
@@ -92,12 +96,16 @@ export default function SaveQuestion({ qid }: Props) {
           </div>
         </section>
         <section className="flex flex-col gap-4">
-          <H3>odpowiedzi</H3>
+          <header className="flex items-end gap-2">
+            <H3>odpowiedzi</H3>
+            <p className="text-sm opacity-50">max 20 znakóws</p>
+          </header>
           <div className="relative">
             <Input
               ref={answear0Ref}
               onKeyDown={handlePaste}
               disabled={loading}
+              maxLength={20}
               className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
             />
             <button
@@ -113,6 +121,7 @@ export default function SaveQuestion({ qid }: Props) {
               ref={answear1Ref}
               onKeyDown={handlePaste}
               disabled={loading}
+              maxLength={20}
               className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
             />
             <button
@@ -128,6 +137,7 @@ export default function SaveQuestion({ qid }: Props) {
               ref={answear2Ref}
               onKeyDown={handlePaste}
               disabled={loading}
+              maxLength={20}
               className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
             />
             <button
@@ -143,6 +153,7 @@ export default function SaveQuestion({ qid }: Props) {
               ref={answear3Ref}
               onKeyDown={handlePaste}
               disabled={loading}
+              maxLength={20}
               className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
             />
             <button
@@ -158,6 +169,7 @@ export default function SaveQuestion({ qid }: Props) {
               ref={answear4Ref}
               onKeyDown={handlePaste}
               disabled={loading}
+              maxLength={20}
               className="w-full text-3xl text-black py-2 bg-color3 bg-opacity-100 pr-12"
             />
             <button

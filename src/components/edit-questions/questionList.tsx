@@ -17,7 +17,7 @@ export default function QuestionList({ title, owner, questions, qid }: Props) {
         <H1>{title}</H1>
         <p className="text-right opacity-50 text-xs">{owner}</p>
       </header>
-      <Container className="w-full lg:w-[1000px] h-96 max-h-full overflow-y-auto lg:h-[650px] p-4 flex flex-col lg:flex-row lg:flex-wrap lg:justify-center lg:content-start gap-4">
+      <Container className="w-full lg:w-[1000px] h-96 max-h-full overflow-y-auto lg:h-[650px] p-4 flex flex-col lg:flex-row lg:flex-wrap lg:justify-start lg:content-start gap-4">
         {questions.map((question) => (
           <QuestionLink
             key={question.id}

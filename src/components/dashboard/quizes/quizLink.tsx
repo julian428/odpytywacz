@@ -19,7 +19,7 @@ export default function QuizLink({ quiz, uid }: Props) {
         opacity="full"
         className="w-full py-6 px-4 flex justify-between items-center"
       >
-        <section>
+        <section className="w-4/5">
           <H3>{quiz.title}</H3>
           <p className="text-xs opacity-50 pl-4 absolute">
             {uid !== quiz.ownerId && "współpraca"}

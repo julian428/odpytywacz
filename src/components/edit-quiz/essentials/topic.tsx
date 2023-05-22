@@ -20,7 +20,10 @@ export default function Topic({ qid, topic }: Props) {
     setLoading(true);
     try {
       toast.loading("nadpisywanie tematu.");
-      await axios.put("/api/quiz", { id: qid, topic: topicRef.current?.value });
+      await axios.put("/api/quiz", {
+        id: qid,
+        topic: topicRef.current?.value.slice(0, 20),
+      });
       toast.dismiss();
       toast.success("nadpisano temat.");
     } catch (error) {
@@ -42,16 +45,20 @@ export default function Topic({ qid, topic }: Props) {
       <Input
         id="topic-change"
         ref={topicRef}
+        maxLength={20}
         defaultValue={topic}
         className="w-full lg:w-[400px] h-[80px] text-4xl"
       />
-      <Button
-        disabled={loading}
-        onClick={updateTopic}
-        className="mr-4 px-4"
-      >
-        zapisz
-      </Button>
+      <footer className="flex w-full items-center pl-4 justify-between">
+        <p>max 20 znaków</p>
+        <Button
+          disabled={loading}
+          onClick={updateTopic}
+          className="mr-4 px-4"
+        >
+          zapisz
+        </Button>
+      </footer>
     </section>
   );
 }

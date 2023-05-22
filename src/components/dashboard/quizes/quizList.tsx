@@ -38,7 +38,7 @@ export default function QuizList({ quizes, uid }: Props) {
   return (
     <Container
       variant="solid-light"
-      className="w-full h-80 lg:h-[650px] flex flex-col items-center py-4 px-8"
+      className="w-full lg:w-[400px] h-80 lg:h-[650px] flex flex-col items-center py-4 px-8"
     >
       <div className="mb-4 relative">
         <Search

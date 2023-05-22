@@ -9,7 +9,7 @@ interface Props {
 
 export default function QuestionsList({ qid, questions }: Props) {
   return (
-    <Container className="w-full p-4 h-[485px] max-w-[500px] flex flex-wrap content-start gap-x-4 gap-y-4 justify-center overflow-y-auto">
+    <Container className="w-full p-4 h-[485px] max-w-[500px] flex flex-wrap content-start gap-x-4 gap-y-4 justify-start overflow-y-auto">
       {questions.map((question) => (
         <QuestionLink
           key={question.id}

@@ -22,7 +22,7 @@ export default function Description({ qid, description }: Props) {
       toast.loading("nadpisywanie opisu.");
       await axios.put("/api/quiz", {
         id: qid,
-        description: descriptionRef.current?.value,
+        description: descriptionRef.current?.value.slice(0, 128),
       });
       toast.dismiss();
       toast.success("nadpisano opis.");
@@ -46,16 +46,20 @@ export default function Description({ qid, description }: Props) {
         id="title-change"
         defaultValue={description}
         ref={descriptionRef}
+        maxLength={128}
         className="lg:w-[400px] w-full text-xl"
         rows={10}
       />
-      <Button
-        onClick={updateDescription}
-        disabled={loading}
-        className="mr-4 px-4"
-      >
-        zapisz
-      </Button>
+      <footer className="flex w-full items-center pl-4 justify-between">
+        <p>max 128 znaków</p>
+        <Button
+          onClick={updateDescription}
+          disabled={loading}
+          className="mr-4 px-4"
+        >
+          zapisz
+        </Button>
+      </footer>
     </section>
   );
 }

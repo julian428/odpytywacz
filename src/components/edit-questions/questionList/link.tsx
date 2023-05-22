@@ -41,9 +41,17 @@ export default function QuestionLink({ qid, question }: Props) {
         variant="gradient-normal"
         className="w-full flex justify-between items-center px-4 py-2"
       >
-        <section>
+        <section className="w-full">
           <H3>{question.question}</H3>
-          <H4>{question.answears}</H4>
+          <H4>
+            {question.answears[0] || "-brak pytań-"}
+            {question.answears.filter((ans) => ans.length > 0).length > 1 &&
+              " +" +
+                question.answears.reduce((sum, answear) => {
+                  if (answear) return sum + 1;
+                  return sum;
+                }, -1)}
+          </H4>
           <p>{timeAgo}</p>
         </section>
         <EditIcon className="text-4xl" />

@@ -46,13 +46,13 @@ export default function AddQuestion({ qid, question }: Props) {
       toast.loading("tworzenie pytania");
       await axios.post("/api/question", {
         qid,
-        question: data.question,
+        question: data.question.slice(0, 20),
         answears: [
-          data.answear0,
-          data.answear1,
-          data.answear2,
-          data.answear3,
-          data.answear4,
+          data.answear0.slice(0, 20),
+          data.answear1.slice(0, 20),
+          data.answear2.slice(0, 20),
+          data.answear3.slice(0, 20),
+          data.answear4.slice(0, 20),
         ],
       });
       reset();
@@ -73,13 +73,13 @@ export default function AddQuestion({ qid, question }: Props) {
       await axios.put("/api/question", {
         id: question!.id,
         quizId: qid,
-        question: data.question,
+        question: data.question.slice(0, 20),
         answears: [
-          data.answear0,
-          data.answear1,
-          data.answear2,
-          data.answear3,
-          data.answear4,
+          data.answear0.slice(0, 20),
+          data.answear1.slice(0, 20),
+          data.answear2.slice(0, 20),
+          data.answear3.slice(0, 20),
+          data.answear4.slice(0, 20),
         ],
       });
       toast.dismiss();
@@ -112,38 +112,50 @@ export default function AddQuestion({ qid, question }: Props) {
         action={deleteQuestion}
       />
       <section className="text-right space-y-2">
-        <H3>pytanie</H3>
+        <header className="flex gap-2 items-end justify-end w-full">
+          <p className="text-sm opacity-50">max 20 znaków</p>
+          <H3>pytanie</H3>
+        </header>
         <Input
           {...register("question")}
           defaultValue={question?.question}
+          maxLength={20}
           className="w-full lg:w-[400px] h-[80px]"
         />
       </section>
       <section className="flex flex-col gap-2">
-        <H3>odpowiedzi</H3>
+        <header className="flex gap-2 items-end">
+          <H3>odpowiedzi</H3>
+          <p className="text-sm opacity-50">max 20 znaków</p>
+        </header>
         <Input
           {...register("answear0")}
           defaultValue={question?.answears[0]}
+          maxLength={20}
           className="w-full lg:w-[400px] h-[80px]"
         />
         <Input
           {...register("answear1")}
           defaultValue={question?.answears[1]}
+          maxLength={20}
           className="w-full lg:w-[400px] h-[80px]"
         />
         <Input
           {...register("answear2")}
           defaultValue={question?.answears[2]}
+          maxLength={20}
           className="w-full lg:w-[400px] h-[80px]"
         />
         <Input
           {...register("answear3")}
           defaultValue={question?.answears[3]}
+          maxLength={20}
           className="w-full lg:w-[400px] h-[80px]"
         />
         <Input
           {...register("answear4")}
           defaultValue={question?.answears[4]}
+          maxLength={20}
           className="w-full lg:w-[400px] h-[80px]"
         />
       </section>
