@@ -83,8 +83,8 @@ async function getFriends(uid?: string | null) {
 export default async function page({ params }: Props) {
   const quiz = await getQuiz(params.quizId);
   if (!quiz) redirect("/dashboard");
-  const session = (await getServerSession(authOptions)) as Session;
-  if (!session.user || !session.user.id) {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.id) {
     return (
       <article>
         <p className="lg:text-lg">

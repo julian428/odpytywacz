@@ -34,7 +34,7 @@ export default function QuestionLink({ qid, question }: Props) {
 
   return (
     <Link
-      className="w-full lg:w-[30%] h-fit"
+      className="w-full flex-grow lg:w-[30%] h-fit"
       href={`/quizes/${qid}/questions?q=${question.id}`}
     >
       <Container
