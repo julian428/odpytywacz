@@ -37,37 +37,37 @@ export default function Home() {
           <li>
             Rejestracja i logowanie Aby korzystać z funkcjonalności Odpytywacza,
             musisz się zarejestrować i zalogować. Możesz to zrobić poprzez
-            kliknięcie przycisku "Zarejestruj się" na stronie głównej i podanie
-            swoich danych. Po zarejestrowaniu otrzymasz e-mail z linkiem
+            kliknięcie przycisku {'"'}Zarejestruj się{'"'} na stronie głównej i
+            podanie swoich danych. Po zarejestrowaniu otrzymasz e-mail z linkiem
             aktywacyjnym, który należy kliknąć, aby aktywować konto.
           </li>
           <li>
-            Tworzenie testów Po zalogowaniu możesz przejść do sekcji "Twórz
-            test" i utworzyć własny test. Musisz podać tytuł, opis oraz pytania
-            wraz z odpowiedziami. Możesz również wybrać typ testu, np.
+            Tworzenie testów Po zalogowaniu możesz przejść do sekcji {'"'}Twórz
+            test{'"'} i utworzyć własny test. Musisz podać tytuł, opis oraz
+            pytania wraz z odpowiedziami. Możesz również wybrać typ testu, np.
             jednokrotnego wyboru, wielokrotnego wyboru lub pytania otwarte. Po
             utworzeniu testu możesz go opublikować, a inni użytkownicy będą
             mogli go rozwiązać.
           </li>
           <li>
             Rozwiązywanie testów Aby rozwiązać test, musisz przejść do sekcji
-            "Rozwiąż test" i wybrać test, który chcesz przejść. Następnie
-            odpowiedz na pytania, wybierając jedną z odpowiedzi lub wpisując
-            odpowiedź w polu tekstowym. Po zakończeniu testu otrzymasz wynik i
-            szczegółowe odpowiedzi.
+            {'"'}Rozwiąż test{'"'} i wybrać test, który chcesz przejść.
+            Następnie odpowiedz na pytania, wybierając jedną z odpowiedzi lub
+            wpisując odpowiedź w polu tekstowym. Po zakończeniu testu otrzymasz
+            wynik i szczegółowe odpowiedzi.
           </li>
           <li>
-            Tworzenie blogów Aby utworzyć bloga, przejdź do sekcji "Twórz blog"
-            i podaj tytuł i treść bloga. Możesz dodać obrazy lub multimedia, aby
-            wzbogacić swoje wpisy. Po opublikowaniu bloga, inni użytkownicy będą
-            mogli go przeczytać i skomentować.
+            Tworzenie blogów Aby utworzyć bloga, przejdź do sekcji {'"'}Twórz
+            blog{'"'}i podaj tytuł i treść bloga. Możesz dodać obrazy lub
+            multimedia, aby wzbogacić swoje wpisy. Po opublikowaniu bloga, inni
+            użytkownicy będą mogli go przeczytać i skomentować.
           </li>
           <li>
             Współpraca z innymi użytkownikami Na Odpytywaczu możesz
             współpracować z innymi użytkownikami i tworzyć razem testy. Aby to
-            zrobić, przejdź do sekcji "Współpraca" i wybierz użytkownika, z
-            którym chcesz pracować. Następnie możecie razem stworzyć test,
-            edytować go i publikować.
+            zrobić, przejdź do sekcji {'"'}Współpraca{'"'} i wybierz
+            użytkownika, z którym chcesz pracować. Następnie możecie razem
+            stworzyć test, edytować go i publikować.
           </li>
         </ul>
         <Image
