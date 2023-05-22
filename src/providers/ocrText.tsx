@@ -33,7 +33,7 @@ export default function OcrTextProvider({ children }: Props) {
       case "set-words":
         const words = action.payload
           .replaceAll("\n", " ")
-          .replace(/[.,:\/?]/g, "")
+          .replace(/[.,:\/?-';"()]/g, "")
           .split(" ")
           .filter((word) => word.length > 2)
           .sort();
