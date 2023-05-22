@@ -25,6 +25,7 @@ export default function Question({
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [helped, setHelped] = useState(false);
+  const [showAnswear, setShowAnswear] = useState(false);
   const managePoints = usePoints();
 
   const checkAnswear = () => {
@@ -41,6 +42,7 @@ export default function Question({
     } else {
       managePoints("INCORRECT", question.id);
       inputRef.current.style.borderColor = "red";
+      setShowAnswear(true);
     }
   };
 
@@ -68,6 +70,17 @@ export default function Question({
       style={{ display: visible ? "flex" : "none" }}
     >
       <H2>{question.question}</H2>
+      <Container
+        variant="solid-dark"
+        opacity="full"
+        className={`${
+          !showAnswear ? "scale-0" : "scale-100"
+        } flex origin-top duration-700`}
+      >
+        {question.answears.map((answear, index) => (
+          <p key={answear + index}>{answear}</p>
+        ))}
+      </Container>
       <Input
         ref={inputRef}
         onKeyUp={(event) =>

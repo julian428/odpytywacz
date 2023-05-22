@@ -24,8 +24,8 @@ const getTimeImprovement = (
 
   const timeDiffernece = pTime - time;
 
-  const text = `${Math.floor(Math.abs(timeDiffernece) / 60000)}min ${Math.round(
-    Math.abs(timeDiffernece) % 60000
+  const text = `${Math.floor(Math.abs(timeDiffernece) / 60)}min ${Math.round(
+    Math.abs(timeDiffernece) % 60
   )}s ${timeDiffernece < 0 ? "wolniej" : "szybciej"}`;
 
   return text;
