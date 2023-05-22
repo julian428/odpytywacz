@@ -66,9 +66,25 @@ export default function Question({
 
   return (
     <Container
-      className="lg:w-[800px] lg:h-[450px] p-4 w-full flex-col lg:bg-opacity-50 bg-opacity-0 justify-center items-center lg:gap-8 gap-4 relative"
+      className="lg:w-[800px] lg:h-[450px] p-4 w-full relative flex-col lg:bg-opacity-50 bg-opacity-0 justify-start items-center lg:gap-8 gap-4"
       style={{ display: visible ? "flex" : "none" }}
     >
+      <section
+        className={`${
+          helped ? "scale-100" : "scale-0"
+        } origin-top duration-700 lg:static lg:-translate-y-0 absolute bottom-8 -translate-y-full`}
+      >
+        <Container
+          variant="solid-dark"
+          opacity="full"
+        >
+          długość:{" "}
+          {question.answears
+            .filter((answear) => answear.length > 0)
+            .map((answear) => answear.length)
+            .join(", ")}
+        </Container>
+      </section>
       <H2>{question.question}</H2>
       <Container
         variant="solid-dark"
@@ -88,20 +104,6 @@ export default function Question({
         }
         className="lg:text-5xl lg:p-4 lg:w-[400px] w-4/5 border-2 border-transparent"
       />
-      {helped && (
-        <section className="absolute lg:top-12 -top-10">
-          <Container
-            variant="solid-dark"
-            opacity="full"
-          >
-            długość:{" "}
-            {question.answears
-              .filter((answear) => answear.length > 0)
-              .map((answear) => answear.length)
-              .join(", ")}
-          </Container>
-        </section>
-      )}
 
       <footer className="absolute flex lg:w-full gap-4 lg:scale-100 scale-75 w-fit justify-between px-2 lg:bottom-2 -bottom-8">
         <Button

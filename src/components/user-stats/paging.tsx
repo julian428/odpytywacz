@@ -25,7 +25,7 @@ export default function Paging({ page, maxPage, setPage }: Props) {
         «
       </button>
       <button className="btn bg-color1 hover:bg-color2 hover:bg-opacity-70">
-        strona {page}
+        strona {page}/{maxPage}
       </button>
       <button
         onClick={nextPage}
