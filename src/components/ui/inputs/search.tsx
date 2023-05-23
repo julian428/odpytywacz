@@ -71,6 +71,7 @@ export default forwardRef(function Search(
         ref={ref}
       />
       <button
+        aria-label="wyszukaj"
         {...props}
         ref={buttonRef}
         className={cn(searchVariants({ position, className }))}

@@ -1,91 +1,57 @@
-import QuizList from "@/components/quizes";
-import SelectPage from "@/components/quizes/pages";
+import QuizLink from "@/components/quizes/link";
 import QuizesSearch from "@/components/quizes/search";
-import authOptions from "@/lib/auth";
-import prisma from "@/lib/db";
-import { getServerSession } from "next-auth";
-
-async function getQuizPage(params: { [index: string]: string }) {
-  const numberPage = parseInt(params.p || "0");
-
-  try {
-    const count = await prisma.quiz.count({
-      where: {
-        title: { contains: params.f || "" },
-      },
-    });
-    const quizes = await prisma.quiz.findMany({
-      orderBy: { likes: "desc" },
-      take: 9,
-      skip: numberPage * 9,
-      where: {
-        title: { contains: params.f || "" },
-      },
-      select: {
-        title: true,
-        topic: true,
-        description: true,
-        id: true,
-        likes: true,
-      },
-    });
-    await prisma.$disconnect();
-    return { quizes, count };
-  } catch (error) {
-    return { quizes: [], count: 0 };
-  }
-}
-
-async function getUserLikes(uid?: string | null) {
-  if (!uid) return [];
-  try {
-    const userLikes = await prisma.user.findUnique({
-      where: { id: uid },
-      select: {
-        likes: true,
-      },
-    });
-    await prisma.$disconnect();
-    return userLikes?.likes;
-  } catch (error) {
-    return [];
-  }
-}
+import Container from "@/components/ui/container";
+import Link from "next/link";
+import { Suspense } from "react";
 
 interface Props {
   searchParams: {
     p?: string;
-    h?: string;
+    f?: string;
   };
 }
 
-export default async function QuizesPage({ searchParams }: Props) {
-  const session = await getServerSession(authOptions);
-  const userLikes = await getUserLikes(session?.user?.id);
-  const { quizes: pageQuizes, count: pageQuizesCount } = await getQuizPage(
-    searchParams
-  );
-  const pageSize = 9;
-
+export default function page({ searchParams }: Props) {
+  const currentPage = parseInt(searchParams.p || "0");
   return (
     <article className="flex flex-col items-center mt-8 gap-6 lg:gap-12 lg:p-0 p-4">
       <QuizesSearch searchParams={searchParams} />
-      <SelectPage
-        count={Math.ceil(pageQuizesCount / pageSize)}
-        currentPage={parseInt(searchParams.p || "0")}
-        params={searchParams}
-      />
-      <QuizList
-        likes={userLikes || []}
-        quizes={pageQuizes}
-        uid={session?.user?.id}
-      />
-      <section className="lg:hidden">
-        <SelectPage
-          count={Math.ceil(pageQuizesCount / pageSize)}
-          currentPage={parseInt(searchParams.p || "0")}
-          params={searchParams}
-        />
+      {/* pagination */}
+      <div className="btn-group">
+        <Link
+          href={`/quizes?p=${currentPage - 1}`}
+          className="btn"
+        >
+          «
+        </Link>
+        <button className="btn">strona {currentPage + 1}</button>
+        <Link
+          href={`/quizes?p=${currentPage + 1}`}
+          className="btn"
+        >
+          »
+        </Link>
+      </div>
+      {/* quizes */}
+      <section className="flex flex-col lg:flex-row lg:flex-wrap gap-8 justify-center content-start w-full">
+        {[...new Array(9)].map((_, i) => (
+          <Suspense
+            key={`quiz${i}`}
+            fallback={
+              <Container
+                variant="gradient-dark"
+                className="relative p-6 space-y-4 lg:w-[25%] h-[180px] w-full animate-pulse"
+              />
+            }
+          >
+            {/* @ts-expect-error Async Server Component*/}
+            <QuizLink
+              index={i}
+              page={currentPage}
+              filter={searchParams.f || ""}
+            />
+          </Suspense>
+        ))}
       </section>
     </article>
   );

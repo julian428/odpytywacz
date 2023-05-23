@@ -1,21 +1,40 @@
 import Link from "next/link";
 import Container from "../ui/container";
 import H3 from "../ui/headings/h3";
-import LikeQuiz from "./star";
+import prisma from "@/lib/db";
 
 interface Props {
-  uid?: string | null;
-  isLiked: boolean;
-  quiz: {
-    title: string;
-    topic: string;
-    description: string;
-    id: string;
-    likes: number;
-  };
+  index: number;
+  page: number;
+  filter: string;
 }
 
-export default function QuizLink({ uid, quiz, isLiked }: Props) {
+async function getQuiz(skip: number, filter: string) {
+  try {
+    const quiz = await prisma.quiz.findFirst({
+      skip,
+      take: 1,
+      where: {
+        title: { contains: filter },
+      },
+      select: {
+        id: true,
+        title: true,
+        topic: true,
+        description: true,
+      },
+    });
+    return quiz;
+  } catch (error) {
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export default async function QuizLink({ index, page, filter }: Props) {
+  const quiz = await getQuiz(page * 9 + index, filter);
+  if (!quiz) return;
   return (
     <Container
       variant="gradient-dark"
@@ -33,12 +52,6 @@ export default function QuizLink({ uid, quiz, isLiked }: Props) {
           {quiz.description}
         </aside>
       </Link>
-      <LikeQuiz
-        uid={uid}
-        qid={quiz.id}
-        likes={quiz.likes}
-        isLiked={isLiked}
-      />
     </Container>
   );
 }

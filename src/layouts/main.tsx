@@ -1,17 +1,20 @@
-import GoogleSignInButton from "@/components/ui/googleSignInButton";
+import Profile from "@/components/layout/profile";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export default function MainNav({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function MainNav() {
   return (
     <nav className="flex lg:justify-around justify-between py-4 px-1 items-center">
       <Link href="/">
         <h1 className="font-black text-2xl">ODPYTYWACZ</h1>
       </Link>
-      <section className="flex lg:gap-4 gap-1">
+      <section className="flex lg:gap-4 gap-1 items-center">
         <Link href="/quizes">quizy</Link>
         <Link href="/blogs">blogi</Link>
-        <Link href="/dashboard">panel</Link>
-        <GoogleSignInButton isLoggedIn={isLoggedIn} />
+        <Suspense fallback={"loading..."}>
+          {/* @ts-expect-error Async Server Component*/}
+          <Profile />
+        </Suspense>
       </section>
     </nav>
   );
