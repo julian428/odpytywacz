@@ -11,7 +11,13 @@ export default function MainNav() {
       <section className="flex lg:gap-4 gap-1 items-center">
         <Link href="/quizes">quizy</Link>
         <Link href="/blogs">blogi</Link>
-        <Suspense fallback={"loading..."}>
+        <Suspense
+          fallback={
+            <div className="btn btn-circle">
+              <div className="w-6 rounded-full avatar animate-pulse" />
+            </div>
+          }
+        >
           {/* @ts-expect-error Async Server Component*/}
           <Profile />
         </Suspense>

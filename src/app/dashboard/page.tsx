@@ -1,58 +1,10 @@
 import BlogDashboard from "@/components/dashboard/blogs";
 import FriendsDashboard from "@/components/dashboard/friends";
 import QuizDashboard from "@/components/dashboard/quizes";
-import GoogleSignInButton from "@/components/ui/googleSignInButton";
 import authOptions from "@/lib/auth";
 import prisma from "@/lib/db";
-import { type Session, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 
-async function getEditableQuizes(uid: string | null | undefined) {
-  if (!uid) return [];
-  try {
-    const quizes = await prisma.quiz.findMany({
-      where: {
-        OR: [{ ownerId: uid }, { contributors: { has: uid } }],
-      },
-      select: {
-        id: true,
-        title: true,
-        ownerId: true,
-      },
-    });
-    await prisma.$disconnect();
-    return quizes;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-}
-
-async function getFriends(uid: string | null | undefined) {
-  if (!uid) return [];
-  try {
-    const friendsIds = await prisma.user.findUnique({
-      where: {
-        id: uid,
-      },
-      select: {
-        friends: true,
-      },
-    });
-    const friends = await prisma.user.findMany({
-      where: {
-        id: { in: friendsIds?.friends || [] },
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    await prisma.$disconnect();
-    return friends;
-  } catch (error) {
-    return [];
-  }
-}
 async function getFriendRequests(uid: string | null | undefined) {
   if (!uid) return [];
   try {
@@ -86,37 +38,25 @@ async function getFriendRequests(uid: string | null | undefined) {
   }
 }
 
-export default async function DashboardPage() {
+interface Props {
+  searchParams: {
+    q?: string;
+    f?: string;
+  };
+}
+
+export default async function DashboardPage({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user || !session.user.id) {
-    return (
-      <article className="flex justify-center mt-32">
-        <p className="lg:text-lg">
-          <span className="text-transparent bg-gradient-to-r from-color4 to-color3 bg-clip-text">
-            <GoogleSignInButton
-              isLoggedIn={false}
-              loggedOut="zaloguj się"
-            />{" "}
-          </span>
-          aby edytować quizy
-        </p>
-      </article>
-    );
+    return;
   }
-  const editableQuizes = await getEditableQuizes(session.user?.id);
-  const friends = await getFriends(session.user?.id);
   const requests = await getFriendRequests(session.user?.id);
   return (
     <article className="flex flex-col px-4 lg:flex-row lg:justify-center gap-16 lg:gap-8 pb-4 lg:pb-0">
-      <QuizDashboard
-        session={session}
-        quizes={editableQuizes}
-        uid={session.user?.id}
-      />
+      <QuizDashboard filter={searchParams.q} />
       <BlogDashboard />
       <FriendsDashboard
-        uid={session.user?.id}
-        friends={friends}
+        filter={searchParams.f}
         requests={requests}
       />
     </article>

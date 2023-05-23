@@ -3,11 +3,7 @@ import Container from "../../ui/container";
 import H2 from "../../ui/headings/h2";
 import AddFriend from "./addFriend";
 
-interface Props {
-  uid?: string | null;
-}
-
-export default function FriendsDashboardHeader({ uid }: Props) {
+export default function FriendsDashboardHeader() {
   return (
     <Container
       variant="solid-dark"
@@ -18,7 +14,7 @@ export default function FriendsDashboardHeader({ uid }: Props) {
         <PersonIcon className="w-20 h-20" />
         <H2>znajomi</H2>
       </section>
-      <AddFriend uid={uid} />
+      <AddFriend />
     </Container>
   );
 }

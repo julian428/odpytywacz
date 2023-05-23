@@ -1,22 +1,20 @@
 "use client";
 
 import { AddIcon } from "@/lib/icons";
+import { useSession } from "@/providers/session";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-interface Props {
-  uid?: string | null;
-}
-
-export default function AddQuiz({ uid }: Props) {
+export default function AddQuiz() {
   const [loading, setLoading] = useState(false);
+  const session = useSession();
 
   const createQuiz = async () => {
     setLoading(true);
     try {
       toast.loading("Creating quiz");
-      await axios.post("/api/quiz", { uid });
+      await axios.post("/api/quiz", { uid: session?.user?.id });
       toast.dismiss();
       toast.success("Created quiz");
     } catch (error) {

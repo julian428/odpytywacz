@@ -1,16 +1,30 @@
 import Container from "@/components/ui/container";
 import H3 from "@/components/ui/headings/h3";
 import RemoveFriendButton from "./removeFriendButton";
+import prisma from "@/lib/db";
 
 interface Props {
-  friend: {
-    id: string;
-    name: string;
-  };
+  fid: string;
   uid?: string | null;
 }
 
-export default function FriendCard({ friend, uid }: Props) {
+async function getFriend(id: string) {
+  try {
+    const friend = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: { id: true, name: true },
+    });
+    return friend;
+  } catch (error) {
+    return null;
+  }
+}
+
+export default async function FriendCard({ fid, uid }: Props) {
+  const friend = await getFriend(fid);
+  if (!friend) return;
   return (
     <Container
       variant="solid-dark"

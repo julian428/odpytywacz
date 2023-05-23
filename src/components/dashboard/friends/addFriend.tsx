@@ -3,13 +3,12 @@
 import { AddIcon } from "@/lib/icons";
 import { useEffect, useState } from "react";
 import AddFriendModal from "./addFriendModal";
+import { useSession } from "@/providers/session";
 
-interface Props {
-  uid?: string | null;
-}
-
-export default function AddFriend({ uid }: Props) {
+export default function AddFriend() {
   const [openModal, setOpenModal] = useState(false);
+  const session = useSession();
+  const uid = session?.user?.id;
 
   useEffect(() => {
     document.body.style.overflow = openModal ? "hidden" : "auto";

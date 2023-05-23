@@ -4,6 +4,7 @@ import Container from "@/components/ui/container";
 import H4 from "@/components/ui/headings/h4";
 import { ApproveIcon, DeclineIcon } from "@/lib/icons";
 import { pusherClient } from "@/lib/pusher";
+import { useSession } from "@/providers/session";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -14,12 +15,13 @@ interface Props {
     owner: string;
     id: string;
   }[];
-  uid?: string | null;
 }
 
-export default function RequestList({ requests, uid }: Props) {
+export default function RequestList({ requests }: Props) {
   const [dynamicRequests, setDynamicRequests] = useState(requests);
   const [loadingFriend, setLoadingFriend] = useState(false);
+  const session = useSession();
+  const uid = session?.user?.id;
 
   useEffect(() => {
     pusherClient.subscribe(`friendRequest-${uid}`);

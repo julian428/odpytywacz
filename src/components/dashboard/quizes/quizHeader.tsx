@@ -2,13 +2,8 @@ import { QuizIcon } from "@/lib/icons";
 import Container from "../../ui/container";
 import H2 from "../../ui/headings/h2";
 import AddQuiz from "./addQuiz";
-import type { Session } from "next-auth";
 
-interface Props {
-  session: Session;
-}
-
-export default function QuizDashboardHeader({ session }: Props) {
+export default function QuizDashboardHeader() {
   return (
     <Container
       variant="solid-light"
@@ -19,7 +14,7 @@ export default function QuizDashboardHeader({ session }: Props) {
         <QuizIcon className="w-20 h-20" />
         <H2>quizy</H2>
       </section>
-      <AddQuiz uid={session.user?.id} />
+      <AddQuiz />
     </Container>
   );
 }

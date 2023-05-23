@@ -2,24 +2,48 @@ import Link from "next/link";
 import H3 from "../../ui/headings/h3";
 import Container from "../../ui/container";
 import { EditIcon } from "@/lib/icons";
+import prisma from "@/lib/db";
 
 interface Props {
-  quiz: { id: string; title: string; ownerId: string };
-  uid: string;
+  uid: string | null | undefined;
+  qid: string;
 }
 
-export default function QuizLink({ quiz, uid }: Props) {
+async function getQuiz(uid: string, qid: string) {
+  try {
+    const quiz = await prisma.quiz.findFirst({
+      where: {
+        id: qid,
+      },
+      select: {
+        id: true,
+        title: true,
+        ownerId: true,
+      },
+    });
+    return quiz;
+  } catch (error) {
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export default async function QuizLink({ uid, qid }: Props) {
+  if (!uid) return;
+  const quiz = await getQuiz(uid, qid);
+  if (!quiz) return;
   return (
     <Link
       className="w-full"
-      href={`/quizes/${quiz.id}/${uid !== quiz.ownerId ? "questions" : "edit"}`}
+      href={`/quizes/${quiz.id}/${uid === quiz.ownerId ? "edit" : "questions"}`}
     >
       <Container
         variant="solid-light"
         opacity="full"
         className="w-full py-6 px-4 flex justify-between items-center"
       >
-        <section className="w-4/5">
+        <section className="w-4/5 relative">
           <H3>{quiz.title}</H3>
           <p className="text-xs opacity-50 pl-4 absolute">
             {uid !== quiz.ownerId && "współpraca"}

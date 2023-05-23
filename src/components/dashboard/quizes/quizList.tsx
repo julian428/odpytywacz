@@ -1,66 +1,87 @@
-"use client";
-
-import Link from "next/link";
+import { SearchIcon } from "@/lib/icons";
 import Container from "../../ui/container";
-import Search from "../../ui/inputs/search";
 import QuizLink from "./quizLink";
-import { ChangeEvent, useEffect, useState } from "react";
-import { pusherClient } from "@/lib/pusher";
+import { Suspense } from "react";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/auth";
+import prisma from "@/lib/db";
+import H3 from "@/components/ui/headings/h3";
 
 interface Props {
-  quizes: { id: string; title: string; ownerId: string }[];
-  uid?: string | null;
+  filter?: string;
 }
 
-export default function QuizList({ quizes, uid }: Props) {
-  const [dynamicQuizes, setDynamicQuizes] = useState(quizes);
-  const [filter, setFilter] = useState("");
+async function getQuizes(uid?: string | null, filter?: string) {
+  if (!uid) return null;
+  try {
+    const quizes = await prisma.quiz.findMany({
+      where: {
+        AND: [
+          {
+            OR: [{ ownerId: uid }, { contributors: { has: uid } }],
+          },
+          { title: { contains: filter } },
+        ],
+      },
+      select: {
+        id: true,
+      },
+    });
+    return quizes.map((friend) => friend.id);
+  } catch (error) {
+    return null;
+  }
+}
 
-  useEffect(() => {
-    pusherClient.subscribe(`quiz-${uid}`);
-
-    pusherClient.bind(
-      "new-quiz",
-      (quiz: { id: string; title: string; ownerId: string }) => {
-        setDynamicQuizes((prevState) => [quiz, ...prevState]);
-      }
-    );
-
-    return () => {
-      pusherClient.unsubscribe(`quiz-${uid}`);
-    };
-  }, [uid]);
-
-  const handleFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    setFilter(event.target.value);
-  };
-
+export default async function QuizList({ filter }: Props) {
+  const session = await getServerSession(authOptions);
+  const quizes = await getQuizes(session?.user?.id, filter);
   return (
     <Container
       variant="solid-light"
       className="w-full lg:w-[400px] h-80 lg:h-[650px] flex flex-col items-center py-4 px-8"
     >
-      <div className="mb-4 relative">
-        <Search
-          variant="solid-light"
-          filter={handleFilter}
-        />
-      </div>
+      <form className="mb-4 relative">
+        <div className="form-control">
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="wyszukaj…"
+              name="q"
+              autoComplete="off"
+              defaultValue={filter}
+              className="input bg-accent focus:ring-0"
+            />
+            <button className="btn btn-square btn-accent text-2xl">
+              <SearchIcon />
+            </button>
+          </div>
+        </div>
+      </form>
       <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">
-        {uid ? (
-          dynamicQuizes.map((quiz) => {
-            if (!quiz.title.toLowerCase().includes(filter.toLowerCase().trim()))
-              return <></>;
+        {!quizes ? (
+          <H3>brak quizów</H3>
+        ) : (
+          quizes.map((quiz) => {
             return (
-              <QuizLink
-                quiz={quiz}
-                uid={uid}
-                key={quiz.id}
-              />
+              <Suspense
+                key={quiz}
+                fallback={
+                  <Container
+                    variant="solid-light"
+                    opacity="full"
+                    className="w-full h-[84px] py-6 px-4 flex justify-between items-center animate-pulse"
+                  />
+                }
+              >
+                {/* @ts-expect-error Async Server Component*/}
+                <QuizLink
+                  uid={session?.user?.id}
+                  qid={quiz}
+                />
+              </Suspense>
             );
           })
-        ) : (
-          <Link href="/auth">Zaloguj się</Link>
         )}
       </section>
     </Container>
