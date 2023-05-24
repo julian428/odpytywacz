@@ -33,53 +33,31 @@ export default async function FriendsList({ filter }: Props) {
   const friends = await getFriends(filter, session?.user?.id);
 
   return (
-    <Container
-      variant="solid-dark"
-      className="w-full h-80 lg:h-[565px] flex flex-col items-center py-4 px-8"
-    >
-      <form className="mb-4 relative">
-        <div className="form-control">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="wyszukaj…"
-              name="f"
-              autoComplete="off"
-              defaultValue={filter}
-              className="input bg-secondary focus:ring-0"
-            />
-            <button className="btn btn-square btn-secondary text-2xl">
-              <SearchIcon />
-            </button>
-          </div>
-        </div>
-      </form>
-      <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">
-        {!friends ? (
-          <H3>brak znajomych</H3>
-        ) : (
-          friends.map((friend) => {
-            return (
-              <Suspense
-                fallback={
-                  <Container
-                    variant="solid-dark"
-                    opacity="full"
-                    className="w-full h-[84px] animate-pulse py-6 px-4 flex items-center justify-between"
-                  />
-                }
-                key={friend}
-              >
-                {/* @ts-expect-error Async Server Component*/}
-                <FriendCard
-                  fid={friend}
-                  uid={session?.user?.id}
+    <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">
+      {!friends ? (
+        <H3>brak znajomych</H3>
+      ) : (
+        friends.map((friend) => {
+          return (
+            <Suspense
+              fallback={
+                <Container
+                  variant="solid-dark"
+                  opacity="full"
+                  className="w-full h-[84px] animate-pulse py-6 px-4 flex items-center justify-between"
                 />
-              </Suspense>
-            );
-          })
-        )}
-      </section>
-    </Container>
+              }
+              key={friend}
+            >
+              {/* @ts-expect-error Async Server Component*/}
+              <FriendCard
+                fid={friend}
+                uid={session?.user?.id}
+              />
+            </Suspense>
+          );
+        })
+      )}
+    </section>
   );
 }
