@@ -8,13 +8,13 @@ export default function MainNav() {
       <Link href="/">
         <h1 className="font-black text-2xl">ODPYTYWACZ</h1>
       </Link>
-      <section className="flex lg:gap-4 gap-1 items-center">
+      <section className="flex lg:gap-4 gap-2 items-center">
         <Link href="/quizes">quizy</Link>
         <Link href="/blogs">blogi</Link>
         <Suspense
           fallback={
-            <div className="btn btn-circle">
-              <div className="w-6 rounded-full avatar animate-pulse" />
+            <div className="btn btn-circle btn-sm">
+              <div className="rounded-full avatar animate-pulse" />
             </div>
           }
         >

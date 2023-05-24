@@ -37,53 +37,31 @@ export default async function QuizList({ filter }: Props) {
   const session = await getServerSession(authOptions);
   const quizes = await getQuizes(session?.user?.id, filter);
   return (
-    <Container
-      variant="solid-light"
-      className="w-full lg:w-[400px] h-80 lg:h-[650px] flex flex-col items-center py-4 px-8"
-    >
-      <form className="mb-4 relative">
-        <div className="form-control">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="wyszukaj…"
-              name="q"
-              autoComplete="off"
-              defaultValue={filter}
-              className="input bg-accent focus:ring-0"
-            />
-            <button className="btn btn-square btn-accent text-2xl">
-              <SearchIcon />
-            </button>
-          </div>
-        </div>
-      </form>
-      <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">
-        {!quizes ? (
-          <H3>brak quizów</H3>
-        ) : (
-          quizes.map((quiz) => {
-            return (
-              <Suspense
-                key={quiz}
-                fallback={
-                  <Container
-                    variant="solid-light"
-                    opacity="full"
-                    className="w-full h-[84px] py-6 px-4 flex justify-between items-center animate-pulse"
-                  />
-                }
-              >
-                {/* @ts-expect-error Async Server Component*/}
-                <QuizLink
-                  uid={session?.user?.id}
-                  qid={quiz}
+    <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">
+      {!quizes ? (
+        <H3>brak quizów</H3>
+      ) : (
+        quizes.map((quiz) => {
+          return (
+            <Suspense
+              key={quiz}
+              fallback={
+                <Container
+                  variant="solid-light"
+                  opacity="full"
+                  className="w-full h-[84px] py-6 px-4 flex justify-between items-center animate-pulse"
                 />
-              </Suspense>
-            );
-          })
-        )}
-      </section>
-    </Container>
+              }
+            >
+              {/* @ts-expect-error Async Server Component*/}
+              <QuizLink
+                uid={session?.user?.id}
+                qid={quiz}
+              />
+            </Suspense>
+          );
+        })
+      )}
+    </section>
   );
 }

@@ -17,9 +17,9 @@ export default async function Profile() {
     <div className="dropdown dropdown-end">
       <label
         tabIndex={0}
-        className="btn btn-circle"
+        className="btn btn-circle btn-sm"
       >
-        <div className="w-6 rounded-full avatar flex justify-center items-center">
+        <div className="rounded-full avatar flex justify-center items-center">
           <p>{initials}</p>
         </div>
       </label>

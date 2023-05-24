@@ -20,7 +20,7 @@ export default function page({ searchParams }: Props) {
       <div className="btn-group">
         <Link
           href={`/quizes?p=${currentPage - 1}`}
-          className="btn"
+          className={`btn ${currentPage <= 0 && "btn-disabled"}`}
         >
           «
         </Link>
