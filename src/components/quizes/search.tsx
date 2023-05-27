@@ -1,35 +1,29 @@
 "use client";
 
-import Search from "@/components/ui/inputs/search";
-import { getSearchParamsString } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { SearchIcon } from "@/lib/icons";
 
 interface Props {
   searchParams: { [index: string]: string };
 }
 
 export default function QuizesSearch({ searchParams }: Props) {
-  const searchRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
-
-  const searchFilter = () => {
-    const searchString = getSearchParamsString(searchParams, {
-      blacklist: ["f"],
-      replace: [["p", "0"]],
-    });
-    if (!searchRef.current || searchRef.current.value.length < 1) {
-      router.push(`/quizes?${searchString}`);
-    } else {
-      router.push(`/quizes?${searchString}f=${searchRef.current.value}`);
-    }
-  };
-
   return (
-    <Search
-      defaultValue={searchParams.f}
-      onClick={searchFilter}
-      ref={searchRef}
-    />
+    <form className="mb-4 relative">
+      <div className="form-control">
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="wyszukaj…"
+            name="f"
+            autoComplete="off"
+            defaultValue={searchParams.f}
+            className="input focus:ring-0"
+          />
+          <button className="btn btn-square text-2xl">
+            <SearchIcon />
+          </button>
+        </div>
+      </div>
+    </form>
   );
 }

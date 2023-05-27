@@ -38,7 +38,7 @@ export default async function QuizLink({ index, page, filter }: Props) {
   return (
     <Container
       variant="gradient-dark"
-      className="relative p-6 space-y-4 lg:w-[25%] w-full"
+      className="relative p-6 space-y-4 lg:w-[30%] w-full"
     >
       <Link
         href={`quizes/${quiz.id}`}
