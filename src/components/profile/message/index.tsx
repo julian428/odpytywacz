@@ -32,7 +32,7 @@ export default function Message() {
   };
 
   return (
-    <section className="h-[688px] flex flex-col justify-between items-center">
+    <section className="lg:h-[688px] flex flex-col justify-between items-center w-full gap-4 lg:pb-0 pb-2">
       <Container className="max-w-xs text-center">
         <p>
           masz pomysł na polepszenie strony albo znalazłeś jakiś błąd? Napisz do
@@ -40,7 +40,7 @@ export default function Message() {
         </p>
       </Container>
       <form
-        className="h-[600px] flex flex-col justify-between items-center relative"
+        className="lg:h-[600px] gap-2 flex flex-col lg:w-fit w-full justify-between items-center relative"
         action={sendMessage}
         method="post"
       >
@@ -63,7 +63,7 @@ export default function Message() {
           name="content"
           required
           maxLength={1480}
-          className="textarea textarea-bordered w-[400px] resize-none h-[500px] pb-8"
+          className="textarea textarea-bordered lg:w-[400px] w-full resize-none lg:h-[500px] h-96 pb-8"
           placeholder="treść zgłoszenia..."
         />
         <SubmitToast

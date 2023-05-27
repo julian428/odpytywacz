@@ -9,7 +9,7 @@ interface Props {
 
 export default function AddFriend({ filter }: Props) {
   return (
-    <section className="flex flex-col items-center w-fit justify-between">
+    <section className="flex flex-col items-center w-full justify-between">
       <form className="mb-4 relative">
         <div className="form-control">
           <div className="input-group">
@@ -27,7 +27,7 @@ export default function AddFriend({ filter }: Props) {
           </div>
         </div>
       </form>
-      <Container className="h-[600px] w-[400px]">
+      <Container className="lg:h-[600px] lg:w-[400px] h-96 w-full">
         <Suspense fallback={null}>
           {/* @ts-expect-error Async Server Component*/}
           <GetFilteredUsers filter={filter} />

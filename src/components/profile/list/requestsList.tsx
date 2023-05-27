@@ -24,7 +24,7 @@ export default async function RequestsList() {
   if (!session.user.id) throw new Error("Nie jesteś zalogowany.");
   const requests = await getRequests(session.user.id);
   return (
-    <Container className="w-[400px] h-[60px] flex items-center gap-2">
+    <Container className="lg:w-[400px] w-full h-[60px] flex items-center gap-2">
       {requests.length < 1 && (
         <div className="text-black w-full text-center">
           <H4>Brak zaproszeń.</H4>

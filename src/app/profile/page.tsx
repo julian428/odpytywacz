@@ -12,7 +12,7 @@ interface Props {
 
 export default function page({ searchParams }: Props) {
   return (
-    <article className="flex justify-center gap-8 mt-16">
+    <article className="flex lg:flex-row flex-col lg:justify-center gap-16 mt-16 px-4">
       <AddFriend filter={searchParams.friend} />
       <FriendsList
         page={searchParams.page || "0"}

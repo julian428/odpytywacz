@@ -30,7 +30,7 @@ export default async function List({ page, filter }: Props) {
     throw new Error("Nie jesteś zalogowany.");
   const friends = await getFriends(session.user.id);
   return (
-    <Container className="h-[500px] w-[400px] p-4 space-y-2">
+    <Container className="lg:h-[500px] lg:w-[400px] h-96 w-full p-4 space-y-2">
       {friends.map((friend, i) => {
         return (
           <Suspense
