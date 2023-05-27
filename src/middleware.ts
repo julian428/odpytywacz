@@ -13,7 +13,11 @@ export default withAuth(
     }
 
     if (pathname === "/dashboard" && !isAuth) {
-      throw new Error("Zaloguj się aby korzystać z tej strony.");
+      return NextResponse.redirect(new URL("/quizes", req.url));
+    }
+
+    if (pathname === "/profile" && !isAuth) {
+      return NextResponse.redirect(new URL("/quizes", req.url));
     }
 
     return NextResponse.next();
@@ -26,5 +30,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/", "/dashboard"],
+  matcher: ["/", "/dashboard", "/profile"],
 };

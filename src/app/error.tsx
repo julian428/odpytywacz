@@ -1,6 +1,5 @@
 "use client";
 
-import H2 from "@/components/ui/headings/h2";
 import Image from "next/image";
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 
 export default function error({ error }: Props) {
   return (
-    <article className="flex flex-col items-center gap-16 mt-32">
+    <article className="flex flex-col items-center gap-16 mt-32 w-screen">
       <Image
         width={100}
         height={100}
@@ -17,7 +16,7 @@ export default function error({ error }: Props) {
         src={"/error.svg"}
         alt="error"
       />
-      <H2>{error.message}</H2>
+      <p className="break-words text-xl">{error.message}</p>
     </article>
   );
 }
