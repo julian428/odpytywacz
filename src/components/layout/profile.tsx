@@ -10,7 +10,9 @@ export default async function Profile() {
 
   if (session && session.user && session.user.name) {
     const userNames = session.user.name.split(" ");
-    initials = userNames[0][0] + userNames[1][0];
+    const first = userNames[0] ? userNames[0][0] : "";
+    const last = userNames[1] ? userNames[1][0] : "";
+    initials = first + last;
   }
 
   return (
@@ -29,6 +31,9 @@ export default async function Profile() {
       >
         <li>
           <Link href="/dashboard">panel</Link>
+        </li>
+        <li>
+          <Link href="/profile">profil</Link>
         </li>
         <li>
           <GoogleSignInButton isLoggedIn={Boolean(session?.user)} />

@@ -19,6 +19,14 @@ enum UserType {
   ADMIN
 }
 
+enum MessageType {
+  MESSAGE
+  IDEA
+  MISTAKE
+  REPORT
+  ERROR
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -77,4 +85,13 @@ model UserQuizStats {
   prevPercentage    Int      @default(0)
   currentTime       Int
   currentPercentage Int
+}
+
+model Message {
+  id        String      @id @default(uuid())
+  from      String
+  email     String
+  type      MessageType @default(MESSAGE)
+  content   String
+  createdAt DateTime    @default(now())
 }

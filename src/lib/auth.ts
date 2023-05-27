@@ -41,28 +41,31 @@ const authOptions: NextAuthOptions = {
     },
     jwt: async ({ token, account, profile }) => {
       if (account) {
-        const userId = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             email: profile?.email,
           },
           select: {
             id: true,
+            type: true,
           },
         });
         await prisma.$disconnect();
-        token.id = userId?.id;
+        token.id = user?.id;
         token.name = profile?.name;
         token.email = profile?.email;
         token.picture = profile?.image;
+        token.type = user?.type;
       }
       return token;
     },
     session: async ({ session, token, user }) => {
       if (session.user) {
-        session.user.id = token.id as string;
+        session.user.id = token.id as string | null | undefined;
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
+        session.user.type = token.type as string | null | undefined;
       }
       return session;
     },
