@@ -1,36 +1,37 @@
-"use client";
-
+import SubmitToast from "@/components/ui/serverSubmit";
+import authOptions from "@/lib/auth";
+import prisma from "@/lib/db";
 import { AddIcon } from "@/lib/icons";
-import { useSession } from "@/providers/session";
-import axios from "axios";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export default function AddQuiz() {
-  const [loading, setLoading] = useState(false);
-  const session = useSession();
-
   const createQuiz = async () => {
-    setLoading(true);
+    "use server";
+
+    const session = await getServerSession(authOptions);
+    if (!session) return;
+    if (!session.user) return;
+    if (!session.user.id) return;
+
     try {
-      toast.loading("Creating quiz");
-      await axios.post("/api/quiz", { uid: session?.user?.id });
-      toast.dismiss();
-      toast.success("Created quiz");
+      await prisma.quiz.create({
+        data: {
+          ownerId: session.user.id,
+        },
+      });
+
+      revalidatePath("/dashboard");
     } catch (error) {
-      toast.dismiss();
-      toast.error("Something went wrong.");
-    } finally {
-      setLoading(false);
+      throw new Error("Coś poszło nie tak.");
     }
   };
 
   return (
-    <button
-      onClick={createQuiz}
-      disabled={loading}
-    >
-      <AddIcon className="w-14 h-14 text-color2" />
-    </button>
+    <form action={createQuiz}>
+      <SubmitToast message="Dodano quiz">
+        <AddIcon className="w-14 h-14 text-color2" />
+      </SubmitToast>
+    </form>
   );
 }
