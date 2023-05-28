@@ -7,35 +7,15 @@ import Link from "next/link";
 
 interface Props {
   qid: string;
-  index: number;
+  question: {
+    id: string;
+    question: string;
+    answears: string[];
+    createdAt: any;
+  };
 }
 
-async function getQuestion(quizId: string, skip: number) {
-  try {
-    const question = await prisma.question.findFirst({
-      orderBy: {
-        createdAt: "asc",
-      },
-      skip,
-      take: 1,
-      where: { quizId },
-      select: {
-        id: true,
-        question: true,
-        answears: true,
-        createdAt: true,
-      },
-    });
-
-    return question;
-  } catch (error) {
-    return null;
-  }
-}
-
-export default async function QuestionLink({ qid, index }: Props) {
-  const question = await getQuestion(qid, index);
-  if (!question) return;
+export default function QuestionLink({ question, qid }: Props) {
   const timeAgo = getTimeAgo(new Date(question.createdAt).getTime());
 
   return (

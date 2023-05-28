@@ -16,9 +16,12 @@ async function getQuizInfo(id: string) {
     const quiz = await prisma.quiz.findUnique({
       where: { id },
       select: {
-        _count: {
+        Questions: {
           select: {
-            Questions: true,
+            id: true,
+            question: true,
+            answears: true,
+            createdAt: true,
           },
         },
         title: true,
@@ -26,18 +29,15 @@ async function getQuizInfo(id: string) {
     });
 
     if (!quiz) return null;
-    return {
-      questionsCount: quiz._count.Questions,
-      title: quiz.title,
-    };
+    return quiz;
   } catch (error) {
     return null;
   }
 }
 
 export default async function Questions({ qid }: Props) {
-  const quizInfo = await getQuizInfo(qid);
-  if (!quizInfo) redirect("/dashboard");
+  const quiz = await getQuizInfo(qid);
+  if (!quiz) redirect("/dashboard");
 
   const deleteQuiz = async (data: FormData) => {
     "use server";
@@ -62,7 +62,7 @@ export default async function Questions({ qid }: Props) {
       <SecureApprove
         id="delete-modal"
         action={deleteQuiz}
-        keyword={quizInfo.title}
+        keyword={quiz.title}
       />
       <Link
         className="btn btn-ghost"
@@ -71,22 +71,11 @@ export default async function Questions({ qid }: Props) {
         dodaj pytanie
       </Link>
       <Container className="w-full p-4 h-[485px] max-w-[500px] flex flex-wrap content-start gap-x-4 gap-y-4 justify-start overflow-y-auto">
-        {[...new Array(quizInfo.questionsCount)].map((_, i) => (
-          <Suspense
-            key={`question${i}`}
-            fallback={
-              <Container
-                variant="gradient-normal"
-                className="p-4 w-[45%] h-28 animate-pulse flex-grow"
-              />
-            }
-          >
-            {/* @ts-expect-error Async Server Component*/}
-            <QuestionLink
-              qid={qid}
-              index={i}
-            />
-          </Suspense>
+        {quiz.Questions.map((question) => (
+          <QuestionLink
+            qid={qid}
+            question={question}
+          />
         ))}
       </Container>
       <label
