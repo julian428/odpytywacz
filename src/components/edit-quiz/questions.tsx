@@ -1,94 +1,98 @@
-"use client";
-
 import Link from "next/link";
-import Container from "../ui/container";
-import type { Question } from "@prisma/client";
-import QuestionsList from "./questions/questionsList";
-import { useEffect, useState } from "react";
-import { pusherClient } from "@/lib/pusher";
-import Button from "../ui/button";
 import SecureApprove from "../ui/modals/secureApprove";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import prisma from "@/lib/db";
+import { notFound, redirect } from "next/navigation";
+import { Suspense } from "react";
+import Container from "../ui/container";
+import QuestionLink from "./questions/questionLink";
+import { revalidatePath } from "next/cache";
 
 interface Props {
   qid: string;
-  quizName: string;
-  questions: Question[];
 }
 
-export default function Questions({ qid, quizName, questions }: Props) {
-  const [dynamicQuestions, setDynamicQuestions] = useState(questions);
-  const [openModal, setOpenModal] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    pusherClient.subscribe(`quiz-${qid}`);
-
-    pusherClient.bind("new-question", (question: Question) => {
-      setDynamicQuestions((prevState) => [question, ...prevState]);
+async function getQuizInfo(id: string) {
+  try {
+    const quiz = await prisma.quiz.findUnique({
+      where: { id },
+      select: {
+        _count: {
+          select: {
+            Questions: true,
+          },
+        },
+        title: true,
+      },
     });
-    pusherClient.bind("updated-question", (question: Question) => {
-      setDynamicQuestions((prevState) => {
-        const copyState = prevState;
-        const updatedIndex = copyState.findIndex(
-          (state) => state.id === question.id
-        );
-        copyState[updatedIndex] = question;
-        return copyState;
-      });
-    });
-    pusherClient.bind("deleted-question", (question: Question) => {
-      setDynamicQuestions((prevState) =>
-        prevState.filter((state) => state.id !== question.id)
-      );
-    });
-
-    return () => {
-      pusherClient.unsubscribe(`quiz-${qid}`);
+    if (!quiz) return null;
+    return {
+      questionsCount: quiz._count.Questions,
+      title: quiz.title,
     };
-  }, [qid]);
+  } catch (error) {
+    return null;
+  }
+}
 
-  const deleteQuiz = async () => {
+export default async function Questions({ qid }: Props) {
+  const quizInfo = await getQuizInfo(qid);
+  if (!quizInfo) redirect("/dashboard");
+
+  const deleteQuiz = async (data: FormData) => {
+    "use server";
+
+    const keyword = data.get("keyword") as string | null;
+    const wanted = data.get("wanted") as string | null;
+
+    if (!keyword) return;
+    if (wanted && keyword !== wanted) return;
+
     try {
-      toast.loading("usuwanie quizu");
-      await axios.delete(`/api/quiz?id=${qid}`);
-      toast.dismiss();
-      toast.success(`usunięto quiz ${quizName}`);
+      await prisma.quiz.delete({ where: { id: qid } });
+      revalidatePath(`/quizes/${qid}/edit`);
     } catch (error) {
-      toast.dismiss();
-      toast.error("nie udało się usunąć quizu");
-    } finally {
-      router.push("/dashboard");
+      throw new Error("Coś poszło nie tak.");
     }
   };
 
   return (
     <aside className="flex flex-col gap-4 items-center">
       <SecureApprove
-        visibility={openModal}
-        setVisibility={setOpenModal}
+        id="delete-modal"
         action={deleteQuiz}
-        keyword={quizName}
+        keyword={quizInfo.title}
       />
-      <Container
-        variant="gradient-dark"
-        className="bg-opacity-60 px-8 py-2"
+      <Link
+        className="btn btn-ghost"
+        href={`/quizes/${qid}/questions`}
       >
-        <Link href={`/quizes/${qid}/questions`}>dodaj pytanie</Link>
+        dodaj pytanie
+      </Link>
+      <Container className="w-full p-4 h-[485px] max-w-[500px] flex flex-wrap content-start gap-x-4 gap-y-4 justify-start overflow-y-auto">
+        {[...new Array(quizInfo.questionsCount)].map((_, i) => (
+          <Suspense
+            key={`question${i}`}
+            fallback={
+              <Container
+                variant="gradient-normal"
+                className="p-4 w-[45%] h-28 animate-pulse flex-grow"
+              />
+            }
+          >
+            {/* @ts-expect-error Async Server Component*/}
+            <QuestionLink
+              qid={qid}
+              index={i}
+            />
+          </Suspense>
+        ))}
       </Container>
-      <QuestionsList
-        qid={qid}
-        questions={dynamicQuestions}
-      />
-      <Button
-        variant="ghost"
-        onClick={setOpenModal.bind(null, true)}
-        className="border-red-700 text-red-700 px-6 font-black"
+      <label
+        htmlFor="delete-modal"
+        className="btn btn-sm btn-error"
       >
         usuń
-      </Button>
+      </label>
     </aside>
   );
 }

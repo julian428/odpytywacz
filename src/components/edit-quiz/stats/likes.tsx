@@ -1,11 +1,25 @@
 import Container from "@/components/ui/container";
 import H2 from "@/components/ui/headings/h2";
+import prisma from "@/lib/db";
 
 interface Props {
-  likes: number;
+  qid: string;
 }
 
-export default function Likes({ likes }: Props) {
+async function getLikes(id: string) {
+  try {
+    const quiz = await prisma.quiz.findUnique({
+      where: { id },
+      select: { likes: true },
+    });
+    return quiz?.likes || 0;
+  } catch (error) {
+    return 0;
+  }
+}
+
+export default async function Likes({ qid }: Props) {
+  const likes = getLikes(qid);
   return (
     <Container
       variant="solid-normal"

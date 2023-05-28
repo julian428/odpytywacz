@@ -32,7 +32,7 @@ export default function Message() {
   };
 
   return (
-    <section className="lg:h-[688px] flex flex-col justify-between items-center w-full gap-4 lg:pb-0 pb-2">
+    <section className="lg:h-[688px] flex flex-col justify-between items-center w-full lg:w-fit gap-4 lg:pb-0 pb-2">
       <Container className="max-w-xs text-center">
         <p>
           masz pomysł na polepszenie strony albo znalazłeś jakiś błąd? Napisz do

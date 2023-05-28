@@ -1,64 +1,71 @@
-"use client";
-
-import Button from "@/components/ui/button";
 import H3 from "@/components/ui/headings/h3";
-import Input from "@/components/ui/inputs/input";
-import axios from "axios";
-import { useRef, useState } from "react";
-import { toast } from "react-hot-toast";
+import SubmitToast from "@/components/ui/serverSubmit";
+import prisma from "@/lib/db";
 
 interface Props {
   qid: string;
-  topic: string;
 }
 
-export default function Topic({ qid, topic }: Props) {
-  const [loading, setLoading] = useState(false);
-  const topicRef = useRef<HTMLInputElement>(null);
+async function getTopic(id: string) {
+  try {
+    const quiz = await prisma.quiz.findUnique({
+      where: { id },
+      select: { topic: true },
+    });
+    return quiz?.topic || "";
+  } catch (error) {
+    return "";
+  }
+}
 
-  const updateTopic = async () => {
-    setLoading(true);
+export default async function Topic({ qid }: Props) {
+  const topic = await getTopic(qid);
+
+  const updateTopic = async (data: FormData) => {
+    "use server";
+
+    const topic = data.get("topic") as string | null;
+    if (!topic) return;
+
     try {
-      toast.loading("nadpisywanie tematu.");
-      await axios.put("/api/quiz", {
-        id: qid,
-        topic: topicRef.current?.value.slice(0, 20),
+      await prisma.quiz.update({
+        where: { id: qid },
+        data: { topic },
       });
-      toast.dismiss();
-      toast.success("nadpisano temat.");
     } catch (error) {
-      toast.dismiss();
-      toast.error("nie udało się nadpisać tematu.");
-    } finally {
-      setLoading(false);
+      throw new Error("Coś poszło nie tak.");
     }
   };
 
   return (
-    <section className="flex flex-col w-full lg:w-fit items-end gap-2">
+    <form
+      method="post"
+      action={updateTopic}
+      className="flex flex-col w-full lg:w-fit items-end gap-2"
+    >
       <label
         htmlFor="topic-change"
         className="mr-4"
       >
         <H3>temat</H3>
       </label>
-      <Input
+      <input
         id="topic-change"
-        ref={topicRef}
         maxLength={20}
         defaultValue={topic}
-        className="w-full lg:w-[400px] h-[80px] text-4xl"
+        name="topic"
+        type="text"
+        className="w-full lg:w-[400px] h-[80px] text-4xl input"
       />
       <footer className="flex w-full items-center pl-4 justify-between">
         <p>max 20 znaków</p>
-        <Button
-          disabled={loading}
-          onClick={updateTopic}
-          className="mr-4 px-4"
+        <SubmitToast
+          message="zapisano temat"
+          className="btn btn-sm mr-4"
         >
           zapisz
-        </Button>
+        </SubmitToast>
       </footer>
-    </section>
+    </form>
   );
 }

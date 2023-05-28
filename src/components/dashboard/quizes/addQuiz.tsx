@@ -28,7 +28,10 @@ export default function AddQuiz() {
   };
 
   return (
-    <form action={createQuiz}>
+    <form
+      action={createQuiz}
+      method="post"
+    >
       <SubmitToast message="Dodano quiz">
         <AddIcon className="w-14 h-14 text-color2" />
       </SubmitToast>

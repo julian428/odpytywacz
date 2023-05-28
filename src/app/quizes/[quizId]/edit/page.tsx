@@ -2,11 +2,10 @@ import Contributors from "@/components/edit-quiz/contributors";
 import Essentials from "@/components/edit-quiz/essentials";
 import Questions from "@/components/edit-quiz/questions";
 import Stats from "@/components/edit-quiz/stats";
-import GoogleSignInButton from "@/components/ui/googleSignInButton";
-import authOptions from "@/lib/auth";
+import Container from "@/components/ui/container";
 import prisma from "@/lib/db";
-import { Session, getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 interface Props {
   params: {
@@ -14,127 +13,40 @@ interface Props {
   };
 }
 
-async function getQuiz(id: string) {
-  try {
-    const quiz = await prisma.quiz.findUnique({
-      where: { id },
-      select: {
-        ownerId: true,
-        title: true,
-        topic: true,
-        description: true,
-        Questions: true,
-        likes: true,
-        timesPlayed: true,
-        contributors: true,
-      },
-    });
-    await prisma.$disconnect();
-    return quiz;
-  } catch (error) {
-    return null;
-  }
-}
+async function checkIfOwner(quizId: string) {
+  const getServerSession = (await import("next-auth")).getServerSession;
+  const authOptions = (await import("@/lib/auth")).default;
+  const session = await getServerSession(authOptions);
 
-async function getContributors(ids?: string[]) {
-  try {
-    const contributors = await prisma.user.findMany({
-      where: {
-        id: { in: ids },
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    await prisma.$disconnect();
-    return contributors;
-  } catch (error) {
-    return [];
-  }
-}
+  const currentQuiz = await prisma.quiz.findUnique({
+    where: { id: quizId },
+    select: { ownerId: true },
+  });
 
-async function getFriends(uid?: string | null) {
-  if (!uid) return [];
-  try {
-    const friendsIds = await prisma.user.findUnique({
-      where: { id: uid },
-      select: {
-        friends: true,
-      },
-    });
-    if (!friendsIds?.friends) return [];
-    const friends = await prisma.user.findMany({
-      where: {
-        id: { in: friendsIds.friends },
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    await prisma.$disconnect();
-    return friends;
-  } catch (error) {
-    return [];
-  }
+  if (session?.user?.id !== currentQuiz?.ownerId) redirect("/quizes");
 }
 
 export default async function page({ params }: Props) {
-  const quiz = await getQuiz(params.quizId);
-  if (!quiz) redirect("/dashboard");
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user || !session.user.id) {
-    return (
-      <article>
-        <p className="lg:text-lg">
-          <span className="text-transparent bg-gradient-to-r from-color4 to-color3 bg-clip-text">
-            <GoogleSignInButton
-              isLoggedIn={false}
-              loggedOut="zaloguj się"
-            />{" "}
-          </span>
-          aby edytować quizy
-        </p>
-      </article>
-    );
-  }
-  const contributors = await getContributors(quiz.contributors);
-  if (
-    contributors.map((contributor) => contributor.id).includes(session.user.id)
-  ) {
-    redirect(`/quizes/${params.quizId}/questions`);
-  }
-
-  if (quiz.ownerId !== session.user.id)
-    throw new Error("Nie jesteś właścicielem tego quiz-u");
-  const friends = await getFriends(session.user?.id);
+  await checkIfOwner(params.quizId);
   return (
     <article className="flex flex-col px-4 lg:px-0 lg:flex-row justify-center gap-16 lg:mt-12 pb-4">
-      <Essentials
-        qid={params.quizId}
-        title={quiz.title}
-        topic={quiz.topic}
-        description={quiz.description}
-      />
+      <Essentials qid={params.quizId} />
       <section className="space-y-4 lg:space-y-8">
-        <Stats
-          qid={params.quizId}
-          questionCount={quiz.Questions.length}
-          likes={quiz.likes}
-          timesPlayed={quiz.timesPlayed}
-        />
-        <Questions
-          qid={params.quizId}
-          quizName={quiz.title}
-          questions={quiz.Questions}
-        />
+        <Stats qid={params.quizId} />
+        <Suspense
+          fallback={
+            <aside className="flex flex-col gap-4 items-center">
+              <div className="btn btn-ghost">dodaj pytanie</div>
+              <Container className="w-full p-4 h-[485px] max-w-[500px] animate-pulse" />
+              <div className="btn btn-sm btn-error">usuń</div>
+            </aside>
+          }
+        >
+          {/* @ts-expect-error Async Server Component*/}
+          <Questions qid={params.quizId} />
+        </Suspense>
       </section>
-      <Contributors
-        friends={friends}
-        contributors={contributors}
-        qid={params.quizId}
-      />
+      <Contributors qid={params.quizId} />
     </article>
   );
 }

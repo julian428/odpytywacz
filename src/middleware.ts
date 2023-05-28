@@ -20,6 +20,10 @@ export default withAuth(
       return NextResponse.redirect(new URL("/quizes", req.url));
     }
 
+    if (pathname.startsWith("/quizes") && !isAuth) {
+      return NextResponse.redirect(new URL("/quizes", req.url));
+    }
+
     return NextResponse.next();
   },
   {
@@ -30,5 +34,12 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/", "/dashboard", "/profile"],
+  matcher: [
+    "/",
+    "/dashboard",
+    "/profile",
+    "/quizes/:path*/edit",
+    "/quizes/:path*/ocr",
+    "/quizes/:path*/questions",
+  ],
 };

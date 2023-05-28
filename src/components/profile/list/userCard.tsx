@@ -73,6 +73,7 @@ export default async function UserCard({ fid, uid }: Props) {
     <form
       className="flex justify-between items-center"
       action={removeFriend}
+      method="post"
     >
       <H3>{fname}</H3>
       <input

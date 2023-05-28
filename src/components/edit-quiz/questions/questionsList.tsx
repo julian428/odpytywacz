@@ -1,22 +1,32 @@
 import Container from "@/components/ui/container";
-import type { Question } from "@prisma/client";
 import QuestionLink from "./questionLink";
+import { Suspense } from "react";
 
 interface Props {
   qid: string;
-  questions: Question[];
+  questionsCount: number;
 }
 
-export default function QuestionsList({ qid, questions }: Props) {
+export default function QuestionsList({ qid, questionsCount }: Props) {
   return (
-    <Container className="w-full p-4 h-[485px] max-w-[500px] flex flex-wrap content-start gap-x-4 gap-y-4 justify-start overflow-y-auto">
-      {questions.map((question) => (
-        <QuestionLink
-          key={question.id}
-          qid={qid}
-          question={question}
-        />
+    <>
+      {[...new Array(questionsCount)].map((_, i) => (
+        <Suspense
+          key={`question${i}`}
+          fallback={
+            <Container
+              variant="gradient-normal"
+              className="p-4 w-[45%] h-28 animate-pulse flex-grow"
+            />
+          }
+        >
+          {/* @ts-expect-error Async Server Component*/}
+          <QuestionLink
+            qid={qid}
+            index={i}
+          />
+        </Suspense>
       ))}
-    </Container>
+    </>
   );
 }

@@ -1,35 +1,41 @@
-"use client";
-
 import Container from "@/components/ui/container";
 import H3 from "@/components/ui/headings/h3";
 import H4 from "@/components/ui/headings/h4";
-import { getTimeAgo, getTimeUpdateFrequency } from "@/lib/utils";
-import type { Question } from "@prisma/client";
+import prisma from "@/lib/db";
+import { getTimeAgo } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 interface Props {
   qid: string;
-  question: Question;
+  index: number;
 }
 
-export default function QuestionLink({ qid, question }: Props) {
-  const [timeAgo, setTimeAgo] = useState(
-    getTimeAgo(new Date(question.createdAt).getTime())
-  );
+async function getQuestion(quizId: string, skip: number) {
+  try {
+    const question = await prisma.question.findFirst({
+      orderBy: {
+        createdAt: "asc",
+      },
+      skip,
+      take: 1,
+      where: { quizId },
+      select: {
+        id: true,
+        question: true,
+        answears: true,
+        createdAt: true,
+      },
+    });
+    return question;
+  } catch (error) {
+    return null;
+  }
+}
 
-  useEffect(() => {
-    const updateFrequency = getTimeUpdateFrequency(
-      new Date(question.createdAt).getTime()
-    );
-
-    if (!updateFrequency) return;
-    const timeUpdater = setInterval(() => {
-      setTimeAgo(getTimeAgo(new Date(question.createdAt).getTime()));
-    }, updateFrequency);
-
-    return () => clearInterval(timeUpdater);
-  }, [question.createdAt]);
+export default async function QuestionLink({ qid, index }: Props) {
+  const question = await getQuestion(qid, index);
+  if (!question) return;
+  const timeAgo = getTimeAgo(new Date(question.createdAt).getTime());
 
   return (
     <Link

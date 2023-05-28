@@ -93,6 +93,7 @@ export default async function Request({ uid, fid }: Props) {
         <form
           className="flex items-center"
           action={approveRequest}
+          method="post"
         >
           <input
             type="hidden"
@@ -111,6 +112,7 @@ export default async function Request({ uid, fid }: Props) {
         <form
           className="flex items-center"
           action={declineRequest}
+          method="post"
         >
           <input
             type="hidden"

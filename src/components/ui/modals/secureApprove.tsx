@@ -1,96 +1,73 @@
-import { Dispatch, useEffect, useRef, useState } from "react";
 import Container from "../container";
-import H3 from "../headings/h3";
-import Input from "../inputs/input";
-import Button from "../button";
-import { toast } from "react-hot-toast";
+import H4 from "../headings/h4";
+import SubmitToast from "../serverSubmit";
 
 interface Props {
   keyword: string;
-  visibility: boolean;
-  action: () => any;
-  setVisibility: Dispatch<boolean>;
+  id: string;
+  action: (data: FormData) => Promise<any>;
 }
 
-export default function SecureApprove({
-  keyword,
-  visibility,
-  action,
-  setVisibility,
-}: Props) {
-  const keywordRef = useRef<HTMLInputElement>(null);
-  const [performingAction, setPerformingAction] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = visibility ? "hidden" : "auto";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [visibility]);
-
-  const handleClose = () => {
-    if (keywordRef.current) {
-      keywordRef.current.value = "";
-    }
-    setVisibility(false);
-  };
-  const handleAction = async () => {
-    if (performingAction) return;
-    if (!keywordRef.current?.value) return;
-    if (keywordRef.current.value !== keyword) {
-      toast.error("nieprawidłowe potwierdzenie.");
-      return;
-    }
-    setPerformingAction(true);
-    try {
-      await action();
-    } catch (error) {
-      toast.dismiss();
-      toast.error("coś poszło nie tak");
-    } finally {
-      setPerformingAction(false);
-      handleClose();
-    }
-  };
-
+export default function SecureApprove({ keyword, id, action }: Props) {
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black bg-opacity-50 justify-center items-center"
-      style={{ display: visibility ? "flex" : "none" }}
-    >
-      <Container
-        opacity="full"
-        className="p-8 flex flex-col items-center gap-8"
+    <>
+      <input
+        type="checkbox"
+        id={id}
+        className="modal-toggle"
+      />
+      <label
+        htmlFor={id}
+        className="modal cursor-pointer"
       >
-        <div className="flex lg:flex-row flex-col items-center gap-2">
-          <H3>potwierdź wpisując </H3>
-          <span className="text-red-800 tracking-wide font-black lg:text-3xl text-xl">
-            {keyword}
-          </span>
-        </div>
-        <Input
-          ref={keywordRef}
-          className="bg-black text-red-700 text-lg w-full focus:bg-opacity-60 hover:bg-opacity-60 h-10 max-w-xs font-black"
-        />
-        <section className="flex justify-evenly w-full">
-          <Button
-            className="w-20 border-red-700 text-red-700 font-black bg-black bg-opacity-50"
-            variant="ghost"
-            disabled={performingAction}
-            onClick={handleAction}
+        <label
+          className="modal-box relative"
+          htmlFor=""
+        >
+          <Container
+            opacity="full"
+            className="p-4 w-full flex flex-col items-center gap-8"
           >
-            usuń
-          </Button>
-          <Button
-            disabled={performingAction}
-            onClick={handleClose}
-            className="w-20"
-          >
-            anuluj
-          </Button>
-        </section>
-      </Container>
-    </div>
+            <div className="flex lg:flex-row flex-col items-center lg:justify-center gap-2 w-full">
+              <H4>potwierdź wpisując </H4>
+              <span className="text-red-800 tracking-wide font-black text-lg">
+                {keyword}
+              </span>
+            </div>
+            <form
+              className="space-y-4"
+              action={action}
+              method="post"
+            >
+              <input
+                name="keyword"
+                type="text"
+                autoComplete="off"
+                className="input bg-primary text-lg h-10 max-w-xs"
+              />
+              <input
+                type="hidden"
+                name="wanted"
+                value={keyword}
+              />
+              <section className="flex justify-evenly w-full">
+                <SubmitToast
+                  className="w-20 btn btn-sm btn-error"
+                  message="usunięto quiz"
+                >
+                  usuń
+                </SubmitToast>
+                <label
+                  htmlFor={id}
+                  className="w-20 btn btn-sm btn-outline"
+                >
+                  anuluj
+                </label>
+              </section>
+            </form>
+          </Container>
+        </label>
+      </label>
+    </>
   );
 }

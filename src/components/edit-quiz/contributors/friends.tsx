@@ -1,26 +1,56 @@
 import Container from "@/components/ui/container";
-import { AddPersonIcon } from "@/lib/icons";
-import { user } from "../contributors";
-import H3 from "@/components/ui/headings/h3";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/auth";
+import prisma from "@/lib/db";
+import FriendCard from "./friendCard";
+import { Suspense } from "react";
 
 interface Props {
-  friends: user[];
-  addContributor: (user: user) => void;
+  qid: string;
 }
 
-export default function FriendsList({ friends, addContributor }: Props) {
+async function getFriends(uid: string, qid: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: uid },
+      select: {
+        friends: true,
+      },
+    });
+    if (!user) throw new Error("Twoje konto nie istnieje.");
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: qid },
+      select: { contributors: true },
+    });
+    if (!quiz) throw new Error("Taki quiz nie istnieje");
+
+    const notContributorsFriends = user.friends.filter(
+      (friend) => !quiz.contributors.includes(friend)
+    );
+
+    return notContributorsFriends;
+  } catch (error) {
+    return [];
+  }
+}
+
+export default async function FriendsList({ qid }: Props) {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) return;
+  const friends = await getFriends(session.user.id as string, qid);
   return (
     <Container className="w-full lg:w-96 h-32 p-4 overflow-y-auto">
       {friends.map((friend) => (
-        <section
-          className="flex justify-between"
-          key={friend.id}
+        <Suspense
+          key={friend}
+          fallback={<Container className="w-full h-9 animate-pulse mb-2" />}
         >
-          <H3>{friend.name}</H3>
-          <button onClick={addContributor.bind(null, friend)}>
-            <AddPersonIcon className="text-3xl" />
-          </button>
-        </section>
+          {/* @ts-expect-error Async Server Component*/}
+          <FriendCard
+            fid={friend}
+            qid={qid}
+          />
+        </Suspense>
       ))}
     </Container>
   );

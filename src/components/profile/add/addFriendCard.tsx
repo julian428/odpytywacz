@@ -85,6 +85,7 @@ export default function AddFriendCard({ user, uid }: Props) {
     <form
       className="flex justify-between items-center p-2"
       action={addUser}
+      method="post"
     >
       <H3>{user.name}</H3>
       <input

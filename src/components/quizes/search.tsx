@@ -1,5 +1,3 @@
-"use client";
-
 import { SearchIcon } from "@/lib/icons";
 
 interface Props {

@@ -9,7 +9,7 @@ interface Props {
 
 export default function AddFriend({ filter }: Props) {
   return (
-    <section className="flex flex-col items-center w-full justify-between">
+    <section className="flex flex-col items-center w-full lg:w-fit justify-between">
       <form className="mb-4 relative">
         <div className="form-control">
           <div className="input-group">
