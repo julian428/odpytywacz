@@ -13,21 +13,7 @@ interface Props {
   };
 }
 
-async function checkIfOwner(quizId: string) {
-  const getServerSession = (await import("next-auth")).getServerSession;
-  const authOptions = (await import("@/lib/auth")).default;
-  const session = await getServerSession(authOptions);
-
-  const currentQuiz = await prisma.quiz.findUnique({
-    where: { id: quizId },
-    select: { ownerId: true },
-  });
-
-  if (session?.user?.id !== currentQuiz?.ownerId) redirect("/quizes");
-}
-
 export default async function page({ params }: Props) {
-  await checkIfOwner(params.quizId);
   return (
     <article className="flex flex-col px-4 lg:px-0 lg:flex-row justify-center gap-16 lg:mt-12 pb-4">
       <Essentials qid={params.quizId} />
