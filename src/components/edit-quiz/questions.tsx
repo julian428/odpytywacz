@@ -73,6 +73,7 @@ export default async function Questions({ qid }: Props) {
       <Container className="w-full p-4 h-[485px] max-w-[500px] flex flex-wrap content-start gap-x-4 gap-y-4 justify-start overflow-y-auto">
         {quiz.Questions.map((question) => (
           <QuestionLink
+            key={question.id}
             qid={qid}
             question={question}
           />
