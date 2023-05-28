@@ -28,6 +28,7 @@ async function getQuizTitle(qid: string) {
         title: true,
       },
     });
+    await prisma.$disconnect();
     return quiz?.title;
   } catch (error) {
     return null;

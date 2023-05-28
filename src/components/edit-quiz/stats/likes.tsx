@@ -12,6 +12,7 @@ async function getLikes(id: string) {
       where: { id },
       select: { likes: true },
     });
+    await prisma.$disconnect();
     return quiz?.likes || 0;
   } catch (error) {
     return 0;

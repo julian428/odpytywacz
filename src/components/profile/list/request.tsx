@@ -15,6 +15,7 @@ async function getRequestUser(id: string) {
       where: { id },
       select: { name: true },
     });
+    await prisma.$disconnect();
     return user?.name;
   } catch (error) {
     return null;
@@ -54,6 +55,7 @@ export default async function Request({ uid, fid }: Props) {
           data: { friends: { push: user } },
         }),
       ]);
+      await prisma.$disconnect();
       revalidatePath("/profile");
     } catch (error) {
       throw new Error("Coś poszło nie tak.");
@@ -77,6 +79,7 @@ export default async function Request({ uid, fid }: Props) {
           ],
         },
       });
+      await prisma.$disconnect();
       revalidatePath("/profile");
     } catch (error) {
       throw new Error("Coś poszło nie tak.");

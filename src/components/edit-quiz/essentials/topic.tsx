@@ -12,6 +12,7 @@ async function getTopic(id: string) {
       where: { id },
       select: { topic: true },
     });
+    await prisma.$disconnect();
     return quiz?.topic || "";
   } catch (error) {
     return "";
@@ -32,6 +33,7 @@ export default async function Topic({ qid }: Props) {
         where: { id: qid },
         data: { topic },
       });
+      await prisma.$disconnect();
     } catch (error) {
       throw new Error("Coś poszło nie tak.");
     }

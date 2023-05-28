@@ -17,11 +17,13 @@ async function getFriends(uid: string, qid: string) {
         friends: true,
       },
     });
+    await prisma.$disconnect();
     if (!user) throw new Error("Twoje konto nie istnieje.");
     const quiz = await prisma.quiz.findUnique({
       where: { id: qid },
       select: { contributors: true },
     });
+    await prisma.$disconnect();
     if (!quiz) throw new Error("Taki quiz nie istnieje");
 
     const notContributorsFriends = user.friends.filter(

@@ -27,6 +27,7 @@ async function getQuizes(uid?: string | null, filter?: string) {
         id: true,
       },
     });
+    await prisma.$disconnect();
     return quizes.map((friend) => friend.id);
   } catch (error) {
     return null;

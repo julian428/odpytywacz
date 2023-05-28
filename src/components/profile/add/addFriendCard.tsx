@@ -74,6 +74,7 @@ export default function AddFriendCard({ user, uid }: Props) {
           });
         }
       }
+      await prisma.$disconnect();
     } catch (error) {
       throw new Error("Coś poszło nie tak.");
     } finally {

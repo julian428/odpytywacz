@@ -40,11 +40,10 @@ async function getQuiz(id: string) {
         },
       },
     });
+    await prisma.$disconnect();
     return quiz;
   } catch (error) {
     return null;
-  } finally {
-    await prisma.$disconnect();
   }
 }
 

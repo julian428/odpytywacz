@@ -12,6 +12,7 @@ async function getQuizTitle(id: string) {
       where: { id },
       select: { title: true },
     });
+    await prisma.$disconnect();
     return quiz?.title || "";
   } catch (error) {
     return "";
@@ -32,10 +33,9 @@ export default async function Title({ qid }: Props) {
         where: { id: qid },
         data: { title },
       });
+      await prisma.$disconnect();
     } catch (error) {
       throw new Error("Coś poszło nie tak.");
-    } finally {
-      await prisma.$disconnect();
     }
   };
 

@@ -14,6 +14,7 @@ async function getQuestionsCount(id: string) {
         _count: { select: { Questions: true } },
       },
     });
+    await prisma.$disconnect();
     return quiz?._count.Questions || 0;
   } catch (error) {
     return 0;

@@ -18,6 +18,7 @@ async function getContributor(id: string) {
         name: true,
       },
     });
+    await prisma.$disconnect();
     return user?.name;
   } catch (error) {
     return null;
@@ -45,6 +46,7 @@ export default async function ContributorCard({
           contributors: newContributors,
         },
       });
+      await prisma.$disconnect();
       revalidatePath(`/quizes/${qid}/edit`);
     } catch (error) {
       throw new Error("Coś poszło nie tak. Przy usuwaniu wspólnika.");
