@@ -35,8 +35,6 @@ const authOptions: NextAuthOptions = {
         });
       }
 
-      await prisma.$disconnect();
-
       return true;
     },
     jwt: async ({ token, account, profile }) => {
@@ -50,7 +48,7 @@ const authOptions: NextAuthOptions = {
             type: true,
           },
         });
-        await prisma.$disconnect();
+
         token.id = user?.id;
         token.name = profile?.name;
         token.email = profile?.email;

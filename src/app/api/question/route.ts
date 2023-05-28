@@ -24,7 +24,6 @@ export async function POST(req: Request) {
         answears,
       },
     });
-    await prisma.$disconnect();
 
     pusherServer.trigger(`quiz-${qid}`, "new-question", createdQuestion);
 
@@ -46,7 +45,6 @@ export async function PUT(req: Request) {
       },
       data,
     });
-    await prisma.$disconnect();
 
     pusherServer.trigger(
       `quiz-${data.quizId}`,
@@ -69,7 +67,6 @@ export async function DELETE(req: Request) {
 
   try {
     const deletedQuestion = await prisma.question.delete({ where: { id } });
-    await prisma.$disconnect();
 
     pusherServer.trigger(
       `quiz-${searchParams.qid}`,

@@ -26,7 +26,6 @@ export default function Message() {
           content: content,
         },
       });
-      await prisma.$disconnect();
     } catch (error) {
       throw new Error("Coś poszło nie tak.");
     }

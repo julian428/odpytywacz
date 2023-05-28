@@ -11,7 +11,7 @@ async function getFriends(uid: string) {
       where: { id: uid },
       select: { friends: true },
     });
-    await prisma.$disconnect();
+
     return user?.friends || [];
   } catch (error) {
     return [];

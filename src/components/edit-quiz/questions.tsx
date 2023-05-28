@@ -24,7 +24,7 @@ async function getQuizInfo(id: string) {
         title: true,
       },
     });
-    await prisma.$disconnect();
+
     if (!quiz) return null;
     return {
       questionsCount: quiz._count.Questions,
@@ -50,7 +50,7 @@ export default async function Questions({ qid }: Props) {
 
     try {
       await prisma.quiz.delete({ where: { id: qid } });
-      await prisma.$disconnect();
+
       revalidatePath(`/quizes/${qid}/edit`);
     } catch (error) {
       throw new Error("Coś poszło nie tak.");

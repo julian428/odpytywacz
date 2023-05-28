@@ -15,7 +15,7 @@ async function getFriend(id: string) {
       where: { id },
       select: { name: true, id: true },
     });
-    await prisma.$disconnect();
+
     return friend;
   } catch (error) {
     return null;
@@ -36,7 +36,7 @@ export default async function FriendCard({ fid, qid }: Props) {
           contributors: { push: fid },
         },
       });
-      await prisma.$disconnect();
+
       revalidatePath(`/quizes/${qid}/edit`);
     } catch (error) {
       throw new Error("Coś poszło nie tak. Przy dodawaniu wspólnika.");

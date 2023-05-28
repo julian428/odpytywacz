@@ -30,7 +30,7 @@ async function getQuiz(id: string) {
         title: true,
       },
     });
-    await prisma.$disconnect();
+
     return quiz;
   } catch (error) {}
 }

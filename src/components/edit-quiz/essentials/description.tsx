@@ -13,7 +13,7 @@ async function getDescription(id: string) {
       where: { id },
       select: { description: true },
     });
-    await prisma.$disconnect();
+
     return quiz?.description || "";
   } catch (error) {
     return "";

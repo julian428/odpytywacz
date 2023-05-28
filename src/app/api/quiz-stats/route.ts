@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         avgTime: currentTime,
       },
     });
-    await prisma.$disconnect();
+
     return new Response("created", { status: 201 });
   } catch (error) {
     return new Response("Internal server error", { status: 500 });
@@ -113,7 +113,7 @@ export async function PUT(req: Request) {
         prevTime: newPrevTime,
       },
     });
-    await prisma.$disconnect();
+
     return new Response("Accepted", { status: 202 });
   } catch (error) {
     return new Response("Internal server error", { status: 500 });

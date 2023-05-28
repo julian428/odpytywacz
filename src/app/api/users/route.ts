@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         name: true,
       },
     });
-    await prisma.$disconnect();
+
     return new Response(JSON.stringify(users));
   } catch (error) {
     return new Response("Something went wrong.", { status: 500 });
@@ -82,8 +82,6 @@ export async function PATCH(req: Request) {
         data: { likes: user?.likes.filter((like) => like !== qid) },
       });
     }
-
-    await prisma.$disconnect();
 
     return new Response("updated", { status: 202 });
   } catch (error) {

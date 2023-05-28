@@ -21,7 +21,7 @@ async function getQuiz(uid: string, qid: string) {
         ownerId: true,
       },
     });
-    await prisma.$disconnect();
+
     return quiz;
   } catch (error) {
     return null;

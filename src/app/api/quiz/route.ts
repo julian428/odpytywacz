@@ -11,7 +11,6 @@ export async function POST(req: Request) {
         ownerId: uid,
       },
     });
-    await prisma.$disconnect();
 
     pusherServer.trigger(`quiz-${uid}`, "new-quiz", {
       id: quiz.id,
@@ -37,7 +36,7 @@ export async function PUT(req: Request) {
       },
       data,
     });
-    await prisma.$disconnect();
+
     return new Response("updated contributors", { status: 202 });
   } catch (error) {
     return new Response("Internal server error", { status: 500 });
@@ -52,7 +51,6 @@ export async function DELETE(req: Request) {
   try {
     await prisma.quiz.delete({ where: { id: searchParams.id } });
     return new Response("deleted");
-    await prisma.$disconnect();
   } catch (error) {
     return new Response("Internal server error.", { status: 500 });
   } finally {

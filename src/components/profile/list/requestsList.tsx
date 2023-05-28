@@ -12,7 +12,7 @@ async function getRequests(uid: string) {
       where: { to: uid },
       select: { from: true },
     });
-    await prisma.$disconnect();
+
     return requests.map((request) => request.from);
   } catch (error) {
     return [];

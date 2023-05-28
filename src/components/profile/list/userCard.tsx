@@ -14,7 +14,7 @@ async function getFriend(id: string) {
       where: { id },
       select: { name: true },
     });
-    await prisma.$disconnect();
+
     return friend?.name;
   } catch (error) {
     return null;
@@ -44,8 +44,6 @@ export default async function UserCard({ fid, uid }: Props) {
         select: { friends: true },
       });
 
-      await prisma.$disconnect();
-
       if (!friend) throw new Error("Taki użytkownik nie istnieje.");
       if (!user) throw new Error("Twoje konto nie istnieje.");
 
@@ -62,7 +60,7 @@ export default async function UserCard({ fid, uid }: Props) {
           data: { friends: newUserFriends },
         }),
       ]);
-      await prisma.$disconnect();
+
       revalidatePath("/profile");
     } catch (error) {
       throw new Error("Coś poszło nie tak.");

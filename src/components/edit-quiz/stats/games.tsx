@@ -12,7 +12,7 @@ async function getTimesPlayed(id: string) {
       where: { id },
       select: { timesPlayed: true },
     });
-    await prisma.$disconnect();
+
     return quiz?.timesPlayed || 0;
   } catch (error) {
     return 0;

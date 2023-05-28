@@ -24,7 +24,7 @@ async function getQuiz(skip: number, filter: string) {
         description: true,
       },
     });
-    await prisma.$disconnect();
+
     return quiz;
   } catch (error) {
     return null;

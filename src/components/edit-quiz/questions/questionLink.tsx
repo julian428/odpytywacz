@@ -26,7 +26,7 @@ async function getQuestion(quizId: string, skip: number) {
         createdAt: true,
       },
     });
-    await prisma.$disconnect();
+
     return question;
   } catch (error) {
     return null;

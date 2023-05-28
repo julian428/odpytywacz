@@ -37,7 +37,7 @@ async function getStats(uid: string, qid: string) {
         prevPercentage: true,
       },
     });
-    await prisma.$disconnect();
+
     return stats;
   } catch (error) {
     return null;
@@ -55,7 +55,7 @@ async function getQuiz(qid: string) {
         title: true,
       },
     });
-    await prisma.$disconnect();
+
     return quiz;
   } catch (error) {
     return null;
@@ -81,7 +81,7 @@ async function getQuestions(qid: string, questionIds: string[]) {
         },
       },
     });
-    await prisma.$disconnect();
+
     return quiz?.Questions || null;
   } catch (error) {
     return null;

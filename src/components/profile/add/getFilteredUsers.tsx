@@ -16,7 +16,7 @@ async function getNonFriendUsers(uid: string, filter?: string) {
         friends: true,
       },
     });
-    await prisma.$disconnect();
+
     if (!user) throw new Error("Twoje konto nie istnieje.");
     const nonFriends = await prisma.user.findMany({
       where: {
@@ -31,7 +31,7 @@ async function getNonFriendUsers(uid: string, filter?: string) {
         name: true,
       },
     });
-    await prisma.$disconnect();
+
     return nonFriends;
   } catch (error) {
     return [];

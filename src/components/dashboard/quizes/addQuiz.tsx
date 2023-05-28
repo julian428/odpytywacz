@@ -20,7 +20,7 @@ export default function AddQuiz() {
           ownerId: session.user.id,
         },
       });
-      await prisma.$disconnect();
+
       revalidatePath("/dashboard");
     } catch (error) {
       throw new Error("Coś poszło nie tak.");

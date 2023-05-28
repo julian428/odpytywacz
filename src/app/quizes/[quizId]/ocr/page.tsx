@@ -22,7 +22,7 @@ async function getQuizEdtitorsIds(id: string) {
         contributors: true,
       },
     });
-    await prisma.$disconnect();
+
     if (!quiz) return [];
     return [quiz.ownerId, ...quiz.contributors];
   } catch (error) {

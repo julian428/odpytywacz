@@ -15,7 +15,7 @@ async function getContributors(id: string) {
         contributors: true,
       },
     });
-    await prisma.$disconnect();
+
     return quiz?.contributors || [];
   } catch (error) {
     return [];
