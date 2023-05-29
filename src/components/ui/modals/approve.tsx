@@ -1,78 +1,53 @@
-import { Dispatch, useEffect, useState } from "react";
 import Container from "../container";
-import { toast } from "react-hot-toast";
-import Button from "../button";
 import H3 from "../headings/h3";
 
 interface Props {
-  action?: () => any;
-  setVisibility: Dispatch<boolean>;
   message: string;
-  visible: boolean;
+  id: string;
+  action: (data: FormData) => Promise<any>;
 }
 
-export default function ApproveModal({
-  action,
-  setVisibility,
-  message,
-  visible,
-}: Props) {
-  const [performingAction, setPerformingAction] = useState(false);
-
-  const handleAction = async () => {
-    if (performingAction) return;
-    if (!action) return;
-    setPerformingAction(true);
-    try {
-      await action();
-    } catch (error) {
-      toast.dismiss();
-      toast.error("coś poszło nie tak");
-    } finally {
-      setPerformingAction(false);
-      setVisibility(false);
-    }
-  };
-
-  useEffect(() => {
-    document.body.style.overflow = visible ? "hidden" : "auto";
-
-    // Clean up the effect by restoring the overflow property when the component unmounts
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [visible]);
-
+export default function ApproveModal({ action, message, id }: Props) {
   return (
-    <div
-      className="fixed inset-0 px-4 text-base bg-black bg-opacity-50 justify-center items-center"
-      style={{ display: `${visible ? "flex" : "none"}` }}
-    >
-      <Container
-        className="p-8 flex flex-col items-center gap-8"
-        opacity="full"
+    <>
+      <input
+        type="checkbox"
+        id={id}
+        className="modal-toggle"
+      />
+      <label
+        htmlFor={id}
+        className="modal cursor-pointer"
       >
-        <H3>{message}</H3>
-        <section className="flex justify-evenly w-full">
-          <Button
-            variant="ghost"
-            type="button"
-            onClick={handleAction}
-            disabled={performingAction}
-            className="text-white w-28"
+        <label
+          className="modal-box relative"
+          htmlFor=""
+        >
+          <Container
+            className="p-8 flex flex-col items-center gap-8 w-full"
+            opacity="full"
           >
-            zatwierdź
-          </Button>
-          <Button
-            type="button"
-            onClick={setVisibility.bind(null, false)}
-            disabled={performingAction}
-            className="w-28"
-          >
-            anuluj
-          </Button>
-        </section>
-      </Container>
-    </div>
+            <H3>{message}</H3>
+            <form
+              action={action}
+              className="flex justify-evenly w-full"
+            >
+              <button
+                type="submit"
+                className="btn btn-outline btn-accent btn-sm w-28"
+              >
+                zatwierdź
+              </button>
+              <label
+                htmlFor={id}
+                className="w-28 btn btn-sm"
+              >
+                anuluj
+              </label>
+            </form>
+          </Container>
+        </label>
+      </label>
+    </>
   );
 }

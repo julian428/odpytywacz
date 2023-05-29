@@ -8,7 +8,7 @@ export default function Message() {
   const sendMessage = async (data: FormData) => {
     "use server";
 
-    const messageType = data.get("type") as "IDEA" | "MISTAKE" | null;
+    const messageType = data.get("type") as "IDEA" | "FOUND_ERROR" | null;
     const content = data.get("content") as string | null;
 
     if (!content) return;
@@ -21,6 +21,7 @@ export default function Message() {
       await prisma.message.create({
         data: {
           type: messageType || "IDEA",
+          userId: session.user.id || "not-logged-in",
           email: session.user.email || "not-logged-in",
           from: session.user.name || "not-logged-in",
           content: content,

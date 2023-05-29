@@ -1,11 +1,12 @@
 import Question from "@/components/edit-questions/question";
 import QuestionList from "@/components/edit-questions/questionList";
-import Button from "@/components/ui/button";
+import Container from "@/components/ui/container";
 import authOptions from "@/lib/auth";
 import prisma from "@/lib/db";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 interface Props {
   params: { quizId: string };
@@ -19,7 +20,6 @@ async function getQuiz(id: string) {
         id,
       },
       select: {
-        Questions: true,
         contributors: true,
         Owner: {
           select: {
@@ -27,12 +27,13 @@ async function getQuiz(id: string) {
             name: true,
           },
         },
-        title: true,
       },
     });
 
     return quiz;
-  } catch (error) {}
+  } catch (error) {
+    return null;
+  }
 }
 
 export default async function page({ params, searchParams }: Props) {
@@ -52,22 +53,35 @@ export default async function page({ params, searchParams }: Props) {
       <Question
         quizId={params.quizId}
         questionId={searchParams.q}
-        questions={quiz.Questions}
       />
-      <QuestionList
-        owner={quiz.Owner.name}
-        title={quiz.title}
-        questions={quiz.Questions}
-        qid={params.quizId}
-      />
+      <Suspense
+        fallback={
+          <section className="flex flex-col items-end gap-4 w-full lg:w-fit">
+            <header className="lg:flex lg:flex-col lg:items-end hidden">
+              <div className="bg-white opacity-50 animate-pulse w-96 h-16 mb-2 rounded-2xl" />
+              <div className="bg-white opacity-10 animate-pulse w-24 h-4 rounded-2xl" />
+            </header>
+            <Container className="w-full lg:w-[1000px] h-96 max-h-full animate-pulse lg:h-[650px] p-4" />
+          </section>
+        }
+      >
+        {/* @ts-expect-error Async Server Component*/}
+        <QuestionList qid={params.quizId} />
+      </Suspense>
       <footer className="lg:absolute lg:bottom-4 flex gap-4">
         {quiz.Owner.id === session.user?.id && (
-          <Link href={`/quizes/${params.quizId}/edit`}>
-            <Button className="px-8">wróć</Button>
+          <Link
+            className="btn px-4 btn-sm"
+            href={`/quizes/${params.quizId}/edit`}
+          >
+            wróć
           </Link>
         )}
-        <Link href={`/quizes/${params.quizId}/ocr`}>
-          <Button className="px-8">foto</Button>
+        <Link
+          className="btn btn-sm px-4"
+          href={`/quizes/${params.quizId}/ocr`}
+        >
+          foto
         </Link>
       </footer>
     </article>

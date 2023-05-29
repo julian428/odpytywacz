@@ -22,9 +22,16 @@ enum UserType {
 enum MessageType {
   MESSAGE
   IDEA
-  MISTAKE
+  FOUND_ERROR
   REPORT
   ERROR
+}
+
+enum MessageStatus {
+  NEW
+  READ
+  ARCHIVED
+  IMPORTANT
 }
 
 model User {
@@ -88,10 +95,12 @@ model UserQuizStats {
 }
 
 model Message {
-  id        String      @id @default(uuid())
+  id        String        @id @default(uuid())
+  userId    String
   from      String
   email     String
-  type      MessageType @default(MESSAGE)
+  type      MessageType   @default(MESSAGE)
+  status    MessageStatus @default(NEW)
   content   String
-  createdAt DateTime    @default(now())
+  createdAt DateTime      @default(now())
 }

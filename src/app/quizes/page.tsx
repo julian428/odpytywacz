@@ -33,7 +33,7 @@ export default function page({ searchParams }: Props) {
         </Link>
       </div>
       {/* quizes */}
-      <section className="flex flex-col lg:flex-row lg:flex-wrap gap-8 justify-between content-start w-4/5">
+      <section className="flex flex-col lg:flex-row lg:flex-wrap gap-[5%] gap-y-8 content-start w-4/5">
         {[...new Array(9)].map((_, i) => (
           <Suspense
             key={`quiz${i}`}

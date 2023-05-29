@@ -1,40 +1,26 @@
-"use client";
-
 import Container from "@/components/ui/container";
 import H3 from "@/components/ui/headings/h3";
 import H4 from "@/components/ui/headings/h4";
 import { EditIcon } from "@/lib/icons";
-import { getTimeAgo, getTimeUpdateFrequency } from "@/lib/utils";
-import { Question } from "@prisma/client";
+import { getTimeAgo } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 interface Props {
   qid: string;
-  question: Question;
+  question: {
+    id: string;
+    question: string;
+    answears: string[];
+    createdAt: Date;
+  };
 }
 
 export default function QuestionLink({ qid, question }: Props) {
-  const [timeAgo, setTimeAgo] = useState(
-    getTimeAgo(new Date(question.createdAt).getTime())
-  );
-
-  useEffect(() => {
-    const updateFrequency = getTimeUpdateFrequency(
-      new Date(question.createdAt).getTime()
-    );
-
-    if (!updateFrequency) return;
-    const timeUpdater = setInterval(() => {
-      setTimeAgo(getTimeAgo(new Date(question.createdAt).getTime()));
-    }, updateFrequency);
-
-    return () => clearInterval(timeUpdater);
-  }, [question.createdAt]);
+  const timeAgo = getTimeAgo(new Date(question.createdAt).getTime());
 
   return (
     <Link
-      className="w-full flex-grow lg:w-[30%] h-fit"
+      className="w-full lg:w-[32%] h-fit"
       href={`/quizes/${qid}/questions?q=${question.id}`}
     >
       <Container
