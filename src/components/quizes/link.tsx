@@ -22,6 +22,11 @@ async function getQuiz(skip: number, filter: string) {
         title: true,
         topic: true,
         description: true,
+        Owner: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
@@ -43,12 +48,15 @@ export default async function QuizLink({ index, page, filter }: Props) {
         href={`quizes/${quiz.id}`}
         className="w-[25%]"
       >
-        <aside className="flex gap-2 items-end">
+        <aside className="flex gap-2 items-start justify-between">
           <H3>{quiz.title}</H3>
-          <p className="opacity-30 text-xs">{quiz.topic}</p>
+          <p className="opacity-50 text-xs">{quiz.topic}</p>
         </aside>
         <aside className="w-[80%] break-words h-24 overflow-y-auto">
           {quiz.description}
+        </aside>
+        <aside className="flex justify-end">
+          <p className="opacity-50 text-xs">{quiz.Owner.name}</p>
         </aside>
       </Link>
     </Container>
