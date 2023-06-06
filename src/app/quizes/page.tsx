@@ -19,14 +19,14 @@ export default function page({ searchParams }: Props) {
       {/* pagination */}
       <div className="btn-group">
         <Link
-          href={`/quizes?p=${currentPage - 1}&f=${searchParams.f}`}
+          href={`/quizes?p=${currentPage - 1}&f=${searchParams.f || ""}`}
           className={`btn ${currentPage <= 0 && "btn-disabled"}`}
         >
           «
         </Link>
         <button className="btn">strona {currentPage + 1}</button>
         <Link
-          href={`/quizes?p=${currentPage + 1}&f=${searchParams.f}`}
+          href={`/quizes?p=${currentPage + 1}&f=${searchParams.f || ""}`}
           className="btn"
         >
           »
