@@ -15,6 +15,8 @@ export default async function Profile() {
     initials = first + last;
   }
 
+  const loggedIn = Boolean(session?.user);
+
   return (
     <div className="dropdown dropdown-end">
       <label
@@ -29,14 +31,14 @@ export default async function Profile() {
         tabIndex={0}
         className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
       >
-        <li>
-          <Link href="/dashboard">panel</Link>
+        <li className={!loggedIn ? "disabled" : ""}>
+          {loggedIn ? <Link href="/dashboard">panel</Link> : <div>panel</div>}
+        </li>
+        <li className={!loggedIn ? "disabled" : ""}>
+          {loggedIn ? <Link href="/profile">profil</Link> : <div>profil</div>}
         </li>
         <li>
-          <Link href="/profile">profil</Link>
-        </li>
-        <li>
-          <GoogleSignInButton isLoggedIn={Boolean(session?.user)} />
+          <GoogleSignInButton isLoggedIn={loggedIn} />
         </li>
       </ul>
     </div>
