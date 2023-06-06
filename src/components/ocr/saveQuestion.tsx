@@ -75,7 +75,7 @@ export default function SaveQuestion({ qid }: Props) {
       <Container className="w-full space-y-4 p-4">
         <section className="space-y-4 text-right">
           <header className="flex items-end justify-end w-full gap-2">
-            <p className="text-sm opacity-50">max 20 znakóws</p>
+            <p className="text-sm opacity-50">max 20 znaków</p>
             <H3>pytanie</H3>
           </header>
           <div className="relative">
@@ -98,7 +98,7 @@ export default function SaveQuestion({ qid }: Props) {
         <section className="flex flex-col gap-4">
           <header className="flex items-end gap-2">
             <H3>odpowiedzi</H3>
-            <p className="text-sm opacity-50">max 20 znakóws</p>
+            <p className="text-sm opacity-50">max 20 znaków</p>
           </header>
           <div className="relative">
             <Input

@@ -16,16 +16,19 @@ export default function Footer({ qid }: Props) {
   };
 
   return (
-    <footer className="flex justify-evenly mt-8 pb-4">
-      <Link href={`/quizes/${qid}/questions`}>
-        <Button className="px-6">wróć</Button>
+    <footer className="flex justify-center gap-4 mt-8 pb-4">
+      <Link
+        href={`/quizes/${qid}/questions`}
+        className="px-6 w-24 btn btn-sm"
+      >
+        wróć
       </Link>
-      <Button
+      <button
         onClick={clearWords}
-        className="px-6"
+        className="px-6 w-24 btn btn-sm"
       >
         wyczyść
-      </Button>
+      </button>
     </footer>
   );
 }
