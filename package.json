@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.14.1",
+    "@react-hooks-library/core": "^0.5.1",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
