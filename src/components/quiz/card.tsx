@@ -47,6 +47,7 @@ export default async function Card({
         />
         <CardInput
           key={"question" + question.id}
+          quizLength={questions.length}
           serverQuestion={question}
         />
         <div className="divider" />

@@ -2,12 +2,14 @@
 
 import { useQuestion } from "@/providers/question";
 import { useSessionStorage } from "@react-hooks-library/core";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 export default function CardInput({
+  quizLength,
   serverQuestion,
 }: {
+  quizLength: number;
   serverQuestion: {
     id: string;
     question: string;
@@ -15,6 +17,8 @@ export default function CardInput({
   };
 }) {
   const url = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const maxAnswearLength = serverQuestion.answears.reduce((max, answear) => {
     if (max > answear.length) return max;
     return answear.length;
@@ -29,6 +33,7 @@ export default function CardInput({
 
   useEffect(() => {
     if (!inputRef.current) return;
+    inputRef.current.focus();
     inputRef.current.value = sessionQuestion.answear;
     inputRef.current.disabled = sessionQuestion.tempCorrect || false;
     inputRef.current.style.borderColor =
@@ -62,6 +67,10 @@ export default function CardInput({
           answear,
           tempCorrect: true,
         });
+      }
+      const currentPage = parseInt(searchParams.get("q") || "0");
+      if (currentPage < quizLength) {
+        router.push(`${url}?q=${currentPage + 1}`);
       }
     } else if (answear.length >= maxAnswearLength) {
       inputRef.current.style.borderColor = "red";

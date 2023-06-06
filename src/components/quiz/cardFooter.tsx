@@ -22,7 +22,6 @@ export default function CardFooter({ question, questions }: Props) {
   const checkRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const url = usePathname();
-  const searchParams = useSearchParams();
   const session = useSession();
   const qid = url.split("/")[2];
   const [points, setPoints] = useSessionStorage(`points-${qid}`, 0);
@@ -39,7 +38,8 @@ export default function CardFooter({ question, questions }: Props) {
 
   useEffect(() => {
     if (helpRef.current) {
-      helpRef.current.disabled = sessionQuestion.helped;
+      helpRef.current.disabled =
+        sessionQuestion.helped || sessionQuestion.tempCorrect || false;
     }
     if (checkRef.current) {
       checkRef.current.disabled = sessionQuestion.tempCorrect || false;
@@ -57,8 +57,6 @@ export default function CardFooter({ question, questions }: Props) {
   const check = () => {
     if (sessionQuestion.correct) return;
     setSessionQuestion({ correct: false, tempCorrect: false });
-    const currentPage = parseInt(searchParams.get("q") || "0");
-    router.push(`${url}?q=${currentPage + 1}`);
   };
 
   //? returns all question ids that were wrong

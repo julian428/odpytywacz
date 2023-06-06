@@ -17,7 +17,12 @@ export default function CardAnswear({ answears }: Props) {
     <div
       className={`badge badge-error ${showAnswear() ? "scale-100" : "scale-0"}`}
     >
-      {answears}
+      {answears.map((answear, i) => {
+        if (answear) {
+          if (answears[i + 1] !== "") return answear + ", ";
+          return answear;
+        }
+      })}
     </div>
   );
 }
