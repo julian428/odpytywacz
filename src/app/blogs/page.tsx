@@ -43,7 +43,7 @@ export default async function page({ searchParams }: Props) {
           >
             {/* @ts-expect-error Async Server Component*/}
             <BlogLink
-              skip={i}
+              skip={currentPage * 9 + i}
               filter={searchParams.f}
             />
           </Suspense>
