@@ -24,6 +24,10 @@ export default withAuth(
       return NextResponse.redirect(new URL("/quizes", req.url));
     }
 
+    if (pathname.startsWith("/blogs") && !isAuth) {
+      return NextResponse.redirect(new URL("/blogs", req.url));
+    }
+
     return NextResponse.next();
   },
   {
@@ -41,5 +45,6 @@ export const config = {
     "/quizes/:path*/edit",
     "/quizes/:path*/ocr",
     "/quizes/:path*/questions",
+    "/blogs/:path*/edit",
   ],
 };

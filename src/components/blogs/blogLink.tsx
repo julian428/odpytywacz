@@ -36,7 +36,7 @@ export default async function BlogLink({ skip, filter }: Props) {
   if (!blog) return;
   const Content = (
     <Link
-      className="w-full h-full flex flex-col justify-between z-20"
+      className="w-full h-full flex flex-col justify-between"
       href={`/blogs/${blog.id}`}
     >
       <article className="w-full">
@@ -68,7 +68,7 @@ export default async function BlogLink({ skip, filter }: Props) {
           <Image
             src={blog.coverPhoto}
             alt="cover"
-            className="opacity-10 rounded-2xl"
+            className="opacity-10 rounded-2xl hover:opacity-100 duration-700"
             fill
             objectFit="cover"
           />
