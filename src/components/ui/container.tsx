@@ -11,6 +11,7 @@ const containerVariants = cva(defaultStyles, {
       "solid-light": "bg-color4",
       "solid-normal": "bg-color3",
       "solid-dark": "bg-color2",
+      "solid-very-dark": "bg-color1",
       "gradient-normal": "bg-gradient-to-r from-color3 to-color4",
       "gradient-dark": "bg-gradient-to-tr from-color1 to-color2 text-white",
     },

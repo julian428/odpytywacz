@@ -14,7 +14,7 @@ export default function QuizDashboard({ filter }: Props) {
       <QuizDashboardHeader />
       <Container
         variant="solid-light"
-        className="w-full lg:w-[400px] h-80 lg:h-[650px] flex flex-col items-center py-4 px-8"
+        className="w-full lg:w-[400px] h-80 lg:h-[600px] flex flex-col items-center py-4 px-8"
       >
         <form className="mb-4 relative">
           <div className="form-control">

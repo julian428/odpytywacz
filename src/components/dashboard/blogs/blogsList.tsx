@@ -1,28 +1,58 @@
 import Container from "@/components/ui/container";
-import { SearchIcon } from "@/lib/icons";
+import H3 from "@/components/ui/headings/h3";
+import authOptions from "@/lib/auth";
+import prisma from "@/lib/db";
+import { EditIcon } from "@/lib/icons";
+import Link from "next/link";
 
-export default function BlogsList() {
+interface Props {
+  filter?: string;
+}
+
+async function getUserBlogs(filter?: string) {
+  const getServerSession = (await import("next-auth")).getServerSession;
+  const session = await getServerSession(authOptions);
+  try {
+    const blogs = await prisma.blog.findMany({
+      where: {
+        AND: [
+          { ownerId: session?.user?.id || "" },
+          { title: { contains: filter || "" } },
+        ],
+      },
+      select: {
+        id: true,
+        title: true,
+      },
+    });
+    return blogs;
+  } catch (error) {
+    return [];
+  }
+}
+
+export default async function BlogsList({ filter }: Props) {
+  const blogs = await getUserBlogs(filter);
   return (
-    <Container
-      className="w-full h-80 lg:h-[650px] flex flex-col items-center py-4 px-8"
-      variant="solid-normal"
-    >
-      <form className="mb-4 relative">
-        <div className="form-control">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="wyszukaj…"
-              name="b"
-              autoComplete="off"
-              className="input bg-neutral focus:ring-0"
-            />
-            <button className="btn btn-square bg-neutral text-2xl">
-              <SearchIcon />
-            </button>
-          </div>
-        </div>
-      </form>
-    </Container>
+    <section className="max-h-full pt-6 overflow-y-auto w-full flex flex-col items-center space-y-8">
+      {blogs.map((blog) => (
+        <Link
+          key={"blog" + blog.id}
+          className="w-full"
+          href={`/blogs/${blog.id}/edit`}
+        >
+          <Container
+            variant="solid-normal"
+            opacity="full"
+            className="w-full py-6 px-4 flex justify-between items-center"
+          >
+            <section className="w-4/5 relative">
+              <H3>{blog.title}</H3>
+            </section>
+            <EditIcon className="text-4xl" />
+          </Container>
+        </Link>
+      ))}
+    </section>
   );
 }

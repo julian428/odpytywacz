@@ -46,6 +46,7 @@ model User {
   type      UserType @default(USER)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+  Blogs     Blog[]
 }
 
 model FriendRequest {
@@ -104,4 +105,17 @@ model Message {
   status    MessageStatus @default(NEW)
   content   String
   createdAt DateTime      @default(now())
+}
+
+model Blog {
+  id          String   @id @default(uuid())
+  title       String   @default("Nowy blog")
+  topic       String   @default("Brak tematu")
+  description String?  @default("opis blogu")
+  ownerId     String
+  Owner       User     @relation(fields: [ownerId], references: [id])
+  likes       Int      @default(0)
+  coverPhoto  String?
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
 }

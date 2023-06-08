@@ -9,8 +9,9 @@
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #003558;
+    background-color: inherit;
     cursor: grab;
+    border-radius: 20px;
   }
 
   ::-webkit-scrollbar-thumb {
