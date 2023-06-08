@@ -68,7 +68,7 @@ export default async function BlogLink({ skip, filter }: Props) {
           <Image
             src={blog.coverPhoto}
             alt="cover"
-            className="opacity-10 rounded-2xl hover:opacity-100 duration-700"
+            className="opacity-10 z-10 rounded-2xl hover:opacity-100 duration-700 hover:bg-1/2"
             fill
             objectFit="cover"
           />
