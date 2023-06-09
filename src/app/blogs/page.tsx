@@ -57,7 +57,10 @@ export default async function page({ searchParams }: Props) {
       {/* blogs */}
       <section className="flex flex-col lg:flex-row lg:flex-wrap gap-[5%] gap-y-8 content-start w-4/5">
         {blogs.map((blog) => (
-          <BlogLink blog={blog} />
+          <BlogLink
+            key={blog.id}
+            blog={blog}
+          />
         ))}
       </section>
     </article>
