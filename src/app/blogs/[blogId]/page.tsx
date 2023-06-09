@@ -1,3 +1,4 @@
+import prisma from "@/lib/db";
 import axios from "axios";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Suspense } from "react";
@@ -6,6 +7,18 @@ interface Props {
   params: {
     blogId: string;
   };
+}
+
+async function getAccent(id: string) {
+  try {
+    const blog = await prisma.blog.findUnique({
+      where: { id },
+      select: { accent: true },
+    });
+    return blog?.accent;
+  } catch (error) {
+    return null;
+  }
 }
 
 export default async function page({ params }: Props) {

@@ -112,6 +112,7 @@ model Blog {
   title       String   @default("Nowy blog")
   topic       String   @default("Brak tematu")
   description String?  @default("opis blogu")
+  accent      String?
   ownerId     String
   Owner       User     @relation(fields: [ownerId], references: [id])
   likes       Int      @default(0)

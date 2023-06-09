@@ -22,6 +22,7 @@ async function getBlogs(skip: number, filter?: string) {
         topic: true,
         description: true,
         coverPhoto: true,
+        accent: true,
         Owner: { select: { name: true } },
       },
     });

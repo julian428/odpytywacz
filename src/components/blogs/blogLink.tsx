@@ -11,6 +11,7 @@ interface Props {
     topic: string;
     description: string | null;
     coverPhoto: string | null;
+    accent: string | null;
     Owner: {
       name: string;
     };
@@ -47,7 +48,8 @@ export default function BlogLink({ blog }: Props) {
       ) : (
         <Link
           href={`/blogs/${blog.id}`}
-          className="lg:w-[30%] h-[160px] w-full p-6 relative bg-black bg-opacity-50 rounded-2xl text-white hover:scale-[99%] duration-700"
+          style={{ backgroundColor: (blog.accent || "#000000") + "80" }}
+          className="lg:w-[30%] h-[160px] w-full p-6 relative rounded-2xl text-white hover:scale-[99%] duration-700"
         >
           <Image
             src={blog.coverPhoto}
