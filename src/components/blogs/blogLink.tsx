@@ -5,35 +5,19 @@ import H3 from "../ui/headings/h3";
 import Image from "next/image";
 
 interface Props {
-  skip: number;
-  filter?: string;
+  blog: {
+    id: string;
+    title: string;
+    topic: string;
+    description: string | null;
+    coverPhoto: string | null;
+    Owner: {
+      name: string;
+    };
+  };
 }
 
-async function getBlog(skip: number, filter?: string) {
-  try {
-    const blog = await prisma.blog.findFirst({
-      skip,
-      take: 1,
-      orderBy: { likes: "desc" },
-      where: { title: { contains: filter } },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        topic: true,
-        coverPhoto: true,
-        Owner: { select: { name: true } },
-      },
-    });
-    return blog;
-  } catch (error) {
-    return null;
-  }
-}
-
-export default async function BlogLink({ skip, filter }: Props) {
-  const blog = await getBlog(skip, filter);
-  if (!blog) return;
+export default function BlogLink({ blog }: Props) {
   const Content = (
     <Link
       className="w-full h-full flex flex-col justify-between"
