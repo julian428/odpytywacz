@@ -32,9 +32,14 @@ export default function AddQuiz() {
       action={createQuiz}
       method="post"
     >
-      <SubmitToast message="Dodano quiz">
-        <AddIcon className="w-14 h-14 text-color2" />
-      </SubmitToast>
+      <div
+        className="tooltip tooltip-left"
+        data-tip="dodaj quiz"
+      >
+        <SubmitToast message="Dodano quiz">
+          <AddIcon className="w-14 h-14 text-color2" />
+        </SubmitToast>
+      </div>
     </form>
   );
 }

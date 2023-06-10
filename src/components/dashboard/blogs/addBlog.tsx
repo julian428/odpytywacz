@@ -20,9 +20,14 @@ export default function AddBlog() {
 
   return (
     <form action={createBlog}>
-      <SubmitToast message="dodano blog">
-        <AddIcon className="w-14 h-14 text-color1" />
-      </SubmitToast>
+      <div
+        className="tooltip tooltip-left tooltip-secondary"
+        data-tip="dodaj blog"
+      >
+        <SubmitToast message="dodano blog">
+          <AddIcon className="w-14 h-14 text-color1" />
+        </SubmitToast>
+      </div>
     </form>
   );
 }
