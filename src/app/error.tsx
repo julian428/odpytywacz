@@ -8,7 +8,7 @@ interface Props {
 
 export default function error({ error }: Props) {
   return (
-    <article className="flex flex-col items-center gap-16 mt-32 w-screen">
+    <article className="flex flex-col items-center gap-16 mt-32 w-4/5 mx-auto">
       <Image
         width={100}
         height={100}

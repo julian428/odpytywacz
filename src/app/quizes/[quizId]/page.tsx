@@ -45,8 +45,7 @@ async function getQuestions(id: string) {
 export default async function page({ params, searchParams }: Props) {
   const quiz = await getQuestions(params.quizId);
   if (!quiz) {
-    (await import("next/navigation")).notFound();
-    return;
+    return <p>Ten quiz nie istnieje.</p>;
   }
 
   const currentQuestion = parseInt(searchParams.q || "0");

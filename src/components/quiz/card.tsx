@@ -31,8 +31,7 @@ export default async function Card({
 }) {
   const question = await getQuestion(id);
   if (!question) {
-    (await import("next/navigation")).notFound();
-    return;
+    throw new Error("Ten quiz nie ma żadnych pytań.");
   }
   return (
     <Container className="p-8 flex flex-col items-center gap-8 lg:w-2/5 w-full">
