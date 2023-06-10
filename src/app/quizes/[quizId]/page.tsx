@@ -3,6 +3,7 @@ import H1 from "@/components/ui/headings/h1";
 import H3 from "@/components/ui/headings/h3";
 import prisma from "@/lib/db";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 interface Props {
@@ -45,10 +46,22 @@ async function getQuestions(id: string) {
 export default async function page({ params, searchParams }: Props) {
   const quiz = await getQuestions(params.quizId);
   if (!quiz) {
-    return <p>Ten quiz nie istnieje.</p>;
+    throw new Error("Ten quiz nie istnieje.");
+  }
+
+  if (quiz.questions.length < 1) {
+    throw new Error("Ten quiz nie ma żadnych pytań.");
   }
 
   const currentQuestion = parseInt(searchParams.q || "0");
+
+  if (currentQuestion < 0) {
+    redirect(`/quizes/${params.quizId}?q=0`);
+  }
+
+  if (currentQuestion > quiz.questions.length - 1) {
+    redirect(`/quizes/${params.quizId}?q=${quiz.questions.length - 1}`);
+  }
 
   return (
     <article className="mt-8 flex flex-col items-center gap-8 px-4">

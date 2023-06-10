@@ -31,7 +31,7 @@ export default async function Card({
 }) {
   const question = await getQuestion(id);
   if (!question) {
-    throw new Error("Ten quiz nie ma żadnych pytań.");
+    throw new Error("Takie pytanie nie istnieje");
   }
   return (
     <Container className="p-8 flex flex-col items-center gap-8 lg:w-2/5 w-full">
