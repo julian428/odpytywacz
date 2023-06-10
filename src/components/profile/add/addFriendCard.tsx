@@ -98,9 +98,14 @@ export default function AddFriendCard({ user, uid }: Props) {
         value={uid}
         name="user"
       />
-      <SubmitToast message="wysłano zaproszenie">
-        <AddPersonIcon className="text-2xl text-accent" />
-      </SubmitToast>
+      <div
+        className="tooltip"
+        data-tip="dodaj znajomego"
+      >
+        <SubmitToast message="wysłano zaproszenie">
+          <AddPersonIcon className="text-2xl text-accent" />
+        </SubmitToast>
+      </div>
     </form>
   );
 }

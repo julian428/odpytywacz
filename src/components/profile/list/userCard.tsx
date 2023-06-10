@@ -1,4 +1,5 @@
 import H3 from "@/components/ui/headings/h3";
+import SubmitToast from "@/components/ui/serverSubmit";
 import prisma from "@/lib/db";
 import { RemovePersonIcon } from "@/lib/icons";
 import { revalidatePath } from "next/cache";
@@ -84,9 +85,17 @@ export default async function UserCard({ fid, uid }: Props) {
         name="user"
         value={uid}
       />
-      <button className="text-accent">
-        <RemovePersonIcon className="text-2xl" />
-      </button>
+      <div
+        className="tooltip"
+        data-tip="usuń znajomego"
+      >
+        <SubmitToast
+          message="usunięto znajomego"
+          className="text-accent"
+        >
+          <RemovePersonIcon className="text-2xl" />
+        </SubmitToast>
+      </div>
     </form>
   );
 }
