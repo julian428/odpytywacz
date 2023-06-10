@@ -36,6 +36,7 @@ export default async function QuizLink({ uid, qid }: Props) {
     <Link
       className="w-full"
       href={`/quizes/${quiz.id}/${uid === quiz.ownerId ? "edit" : "questions"}`}
+      title={quiz.title}
     >
       <Container
         variant="solid-light"

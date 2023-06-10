@@ -40,6 +40,7 @@ export default async function BlogsList({ filter }: Props) {
           key={"blog" + blog.id}
           className="w-full"
           href={`/blogs/${blog.id}/edit`}
+          title={blog.title}
         >
           <Container
             variant="solid-normal"
