@@ -19,7 +19,7 @@ export default async function page({ params }: Props) {
 
   return (
     <article className="p-8 flex justify-center">
-      <div className="prose 2xl:prose-2xl xl:prose-xl lg:prose-lg sm:w-fit max-w-full">
+      <div className="prose 2xl:prose-2xl xl:prose-xl lg:prose-lg sm:w-fit w-full">
         <Suspense>
           {/* @ts-expect-error Async Server Component*/}
           <MDXRemote source={markdown.data} />
