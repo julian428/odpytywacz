@@ -10,12 +10,18 @@ interface Props {
   searchParams: { [index: string]: string };
 }
 
-async function getBlogs(skip: number, filter?: string) {
+async function getBlogs(skip: number, filter: string) {
   try {
     const blogs = await prisma.blog.findMany({
       skip,
       take: 9,
-      where: { title: { contains: filter } },
+      where: {
+        OR: [
+          { title: { contains: filter } },
+          { topic: { contains: filter } },
+          { Owner: { name: { contains: filter } } },
+        ],
+      },
       select: {
         title: true,
         id: true,
@@ -34,7 +40,7 @@ async function getBlogs(skip: number, filter?: string) {
 
 export default async function page({ searchParams }: Props) {
   const currentPage = parseInt(searchParams.p || "0");
-  const blogs = await getBlogs(currentPage * 9, searchParams.f);
+  const blogs = await getBlogs(currentPage * 9, searchParams.f || "");
   if (!blogs) return;
   return (
     <article className="flex flex-col items-center lg:justify-center mt-8 gap-6 lg:gap-12 lg:p-0 p-4">
