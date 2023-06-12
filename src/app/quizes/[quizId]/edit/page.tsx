@@ -15,7 +15,7 @@ interface Props {
 
 export default async function page({ params }: Props) {
   return (
-    <article className="flex flex-col px-4 lg:px-0 lg:flex-row justify-center gap-16 lg:mt-12 pb-4">
+    <article className="flex flex-col px-4 lg:px-0 lg:flex-row justify-center gap-16 lg:mt-8 pb-4">
       <Essentials qid={params.quizId} />
       <section className="space-y-4 lg:space-y-8">
         <Stats qid={params.quizId} />
