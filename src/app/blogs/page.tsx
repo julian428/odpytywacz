@@ -62,7 +62,7 @@ export default async function page({ searchParams }: Props) {
         </Link>
       </div>
       {/* blogs */}
-      <section className="flex flex-col lg:flex-row lg:flex-wrap gap-[5%] gap-y-8 content-start w-4/5">
+      <section className="flex flex-col lg:flex-row lg:flex-wrap gap-[5%] gap-y-8 content-start lg:w-4/5 w-full">
         {blogs.map((blog) => (
           <BlogLink
             key={blog.id}
