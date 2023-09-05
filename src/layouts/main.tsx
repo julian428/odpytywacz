@@ -9,7 +9,8 @@ export default function MainNav() {
       <Script
         strategy="afterInteractive"
         crossOrigin="anonymous"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxx"
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4380127333839117"
       />
       <nav className="flex lg:justify-around justify-between py-4 px-1 items-center">
         <Link href="/">
