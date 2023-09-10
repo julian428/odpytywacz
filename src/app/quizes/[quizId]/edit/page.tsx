@@ -3,8 +3,9 @@ import Essentials from "@/components/edit-quiz/essentials";
 import Questions from "@/components/edit-quiz/questions";
 import Stats from "@/components/edit-quiz/stats";
 import Container from "@/components/ui/container";
+import authOptions from "@/lib/auth";
 import prisma from "@/lib/db";
-import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 
 interface Props {
@@ -13,7 +14,28 @@ interface Props {
   };
 }
 
+async function quizOwner(id: string) {
+  try {
+    const quiz = await prisma.quiz.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      select: {
+        ownerId: true,
+      },
+    });
+    return quiz.ownerId;
+  } catch (error) {
+    return false;
+  }
+}
+
 export default async function page({ params }: Props) {
+  const ownerId = await quizOwner(params.quizId);
+  const session = await getServerSession(authOptions);
+  if (!ownerId || ownerId !== session?.user?.id) {
+    (await import("next/navigation")).redirect(`/quizes/${params.quizId}`);
+  }
   return (
     <article className="flex flex-col px-4 lg:px-0 lg:flex-row justify-center gap-16 lg:mt-8 pb-4">
       <Essentials qid={params.quizId} />
