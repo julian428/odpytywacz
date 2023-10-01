@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer {
+  ::-webkit-scrollbar {
+    width: 10px;
+    transition: 700ms;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: inherit;
+    cursor: grab;
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #80ED99;
+    transition: 700ms;
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #57CC99;
+    transition: 700ms;
+  }
+}

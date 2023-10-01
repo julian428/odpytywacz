@@ -1,0 +1,50 @@
+{
+  "name": "odpytywacz4.1",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mdx-js/loader": "^2.3.0",
+    "@mdx-js/react": "^2.3.0",
+    "@next/mdx": "^13.4.4",
+    "@prisma/client": "^4.14.1",
+    "@react-hooks-library/core": "^0.5.1",
+    "@supabase/supabase-js": "^2.24.0",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/node": "20.2.5",
+    "@types/react": "18.2.7",
+    "@types/react-dom": "18.2.4",
+    "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
+    "daisyui": "^2.51.6",
+    "encoding": "^0.1.13",
+    "eslint": "8.41.0",
+    "eslint-config-next": "13.4.4",
+    "next": "13.4.3",
+    "next-auth": "^4.22.1",
+    "next-mdx-remote": "^4.4.1",
+    "postcss": "8.4.24",
+    "pusher": "^5.1.3",
+    "pusher-js": "^8.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.44.1",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.8.0",
+    "react-markdown": "^8.0.7",
+    "tailwind-merge": "^1.12.0",
+    "tailwindcss": "3.3.2",
+    "tesseract.js": "^4.0.6",
+    "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "prisma": "^4.14.1"
+  }
+}
