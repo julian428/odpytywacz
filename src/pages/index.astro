@@ -1,7 +1,7 @@
 ---
 import Main from "../layouts/main.astro";
 import Quizes from "../layouts/quizes.astro";
-import Card from "../components/ItemCard/card.astro";
+import Card from "../components/card.astro";
 
 const response = await fetch("http://localhost:3000/items");
 const items = await response.json();

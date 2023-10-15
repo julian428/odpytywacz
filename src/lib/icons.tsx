@@ -1,5 +1,5 @@
-export { MdOutlineDashboardCustomize as DashboardIcon } from "react-icons/md";
-export { CgProfile as ProfileIcon } from "react-icons/cg";
-export { ImStatsBars2 as StatsIcon } from "react-icons/im";
-export { AiOutlineSearch as SearchIcon } from "react-icons/ai";
-export { BiFilterAlt as FilterIcon } from "react-icons/bi";
+export { BiSolidDashboard as DashboardIcon } from "solid-icons/bi";
+export { CgProfile as ProfileIcon } from "solid-icons/cg";
+export { ImStatsBars as StatsIcon } from "solid-icons/im";
+export { AiOutlineSearch as SearchIcon } from "solid-icons/ai";
+export { VsListFilter as FilterIcon } from "solid-icons/vs";

@@ -1,0 +1,26 @@
+---
+import Open from "./Open";
+import Closed from "./Closed";
+const { question, index } = Astro.props;
+---
+
+<div class="collapse collapse-plus bg-base-200">
+  <input type="radio" name="questions-accordion" />
+  <div class="collapse-title text-xl flex gap-2">
+    {index}. <div set:html={question.question} />
+  </div>
+  <div class="collapse-content">
+    {
+      question.type == "closed" ? (
+        <Closed
+          answears={question.answears}
+          decoys={question.decoys}
+          show={question.show}
+          client:visible
+        />
+      ) : (
+        <Open answears={question.answears} client:visible />
+      )
+    }
+  </div>
+</div>
