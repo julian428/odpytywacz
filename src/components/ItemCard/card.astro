@@ -12,7 +12,7 @@ const {
   title,
   type,
 } = Astro.props;
-const link = `/playlist/${playlist}/${id != undefined && id}`;
+const link = `/playlist/${playlist}/${id}`;
 const dbAddress = import.meta.env.PB_LOCATION;
 const coverLink = `${dbAddress}/api/files/${collectionId}/${id}/${cover}`;
 ---
