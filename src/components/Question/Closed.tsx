@@ -35,12 +35,13 @@ export default function Closed({ answears, decoys, show }: Props) {
     const input = event.target as HTMLInputElement;
     const label = document.getElementById(input.value + answears);
     if (parsedAnswears.includes(input.value)) {
-      console.log("correct");
-      label && (label.style.color = "green");
-      fieldset.disabled = true;
+      label!.style.color = "green";
+      const currentPoints = parseInt(sessionStorage.getItem("points") || "0");
+      sessionStorage.setItem("points", "" + (currentPoints + 1));
     } else {
-      console.log("wrong");
+      label!.style.color = "red";
     }
+    fieldset.disabled = true;
   };
 
   return (

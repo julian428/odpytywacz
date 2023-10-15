@@ -4,11 +4,13 @@ export default function Open({ answears }: { answears: string }) {
   const checkInput = (event: any) => {
     const input = event.target as HTMLInputElement;
     if (parsedAnswears.includes(input.value)) {
-      input.disabled = true;
+      const currentPoints = parseInt(sessionStorage.getItem("points") || "0");
+      sessionStorage.setItem("points", "" + (currentPoints + 1));
       input.style.borderColor = "green";
     } else {
       input.style.borderColor = "red";
     }
+    input.disabled = true;
   };
 
   return (
