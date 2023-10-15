@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "odpytywacz",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,6 +10,19 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^3.2.0"
+    "@astrojs/react": "^3.0.3",
+    "@astrojs/tailwind": "^5.0.0",
+    "@types/react": "^18.2.25",
+    "@types/react-dom": "^18.2.11",
+    "astro": "^3.2.0",
+    "astro-icon": "^0.8.1",
+    "pocketbase": "^0.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "tailwindcss": "^3.3.3"
+  },
+  "devDependencies": {
+    "daisyui": "^3.8.2"
   }
 }

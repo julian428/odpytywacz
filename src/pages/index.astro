@@ -1,16 +1,16 @@
 ---
+import Main from "../layouts/main.astro";
+import Quizes from "../layouts/quizes.astro";
+import Card from "../components/ItemCard/card.astro";
 
+const response = await fetch("http://localhost:3000/items");
+const items = await response.json();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Main>
+  <Quizes>
+    <main class="flex gap-4 mt-8">
+      {items.map((item: any) => <Card {...item} />)}
+    </main>
+  </Quizes>
+</Main>

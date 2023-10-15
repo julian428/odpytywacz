@@ -1,0 +1,30 @@
+---
+const {
+  collectionId,
+  collectionName,
+  color,
+  content,
+  cover,
+  description,
+  id,
+  owner,
+  playlist,
+  title,
+  type,
+} = Astro.props;
+const link = `/playlist/${playlist}/${id != undefined && id}`;
+const dbAddress = import.meta.env.PB_LOCATION;
+const coverLink = `${dbAddress}/api/files/${collectionId}/${id}/${cover}`;
+---
+
+<a href={link} class="w-96 h-48 relative hover:scale-95 duration-500">
+  {coverLink && <img src={coverLink} alt="" class="rounded-2xl h-full" />}
+  <article
+    style={{ backgroundColor: "#" + color + "AA" }}
+    class="absolute inset-0 p-4 bg-opacity-80 hover:bg-opacity-30 duration-700 rounded-2xl"
+  >
+    <h2>{title}</h2>
+    <p>{description}</p>
+    <div class="badge">{type}</div>
+  </article>
+</a>

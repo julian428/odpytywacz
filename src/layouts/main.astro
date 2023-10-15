@@ -1,0 +1,36 @@
+---
+const { title } = Astro.props;
+import { DashboardIcon, ProfileIcon, StatsIcon } from "../lib/icons";
+---
+
+<html class="bg-color0 text-white p-4">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <title>{title || "Odpytywacz"}</title>
+  </head>
+  <body>
+    <nav class="max-w-6xl m-auto flex justify-between items-center">
+      <a href="/" class="uppercase font-black text-2xl">odpytywacz</a>
+      <ul class="menu menu-horizontal bg-accent rounded-box text-xl">
+        <li>
+          <a href="/dashboard">
+            <DashboardIcon />
+          </a>
+        </li>
+        <li>
+          <a href="/profile">
+            <ProfileIcon />
+          </a>
+        </li>
+        <li>
+          <a href="/statistics">
+            <StatsIcon />
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,15 @@
+---
+import { FilterIcon } from "../lib/icons";
+---
+
+<nav class="flex justify-center w-full gap-4">
+  <input
+    type="text"
+    placeholder="Szukaj"
+    class="input input-bordered input-accent border-2 bg-transparent w-full max-w-xs"
+  />
+  <button class="btn btn-outline btn-accent text-2xl px-3">
+    <FilterIcon />
+  </button>
+</nav>
+<slot />
