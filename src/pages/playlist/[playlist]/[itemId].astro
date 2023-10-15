@@ -1,6 +1,20 @@
 ---
+import type { itemType } from "../../../../types/database";
+import Main from "../../../layouts/main.astro";
 export const prerender = false;
 const { playlist, itemId } = Astro.params;
+const itemRequest = await fetch(`http://localhost:3000/items/${itemId}`);
+const item = (await itemRequest.json()) as itemType;
 ---
 
-<main>{playlist} item {itemId}</main>
+<Main>
+  <main>
+    {
+      item.questions.map((question) => (
+        <div>
+          <div>{question.question}</div>
+        </div>
+      ))
+    }
+  </main>
+</Main>
