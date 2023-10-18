@@ -2,6 +2,7 @@
 import type { itemType } from "../../../../types/database";
 import Question from "../../../components/Question/question.astro";
 import Main from "../../../layouts/main.astro";
+
 export const prerender = false;
 const { playlist, itemId } = Astro.params;
 const api = import.meta.env.API_URL;
@@ -19,7 +20,11 @@ const item = (await itemRequest.json()) as itemType;
     <article class="space-y-4">
       {
         item.questions.map((question, index) => (
-          <Question question={question} index={index + 1} />
+          <Question
+            question={question}
+            index={index + 1}
+            key={"question-" + index}
+          />
         ))
       }
     </article>

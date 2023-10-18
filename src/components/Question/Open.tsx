@@ -16,7 +16,7 @@ export default function Open({ answears }: { answears: string }) {
   return (
     <input
       type="text"
-      class="input input-bordered border-2 input-neutral w-full max-w-xs"
+      className="input input-bordered border-2 input-neutral w-full max-w-xs"
       onChange={checkInput}
     />
   );

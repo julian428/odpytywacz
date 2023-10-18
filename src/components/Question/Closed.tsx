@@ -48,16 +48,16 @@ export default function Closed({ answears, decoys, show }: Props) {
     <form onChange={checkAnswear}>
       {/* @ts-ignore */}
       <fieldset ref={fieldset}>
-        {lineup().map((option: string) => (
-          <div class="form-control">
-            <label class="label cursor-pointer">
-              <span class="label-text" id={option + answears}>
+        {lineup().map((option: string, index) => (
+          <div className="form-control" key={"option-" + index}>
+            <label className="label cursor-pointer">
+              <span className="label-text" id={"option-" + index}>
                 {option}
               </span>
               <input
                 type="radio"
                 name={answears}
-                class="radio checked:bg-accent"
+                className="radio checked:bg-accent"
                 value={option}
               />
             </label>
