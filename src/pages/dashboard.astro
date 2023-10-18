@@ -1,0 +1,21 @@
+---
+import Editor from "../components/Editor/Editor";
+import Main from "../layouts/main.astro";
+---
+
+<Main>
+  <main class="flex flex-col gap-2 justify-center">
+    <div class="collapse collapse-plus bg-base-100">
+      <input type="radio" name="my-accordion-3" checked="checked" />
+      <div class="collapse-title text-xl font-medium">Article Editor</div>
+      <div class="collapse-content">
+        <Editor content="" client:only="react" />
+      </div>
+    </div>
+    <div class="collapse collapse-plus bg-base-100">
+      <input type="radio" name="my-accordion-3" />
+      <div class="collapse-title text-xl font-medium">Question Editor</div>
+      <div class="collapse-content">questions</div>
+    </div>
+  </main>
+</Main>

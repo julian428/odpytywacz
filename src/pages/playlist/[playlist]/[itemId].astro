@@ -13,6 +13,8 @@ const item = (await itemRequest.json()) as itemType;
     <script>
       sessionStorage.setItem("points", "0");
     </script>
+    <article class="prose" set:html={item.content} />
+    {item.content && item.questions.length > 0 && <div class="divider" />}
     <article class="space-y-4">
       {
         item.questions.map((question, index) => (

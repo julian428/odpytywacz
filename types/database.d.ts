@@ -25,6 +25,5 @@ export interface itemType {
     owner: string
     playlist: string
     title: string
-    type: "quiz" | "article"
     updated: string
 }

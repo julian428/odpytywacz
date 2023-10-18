@@ -2,14 +2,20 @@
 import Main from "../layouts/main.astro";
 import Quizes from "../layouts/quizes.astro";
 import Card from "../components/card.astro";
+import type { itemType } from "../../types/database";
 
-const response = await fetch("http://localhost:3000/items");
-const items = await response.json();
+let items: itemType[] = [];
+try {
+  const response = await fetch("http://localhost:3000/items");
+  items = await response.json();
+} catch (error) {
+  console.log("Coulden't fetch data");
+}
 ---
 
 <Main>
   <Quizes>
-    <main class="flex gap-4 mt-8">
+    <main class="flex gap-4 mt-8 flex-wrap">
       {items.map((item: any) => <Card {...item} />)}
     </main>
   </Quizes>
