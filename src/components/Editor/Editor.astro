@@ -1,0 +1,28 @@
+<div class="prose prose-2xl w-full">
+  <div id="editor"></div>
+  <div id="loadingEditor" class="text-center">loading...</div>
+</div>
+<button id="save" class="btn btn-xs btn-accent w-fit px-4">save</button>
+<script>
+  import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+  window.onload = () => {
+    const editorElement = document.querySelector("#editor") as HTMLElement;
+    const loadState = document.querySelector("#loadingEditor") as HTMLElement;
+
+    let editor: ClassicEditor;
+
+    ClassicEditor.create(editorElement)
+      .then((newEditor) => {
+        editor = newEditor;
+        loadState.remove();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    document.querySelector("#save")?.addEventListener("click", () => {
+      console.log(editor.getData());
+    });
+  };
+</script>

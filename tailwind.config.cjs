@@ -10,6 +10,14 @@ module.exports = {
         color3: "#80ED99",
         color4: "#C7F9CC",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: "#000",
+            maxWidth: "100vw",
+          },
+        },
+      },
     },
     daisyui: {
       themes: [

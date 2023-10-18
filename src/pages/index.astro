@@ -9,14 +9,18 @@ try {
   const response = await fetch("http://localhost:3000/items");
   items = await response.json();
 } catch (error) {
-  console.log("Coulden't fetch data");
+  console.log("Couldn't fetch data");
 }
 ---
 
 <Main>
   <Quizes>
     <main class="flex gap-4 mt-8 flex-wrap">
-      {items.map((item: any) => <Card {...item} />)}
+      {
+        items.map((item: any, index) => (
+          <Card {...item} key={"card-" + index} />
+        ))
+      }
     </main>
   </Quizes>
 </Main>
