@@ -5,8 +5,9 @@ import Card from "../components/card.astro";
 import type { itemType } from "../../types/database";
 
 let items: itemType[] = [];
+const api = import.meta.env.API_URL;
 try {
-  const response = await fetch("http://localhost:3000/items");
+  const response = await fetch(`${api}/api/items.json`);
   items = await response.json();
 } catch (error) {
   console.log("Couldn't fetch data");

@@ -4,7 +4,8 @@ import Question from "../../../components/Question/question.astro";
 import Main from "../../../layouts/main.astro";
 export const prerender = false;
 const { playlist, itemId } = Astro.params;
-const itemRequest = await fetch(`http://localhost:3000/items/${itemId}`);
+const api = import.meta.env.API_URL;
+const itemRequest = await fetch(`${api}/api/items/${itemId}.json`);
 const item = (await itemRequest.json()) as itemType;
 ---
 
