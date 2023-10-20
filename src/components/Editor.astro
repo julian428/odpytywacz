@@ -1,5 +1,9 @@
+---
+const { content } = Astro.props;
+---
+
 <div class="prose prose-2xl w-full">
-  <div id="editor"></div>
+  <div id="editor" class="hidden" set:html={content} />
   <div id="loadingEditor" class="text-center">loading...</div>
 </div>
 <button id="save" class="btn btn-xs btn-accent w-fit px-4">save</button>

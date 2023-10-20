@@ -1,7 +1,6 @@
 ---
-import Editor from "../components/Editor/Editor.astro";
-import Main from "../layouts/main.astro";
-import FileTree from "../components/FileTree/FileTree.astro";
+import Main from "./main.astro";
+import FileTree from "../components/FileTree.astro";
 ---
 
 <Main>
@@ -10,7 +9,7 @@ import FileTree from "../components/FileTree/FileTree.astro";
       <FileTree />
     </nav>
     <aside class="flex flex-col col-span-5 gap-4 pl-4">
-      <Editor />
+      <slot />
     </aside>
   </main>
 </Main>
