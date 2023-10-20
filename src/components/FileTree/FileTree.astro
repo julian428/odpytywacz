@@ -9,6 +9,9 @@ const items = await axios.get(
 );
 
 const itemsData = items.data;
+
+const questionTemplate =
+  "<li><a href='/dashboard/question/$id$' >$answears$</a></li>";
 ---
 
 <ul class="menu menu-xs bg-base-200 rounded-lg max-w-xs w-full">
@@ -19,18 +22,11 @@ const itemsData = items.data;
           <summary>{item.title}</summary>
           <ul>
             <li>
-              <a
-                hx-trigger="click"
-                hx-get="/api/items.json"
-                hx-target="ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline"
-                hx-swap="innerHTML"
-              >
-                article
-              </a>
+              <a href={`/dashboard/article/${item.id}`}>article</a>
             </li>
             <li
               hx-trigger="mouseover once"
-              hx-get={`/api/questions.json?query=item = "${item.id}"`}
+              hx-get={`/api/questions.json?query=item = "${item.id}"&template=${questionTemplate}`}
               hx-target={"#item-" + index + "-questions"}
             >
               <details>

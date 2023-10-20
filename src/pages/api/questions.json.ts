@@ -4,11 +4,25 @@ const dbAddress = import.meta.env.PB_LOCATION;
 const pb = new PocketBase(dbAddress)
 
 export async function GET({request}:{request: Request}) {
-    let query = new URL(request.url).searchParams.get("query") as string
-    query = query.replaceAll('_and_', '&&')
+    const url = new URL(request.url).searchParams
+    const query = url.get("query")?.replaceAll('_and_', '&&')
     const list = await pb.collection('question').getFullList({
         filter: query
     })
-    const html = list.map((question) => `<li><a href=${question.id+'/question'}>${question.answears}</a></li>`).join().replaceAll(',', '')
-    return new Response(html)
+
+    const template = url.get("template") || ""
+    if(template.length < 1){
+        return new Response(JSON.stringify(list))
+    }
+    
+    let response = ""
+    list.forEach((item) => {
+        let currentString = template
+        Object.keys(item).forEach((key)=>{
+                currentString = currentString.replaceAll("$" + key + "$", item[key])
+        })
+        response += currentString
+    })
+
+    return new Response(response)
 }
