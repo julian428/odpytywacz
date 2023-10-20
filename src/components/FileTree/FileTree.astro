@@ -3,9 +3,9 @@ import axios from "axios";
 import type { itemType } from "../../../types/database";
 
 //! replace the owner id with the logged in user id
-const dbAddress = import.meta.env.API_URL;
+const api = import.meta.env.API_URL;
 const items = await axios.get(
-  `${dbAddress}/api/items.json?query=owner = "i3jpejj5qsvjg5n"`
+  `${api}/api/items.json?query=owner = "i3jpejj5qsvjg5n"`
 );
 
 const itemsData = items.data;
@@ -19,15 +19,23 @@ const itemsData = items.data;
           <summary>{item.title}</summary>
           <ul>
             <li>
-              <a>article</a>
+              <a
+                hx-trigger="click"
+                hx-get="/api/items.json"
+                hx-target="ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline"
+                hx-swap="innerHTML"
+              >
+                article
+              </a>
             </li>
             <li
               hx-trigger="mouseover once"
               hx-get={`/api/questions.json?query=item = "${item.id}"`}
+              hx-target={"#item-" + index + "-questions"}
             >
               <details>
                 <summary>questions</summary>
-                <ul id={"item-" + index + "-question"} />
+                <ul id={"item-" + index + "-questions"} />
               </details>
             </li>
           </ul>
