@@ -1,0 +1,42 @@
+---
+import axios from "axios";
+import { itemType } from "../../../../types/database";
+const origin = import.meta.env.API_URL;
+
+const { url } = Astro.request;
+const newUrl = new URL(url);
+
+let data = [];
+
+try {
+  const items = await axios.get(`${origin}/api/items.json${newUrl.search}`);
+  data = items.data;
+} catch (error) {
+  console.log(error);
+}
+---
+
+{
+  data.map((item: itemType, index: number) => (
+    <li>
+      <details>
+        <summary>{item.title}</summary>
+        <ul>
+          <li>
+            <a href={`/dashboard/article/${item.id}`}>article</a>
+          </li>
+          <li
+            hx-target={`#item-${item.id}-questions`}
+            hx-trigger="mouseover once"
+            hx-get={`/api/filetree/questions?query=item = "${item.id}"`}
+          >
+            <details>
+              <summary>questions</summary>
+              <ul id={`item-${item.id}-questions`} />
+            </details>
+          </li>
+        </ul>
+      </details>
+    </li>
+  ))
+}

@@ -1,40 +1,27 @@
 ---
 import axios from "axios";
-import type { itemType } from "../../types/database";
+import type { itemType, playlistType } from "../../types/database";
+const api = import.meta.env.API_URL;
 
 //! replace the owner id with the logged in user id
-const api = import.meta.env.API_URL;
-const items = await axios.get(
-  `${api}/api/items.json?query=owner = "i3jpejj5qsvjg5n"`
+const playlists = await axios.get(
+  `${api}/api/playlists.json?query=owner = "i3jpejj5qsvjg5n"`
 );
 
-const itemsData = items.data;
-
-const questionTemplate =
-  "<li><a href='/dashboard/question/$id$' >$answears$</a></li>";
+const playlistsData = playlists.data;
 ---
 
 <ul class="menu menu-xs bg-base-200 rounded-lg max-w-xs w-full">
   {
-    itemsData.map((item: itemType, index: number) => (
-      <li>
+    playlistsData.map((playlist: playlistType, index: number) => (
+      <li
+        hx-get={`/api/filetree/items?query=playlist = "${playlist.id}"`}
+        hx-target={"#playlist-" + index + "-items"}
+        hx-trigger="mouseover once"
+      >
         <details>
-          <summary>{item.title}</summary>
-          <ul>
-            <li>
-              <a href={`/dashboard/article/${item.id}`}>article</a>
-            </li>
-            <li
-              hx-trigger="mouseover once"
-              hx-get={`/api/questions.json?query=item = "${item.id}"&template=${questionTemplate}`}
-              hx-target={"#item-" + index + "-questions"}
-            >
-              <details>
-                <summary>questions</summary>
-                <ul id={"item-" + index + "-questions"} />
-              </details>
-            </li>
-          </ul>
+          <summary>{playlist.title}</summary>
+          <ul id={"playlist-" + index + "-items"} />
         </details>
       </li>
     ))

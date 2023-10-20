@@ -27,3 +27,12 @@ export interface itemType {
     title: string
     updated: string
 }
+
+export interface playlistType {
+    id: string
+    created: string
+    updated: string
+    title: string
+    description: string
+    owner: string
+}
