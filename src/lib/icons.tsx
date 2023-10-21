@@ -5,5 +5,7 @@ export {
   AiOutlineSearch as SearchIcon,
   AiFillFolderAdd as CreateFolderIcon,
   AiFillFileAdd as CreateFileIcon,
+  AiFillEdit as EditIcon,
+  AiFillDelete as DeleteIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";

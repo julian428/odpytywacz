@@ -52,3 +52,25 @@ export async function PUT({request}: {request: Request}){
 
     return new Response("saved")
 }
+
+export async function POST({request}: {request: Request}){
+    const data = await request.formData()
+
+    const  type = data.get("type") as string | null
+    const question = data.get("question") as string | null
+    const answears = data.get("answears") as string | null
+    const item = data.get("item") as string | null
+    const owner = data.get("owner") as string | null
+
+    if(!type || !question || !answears || !item || !owner){
+        return new Response("Insufficient data")
+    }
+
+    try {
+        await pb.collection("question").create({type, question, answears, item, owner})
+    } catch (error) {
+        return new Response("Something went wrong")
+    }
+
+    return new Response("created")
+}

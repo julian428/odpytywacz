@@ -1,7 +1,9 @@
 ---
 import axios from "axios";
+import { CreateFolderIcon, EditIcon, DeleteIcon } from "../lib/icons";
 import type { playlistType } from "../../types/database";
 const api = import.meta.env.API_URL;
+const pb = import.meta.env.PB_LOCATION;
 
 //! replace the owner id with the logged in user id
 let playlistsData = [];
@@ -25,17 +27,55 @@ try {
     >
   </li>
   {
-    playlistsData.map((playlist: playlistType, index: number) => (
-      <li
-        hx-get={`/api/filetree/items?query=playlist = "${playlist.id}"`}
-        hx-target={"#playlist-" + index + "-items"}
-        hx-trigger="click once"
-      >
-        <details>
-          <summary>{playlist.title}</summary>
-          <ul id={"playlist-" + index + "-items"} />
-        </details>
-      </li>
-    ))
+    playlistsData.map((playlist: playlistType, index: number) => {
+      const deleteBody = {
+        id: playlist.id,
+      };
+      const postBody = {
+        owner: "i3jpejj5qsvjg5n",
+        title: "New item",
+        playlist: playlist.id,
+      };
+
+      return (
+        <li
+          hx-get={`/api/filetree/items?query=playlist = "${playlist.id}"`}
+          hx-target={"#playlist-" + index + "-items"}
+          hx-trigger="click once"
+          hx-swap="afterend"
+          id={`playlist-${playlist.id}`}
+        >
+          <details>
+            <summary>{playlist.title}</summary>
+            <ul>
+              <li
+                class="menu menu-horizontal p-0 flex items-center"
+                id={"playlist-" + index + "-items"}
+              >
+                <a
+                  hx-post="/api/items.json"
+                  hx-vals={JSON.stringify(postBody)}
+                  hx-swap="none"
+                  class="text-base duration-300 hover:text-success"
+                >
+                  <CreateFolderIcon />
+                </a>
+                <a class="text-base duration-300 hover:text-info">
+                  <EditIcon />
+                </a>
+                <a
+                  hx-delete={`${pb}/api/collections/playlist/records/${playlist.id}`}
+                  hx-swap="delete"
+                  hx-target={`#playlist-${playlist.id}`}
+                  class="text-base duration-300 hover:text-error"
+                >
+                  <DeleteIcon />
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+      );
+    })
   }
 </ul>

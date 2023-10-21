@@ -23,3 +23,16 @@ export async function POST({request}:{request: Request}) {
 
     return new Response("created")
 }
+
+export async function DELETE({request}:{request: Request}) {
+    const data = await request.formData()
+    const id = data.get("id") as string | null
+
+    if(!id){
+        return new Response("No id provided")
+    }
+    
+    await pb.collection('playlist').delete(id)
+
+    return new Response("")
+}

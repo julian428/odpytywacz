@@ -22,6 +22,7 @@ try {
   data.map((question: questionType, index: number) => (
     <li
       hx-target="#dashboard-content"
+      hx-swap="innerHTML"
       hx-get={`/api/dashboard/question?query=id = "${question.id}"`}
     >
       <a>{question.answears}</a>

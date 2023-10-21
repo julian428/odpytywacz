@@ -6,6 +6,7 @@ const { url } = Astro.request;
 const newUrl = new URL(url);
 
 const origin = import.meta.env.API_URL;
+const pb = import.meta.env.PB_LOCATION;
 const question = await axios.get(
   `${origin}/api/questions.json${newUrl.search}`
 );
@@ -15,7 +16,7 @@ const [show, showCorrect] = data.show.split(":");
 ---
 
 <div>
-  <Editor client:only content={data.question} />
+  <Editor client:only content={data.question} saveContent="" />
   <form hx-put="/api/questions.json" hx-swap="none" class="max-w-xs">
     <input type="hidden" name="id" value={data.id} />
     <div class="form-control">
@@ -72,4 +73,8 @@ const [show, showCorrect] = data.show.split(":");
     />
     <button class="btn btn-primary">save</button>
   </form>
+  <button
+    hx-delete={`${pb}/api/collections/question/records/${data.id}`}
+    class="btn btn-error">delete</button
+  >
 </div>
