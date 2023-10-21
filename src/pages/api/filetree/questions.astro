@@ -20,8 +20,11 @@ try {
 
 {
   data.map((question: questionType, index: number) => (
-    <li>
-      <a href="">{question.answears}</a>
+    <li
+      hx-target="#dashboard-content"
+      hx-get={`/api/dashboard/question?query=id = "${question.id}"`}
+    >
+      <a>{question.answears}</a>
     </li>
   ))
 }

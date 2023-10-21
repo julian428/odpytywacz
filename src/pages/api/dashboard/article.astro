@@ -1,0 +1,20 @@
+---
+import axios from "axios";
+import Editor from "../../../components/Editor";
+import type { itemType } from "../../../../types/database";
+const origin = import.meta.env.API_URL;
+
+const { url } = Astro.request;
+const newUrl = new URL(url);
+
+let data: any = {};
+
+try {
+  const res = await axios.get(`${origin}/api/items.json${newUrl.search}`);
+  data = res.data[0] as itemType;
+} catch (error) {
+  console.log(error);
+}
+---
+
+<Editor client:only content={data.content} />

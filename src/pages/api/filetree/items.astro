@@ -1,6 +1,6 @@
 ---
 import axios from "axios";
-import { itemType } from "../../../../types/database";
+import type { itemType } from "../../../../types/database";
 const origin = import.meta.env.API_URL;
 
 const { url } = Astro.request;
@@ -22,8 +22,11 @@ try {
       <details>
         <summary>{item.title}</summary>
         <ul>
-          <li>
-            <a href={`/dashboard/article/${item.id}`}>article</a>
+          <li
+            hx-target="#dashboard-content"
+            hx-get={`/api/dashboard/article?query=id = "${item.id}"`}
+          >
+            <a>article</a>
           </li>
           <li
             hx-target={`#item-${item.id}-questions`}

@@ -26,3 +26,29 @@ export async function GET({request}:{request: Request}) {
 
     return new Response(response)
 }
+
+export async function PUT({request}: {request: Request}){
+    const data = await request.formData()
+
+    const id = data.get("id") as string | null
+    const type = data.get("type")
+    const answears = data.get("answears")
+    const decoys = data.get("decoys")
+    const separated = Boolean(data.get("show")) && Boolean(data.get("correct"))
+    const show = data.get("show") + (separated ? ":" : "") + data.get("correct")
+
+    const updatedData = {type, answears, decoys, show}
+    if(!id){
+        return new Response(JSON.stringify(404))
+    }
+
+
+    try {
+        await pb.collection("question").update(id, updatedData)
+    } catch (error) {
+        console.log(error)
+        return new Response(JSON.stringify(error))
+    }
+
+    return new Response("saved")
+}

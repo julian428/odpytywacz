@@ -1,0 +1,75 @@
+---
+import axios from "axios";
+import Editor from "../../../components/Editor";
+import type { questionType } from "../../../../types/database";
+const { url } = Astro.request;
+const newUrl = new URL(url);
+
+const origin = import.meta.env.API_URL;
+const question = await axios.get(
+  `${origin}/api/questions.json${newUrl.search}`
+);
+
+const data = question.data[0] as questionType;
+const [show, showCorrect] = data.show.split(":");
+---
+
+<div>
+  <Editor client:only content={data.question} />
+  <form hx-put="/api/questions.json" hx-swap="none" class="max-w-xs">
+    <input type="hidden" name="id" value={data.id} />
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">closed</span>
+        <input
+          type="radio"
+          checked={data.type === "closed"}
+          value="closed"
+          name="type"
+          class="radio checked:bg-accent"
+        />
+      </label>
+    </div>
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">open</span>
+        <input
+          type="radio"
+          checked={data.type === "open"}
+          value="open"
+          name="type"
+          class="radio checked:bg-accent"
+        />
+      </label>
+    </div>
+    <input
+      type="text"
+      value={data.answears}
+      name="answears"
+      class="input input-primary"
+    />
+    <input
+      type="text"
+      value={data.decoys}
+      name="decoys"
+      class="input input-primary"
+    />
+    <input
+      type="number"
+      min="2"
+      max="4"
+      value={show}
+      name="show"
+      class="input input-primary"
+    />
+    <input
+      type="number"
+      min="1"
+      max="4"
+      value={showCorrect}
+      name="correct"
+      class="input input-primary"
+    />
+    <button class="btn btn-primary">save</button>
+  </form>
+</div>
