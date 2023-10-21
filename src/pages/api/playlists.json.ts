@@ -14,3 +14,12 @@ export async function GET({request}: {request: Request}){
     })
     return new Response(JSON.stringify(list))
 }
+
+export async function POST({request}:{request: Request}) {
+    const url = new URL(request.url)
+    const owner = url.searchParams.get("owner")
+    
+    await pb.collection('playlist').create({owner, title: "New playlist"})
+
+    return new Response("created")
+}

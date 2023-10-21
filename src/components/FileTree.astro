@@ -1,23 +1,35 @@
 ---
 import axios from "axios";
-import type { itemType, playlistType } from "../../types/database";
+import type { playlistType } from "../../types/database";
 const api = import.meta.env.API_URL;
 
 //! replace the owner id with the logged in user id
-const playlists = await axios.get(
-  `${api}/api/playlists.json?query=owner = "i3jpejj5qsvjg5n"`
-);
-
-const playlistsData = playlists.data;
+let playlistsData = [];
+try {
+  const playlists = await axios.get(
+    `${api}/api/playlists.json?query=owner = "i3jpejj5qsvjg5n"`
+  );
+  playlistsData = playlists.data;
+} catch (error) {
+  console.log(error);
+}
 ---
 
 <ul class="menu menu-xs bg-base-200 rounded-lg max-w-xs w-full">
+  <li class="flex justify-center items-start">
+    <a
+      data-tip="Add Playlist"
+      hx-post={`${api}/api/playlists.json?owner=i3jpejj5qsvjg5n`}
+      hx-swap="none"
+      class="text-2xl tooltip tooltip-right">+</a
+    >
+  </li>
   {
     playlistsData.map((playlist: playlistType, index: number) => (
       <li
         hx-get={`/api/filetree/items?query=playlist = "${playlist.id}"`}
         hx-target={"#playlist-" + index + "-items"}
-        hx-trigger="mouseover once"
+        hx-trigger="click once"
       >
         <details>
           <summary>{playlist.title}</summary>
