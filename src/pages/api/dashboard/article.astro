@@ -1,7 +1,7 @@
 ---
-import axios from "axios";
 import Editor from "../../../components/Editor";
 import type { itemType } from "../../../../types/database";
+import axios from "axios";
 const origin = import.meta.env.API_URL;
 
 const { url } = Astro.request;
@@ -15,6 +15,22 @@ try {
 } catch (error) {
   console.log(error);
 }
+
+const save = async (editor: any, id: any) => {
+  await fetch("/api/items.json", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content: editor.getData(),
+      id,
+    }),
+  });
+};
 ---
 
-<Editor client:only content={data.content} />
+<Editor
+  client:only
+  content={data.content}
+  saveContent={save.toString()}
+  saveParams={[data.id]}
+/>
