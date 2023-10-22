@@ -13,10 +13,25 @@ const question = await axios.get(
 
 const data = question.data[0] as questionType;
 const [show, showCorrect] = data.show.split(":");
+
+const save = async (editor: any, pb: string, id: string) => {
+  await fetch(`${pb}/api/collections/question/records/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      question: editor.getData(),
+    }),
+  });
+};
 ---
 
 <div>
-  <Editor client:only content={data.question} saveContent="" />
+  <Editor
+    client:only
+    content={data.question}
+    saveContent={save.toString()}
+    saveParams={[pb, data.id]}
+  />
   <form hx-put="/api/questions.json" hx-swap="none" class="max-w-xs">
     <input type="hidden" name="id" value={data.id} />
     <div class="form-control">
