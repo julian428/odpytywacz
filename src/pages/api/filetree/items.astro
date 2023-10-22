@@ -38,7 +38,12 @@ try {
           <summary>{item.title}</summary>
           <ul>
             <li class="menu menu-horizontal p-0 flex items-center">
-              <a class="z-10 hover:text-info text-base duration-300">
+              <a
+                hx-target="#dashboard-content"
+                hx-swap="innerHTML"
+                hx-get={`/api/dashboard/edit-item?id=${item.id}`}
+                class="z-10 hover:text-info text-base duration-300"
+              >
                 <EditIcon />
               </a>
               <a
