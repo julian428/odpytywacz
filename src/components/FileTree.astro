@@ -28,9 +28,6 @@ try {
   </li>
   {
     playlistsData.map((playlist: playlistType, index: number) => {
-      const deleteBody = {
-        id: playlist.id,
-      };
       const postBody = {
         owner: "i3jpejj5qsvjg5n",
         title: "New item",
@@ -60,7 +57,12 @@ try {
                 >
                   <CreateFolderIcon />
                 </a>
-                <a class="text-base duration-300 hover:text-info">
+                <a
+                  hx-get={`/api/dashboard/edit-playlist?id=${playlist.id}`}
+                  hx-target="#dashboard-content"
+                  hx-swap="innerHTML"
+                  class="text-base duration-300 hover:text-info"
+                >
                   <EditIcon />
                 </a>
                 <a
