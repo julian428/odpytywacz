@@ -18,7 +18,7 @@ if (method === "POST") {
         .collection("users")
         .authWithPassword(email, password);
       const newToken = jwt.sign(JSON.stringify(userData), JWT_key);
-      Astro.cookies.set("__token__", newToken);
+      Astro.cookies.set("__token__", newToken, { path: "/", httpOnly: true });
       Astro.locals.loggedIn = true;
       Astro.locals.user = userData;
     } catch (error) {
@@ -26,7 +26,7 @@ if (method === "POST") {
     }
   }
 } else if (method === "DELETE") {
-  Astro.cookies.delete("__token__");
+  Astro.cookies.delete("__token__", { path: "/" });
   Astro.locals.user = null;
   Astro.locals.loggedIn = false;
 }
@@ -39,6 +39,7 @@ if (method === "POST") {
       hx-delete="/api/auth/login"
       hx-swap="outerHTML"
       hx-select="#auth"
+      class="btn btn-primary"
     >
       logout
     </button>

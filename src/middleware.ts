@@ -6,7 +6,7 @@ const JWT_key = import.meta.env.JWT_KEY
 export const onRequest = defineMiddleware(async (context, next) => {
 
     const token = context.cookies.get("__token__")?.value || ""
-
+    
     if(!token){
         return next()
     }
