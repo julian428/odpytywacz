@@ -12,7 +12,7 @@ const res = await axios.get(
 const items = res.data.items;
 ---
 
-<div class="grid grid-cols-4 auto-rows-max">
+<div id="items" class="grid grid-cols-4 auto-rows-max">
   {
     items.map((item: itemType) => (
       <a

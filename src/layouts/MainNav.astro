@@ -35,11 +35,13 @@ const url = new URL(Astro.request.url);
           <form
             hx-get="/api/items"
             hx-target="#main-content"
+            hx-select="#items"
             class="navbar-center join"
           >
             <input
               type="text"
               name="search"
+              hx-select="#items"
               placeholder="Search..."
               hx-target="#main-content"
               hx-get="/api/items"
