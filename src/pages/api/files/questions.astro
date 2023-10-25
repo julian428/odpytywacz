@@ -1,0 +1,21 @@
+---
+import axios from "axios";
+const url = new URL(Astro.request.url);
+const pb_loc = import.meta.env.PB_LOCATION;
+
+const res = await axios.get(
+  `${pb_loc}/api/collections/question/records${url.search}`
+);
+
+const questions = res.data.items;
+---
+
+{
+  questions.map((question: Question) => {
+    return (
+      <li class="question">
+        <a>{question.title}</a>
+      </li>
+    );
+  })
+}

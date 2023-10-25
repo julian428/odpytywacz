@@ -1,47 +1,47 @@
 ---
+import axios from "axios";
 import MainNav from "../layouts/MainNav.astro";
-console.log(Astro.locals.loggedIn);
+
+const pb_loc = import.meta.env.PB_LOCATION;
+const userData = Astro.locals.user;
+
+let playlists = [];
+
+try {
+  const response = await axios.get(
+    `${pb_loc}/api/collections/playlist/records?filter=owner = "${userData?.record.id}"`
+  );
+  playlists = response.data.items;
+} catch (error) {
+  console.log(error);
+}
 ---
 
 <MainNav>
   <aside>
     <ul class="menu menu-xs bg-neutral rounded-lg max-w-xs w-full">
-      <li>
-        <details open>
-          <summary> My Files</summary>
-          <ul>
-            <li>
-              <a> Project-final.psd</a>
-            </li>
-            <li>
-              <a> Project-final-2.psd</a>
-            </li>
-            <li>
-              <details open>
-                <summary> Images</summary>
+      {
+        playlists.map((playlist: Playlist) => {
+          return (
+            <li
+              hx-get={`/api/files/items?filter=playlist = "${playlist.id}"`}
+              hx-target={`#items-${playlist.id}`}
+              hx-swap="afterend"
+              hx-trigger="click once"
+              hx-select=".item"
+            >
+              <details>
+                <summary>{playlist.title}</summary>
                 <ul>
-                  <li>
-                    <a> Screenshot1.png</a>
-                  </li>
-                  <li>
-                    <a> Screenshot2.png</a>
-                  </li>
-                  <li>
-                    <details open>
-                      <summary> Others</summary>
-                      <ul>
-                        <li>
-                          <a> Screenshot3.png</a>
-                        </li>
-                      </ul>
-                    </details>
+                  <li id={`items-${playlist.id}`}>
+                    <a>CRUD</a>
                   </li>
                 </ul>
               </details>
             </li>
-          </ul>
-        </details>
-      </li>
+          );
+        })
+      }
     </ul>
   </aside>
 </MainNav>

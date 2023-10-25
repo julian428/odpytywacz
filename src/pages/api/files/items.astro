@@ -1,0 +1,47 @@
+---
+import axios from "axios";
+const url = new URL(Astro.request.url);
+const pb_loc = import.meta.env.PB_LOCATION;
+
+const res = await axios.get(
+  `${pb_loc}/api/collections/item/records${url.search}`
+);
+
+const items = res.data.items;
+---
+
+{
+  items.map((item: Item) => {
+    return (
+      <li class="item">
+        <details>
+          <summary>{item.title}</summary>
+          <ul>
+            <li>
+              <a>CRUD</a>
+            </li>
+            <li>
+              <a>article.md</a>
+            </li>
+            <li
+              hx-get={`/api/files/questions?filter=item = "${item.id}"`}
+              hx-swap="afterend"
+              hx-target={`#questions-${item.id}`}
+              hx-select=".question"
+              hx-trigger="click once"
+            >
+              <details>
+                <summary>questions</summary>
+                <ul>
+                  <li id={`questions-${item.id}`}>
+                    <a>CRUD</a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </details>
+      </li>
+    );
+  })
+}

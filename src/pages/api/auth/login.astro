@@ -1,10 +1,9 @@
 ---
-import PocketBase from "pocketbase";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 
 const pb_loc = import.meta.env.PB_LOCATION;
 const JWT_key = import.meta.env.JWT_KEY;
-const pb = new PocketBase(pb_loc);
 const method = Astro.request.method;
 
 if (method === "POST") {
@@ -14,14 +13,19 @@ if (method === "POST") {
 
   if (email && password) {
     try {
-      const userData = await pb
-        .collection("users")
-        .authWithPassword(email, password);
-      const newToken = jwt.sign(JSON.stringify(userData), JWT_key);
-      Astro.cookies.set("__token__", newToken, { path: "/", httpOnly: true });
+      const userData = await axios.post(
+        `${pb_loc}/api/collections/users/auth-with-password`,
+        {
+          identity: email,
+          password,
+        }
+      );
+      const newToken = jwt.sign(JSON.stringify(userData.data), JWT_key);
+      Astro.cookies.set("__token__", newToken, { path: "/" });
       Astro.locals.loggedIn = true;
-      Astro.locals.user = userData;
+      Astro.locals.user = userData.data;
     } catch (error) {
+      console.log(error);
       Astro.locals.loggedIn = false;
     }
   }

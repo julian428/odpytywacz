@@ -1,6 +1,5 @@
 ---
 import axios from "axios";
-import type { itemType } from "../../../types/database";
 const pb_loc = import.meta.env.PB_LOCATION;
 
 const url = new URL(Astro.request.url);
@@ -14,7 +13,7 @@ const items = res.data.items;
 
 <div id="items" class="grid grid-cols-4 auto-rows-max">
   {
-    items.map((item: itemType) => (
+    items.map((item: Item) => (
       <a
         href={`/item/${item.id}`}
         style={{ backgroundColor: item.color }}
