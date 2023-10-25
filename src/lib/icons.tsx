@@ -7,5 +7,8 @@ export {
   AiFillFileAdd as CreateFileIcon,
   AiFillEdit as EditIcon,
   AiFillDelete as DeleteIcon,
+  AiFillFolder as FolderIcon,
+  AiFillFolderOpen as OpenFolderIcon,
+  AiFillFile as FileIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";

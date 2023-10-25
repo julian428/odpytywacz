@@ -1,5 +1,7 @@
 ---
 import axios from "axios";
+import { CreateFileIcon, FileIcon, FolderIcon } from "../../../lib/icons";
+import UD from "../../../components/UD.astro";
 const url = new URL(Astro.request.url);
 const pb_loc = import.meta.env.PB_LOCATION;
 
@@ -15,28 +17,38 @@ const items = res.data.items;
     return (
       <li class="item">
         <details>
-          <summary>{item.title}</summary>
+          <summary>
+            <FolderIcon />
+            {item.title}
+          </summary>
+          <UD />
           <ul>
             <li>
-              <a>CRUD</a>
-            </li>
-            <li>
-              <a>article.md</a>
+              <a>
+                <FileIcon />
+                article.md
+              </a>
             </li>
             <li
               hx-get={`/api/files/questions?filter=item = "${item.id}"`}
-              hx-swap="afterend"
+              hx-swap="innerHTML"
               hx-target={`#questions-${item.id}`}
               hx-select=".question"
               hx-trigger="click once"
             >
               <details>
-                <summary>questions</summary>
-                <ul>
-                  <li id={`questions-${item.id}`}>
-                    <a>CRUD</a>
+                <summary>
+                  <FolderIcon />
+                  questions
+                </summary>
+                <ul class="menu menu-horizontal py-0">
+                  <li class="text-success">
+                    <a>
+                      <CreateFileIcon />
+                    </a>
                   </li>
                 </ul>
+                <ul id={`questions-${item.id}`} />
               </details>
             </li>
           </ul>

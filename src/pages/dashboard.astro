@@ -1,6 +1,8 @@
 ---
 import axios from "axios";
+import { FolderIcon, OpenFolderIcon } from "../lib/icons";
 import MainNav from "../layouts/MainNav.astro";
+import CUD from "../components/CUD.astro";
 
 const pb_loc = import.meta.env.PB_LOCATION;
 const userData = Astro.locals.user;
@@ -26,17 +28,17 @@ try {
             <li
               hx-get={`/api/files/items?filter=playlist = "${playlist.id}"`}
               hx-target={`#items-${playlist.id}`}
-              hx-swap="afterend"
+              hx-swap="innerHTML"
               hx-trigger="click once"
               hx-select=".item"
             >
               <details>
-                <summary>{playlist.title}</summary>
-                <ul>
-                  <li id={`items-${playlist.id}`}>
-                    <a>CRUD</a>
-                  </li>
-                </ul>
+                <summary>
+                  <FolderIcon />
+                  {playlist.title}
+                </summary>
+                <CUD />
+                <ul id={`items-${playlist.id}`} />
               </details>
             </li>
           );
