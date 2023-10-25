@@ -1,28 +1,8 @@
 ---
-import Main from "../layouts/main.astro";
-import Quizes from "../layouts/quizes.astro";
-import Card from "../components/card.astro";
-import type { itemType } from "../../types/database";
-import axios from "axios";
-
-let items: itemType[] = [];
-const api = import.meta.env.API_URL;
-try {
-  const response = await axios.get(`${api}/api/items.json`, {});
-  items = response.data;
-} catch (error) {
-  console.log("Couldn't fetch data");
-}
+import MainNav from "../layouts/MainNav.astro";
+import Items from "./api/items.astro";
 ---
 
-<Main>
-  <Quizes>
-    <main class="flex gap-4 mt-8 flex-wrap">
-      {
-        items.map((item: any, index) => (
-          <Card {...item} key={"card-" + index} />
-        ))
-      }
-    </main>
-  </Quizes>
-</Main>
+<MainNav>
+  <Items />
+</MainNav>

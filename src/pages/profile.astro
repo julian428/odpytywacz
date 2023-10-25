@@ -1,0 +1,13 @@
+---
+import MainNav from "../layouts/MainNav.astro";
+---
+
+<MainNav>
+  <div
+    hx-get="/api/auth/login"
+    hx-select="#auth"
+    hx-trigger="load once"
+    id="login-stream"
+  >
+  </div>
+</MainNav>

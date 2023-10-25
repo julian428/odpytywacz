@@ -1,0 +1,46 @@
+---
+import MainNav from "../layouts/MainNav.astro";
+---
+
+<MainNav>
+  <aside>
+    <ul class="menu menu-xs bg-neutral rounded-lg max-w-xs w-full">
+      <li>
+        <details open>
+          <summary> My Files</summary>
+          <ul>
+            <li>
+              <a> Project-final.psd</a>
+            </li>
+            <li>
+              <a> Project-final-2.psd</a>
+            </li>
+            <li>
+              <details open>
+                <summary> Images</summary>
+                <ul>
+                  <li>
+                    <a> Screenshot1.png</a>
+                  </li>
+                  <li>
+                    <a> Screenshot2.png</a>
+                  </li>
+                  <li>
+                    <details open>
+                      <summary> Others</summary>
+                      <ul>
+                        <li>
+                          <a> Screenshot3.png</a>
+                        </li>
+                      </ul>
+                    </details>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </aside>
+</MainNav>

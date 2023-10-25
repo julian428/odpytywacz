@@ -1,0 +1,79 @@
+---
+import PocketBase from "pocketbase";
+import jwt from "jsonwebtoken";
+
+const pb_loc = import.meta.env.PB_LOCATION;
+const JWT_key = import.meta.env.JWT_KEY;
+const pb = new PocketBase(pb_loc);
+const method = Astro.request.method;
+
+if (method === "POST") {
+  const body = await Astro.request.formData();
+  const email = body.get("email") as string | null;
+  const password = body.get("password") as string | null;
+
+  if (email && password) {
+    try {
+      const userData = await pb
+        .collection("users")
+        .authWithPassword(email, password);
+      const newToken = jwt.sign(JSON.stringify(userData), JWT_key);
+      Astro.cookies.set("__token__", newToken);
+      Astro.locals.loggedIn = true;
+      Astro.locals.user = userData;
+    } catch (error) {
+      Astro.locals.loggedIn = false;
+    }
+  }
+} else if (method === "DELETE") {
+  Astro.cookies.delete("__token__");
+  Astro.locals.user = null;
+  Astro.locals.loggedIn = false;
+}
+---
+
+{
+  Astro.locals.loggedIn ? (
+    <button
+      id="auth"
+      hx-delete="/api/auth/login"
+      hx-swap="outerHTML"
+      hx-select="#auth"
+    >
+      logout
+    </button>
+  ) : (
+    <form
+      hx-post="/api/auth/login"
+      hx-swap="outerHTML"
+      hx-select="#auth"
+      id="auth"
+      class="flex flex-col justify-center items-center gap-4 mt-8"
+    >
+      <h2>Login</h2>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Email</span>
+        </label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Type here"
+          class="input input-bordered w-full max-w-xs"
+        />
+      </div>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Password</span>
+        </label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Type here"
+          class="input input-bordered w-full max-w-xs"
+        />
+      </div>
+      <button class="btn btn-secondary">login</button>
+    </form>
+  )
+}

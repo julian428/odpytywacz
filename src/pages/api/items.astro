@@ -1,0 +1,28 @@
+---
+import axios from "axios";
+import type { itemType } from "../../../types/database";
+const pb_loc = import.meta.env.PB_LOCATION;
+
+const url = new URL(Astro.request.url);
+const search = url.searchParams.get("search") as string | null;
+
+const res = await axios.get(
+  `${pb_loc}/api/collections/item/records?filter=title ~ "${search || ""}"`
+);
+const items = res.data.items;
+---
+
+<div class="grid grid-cols-4 auto-rows-max">
+  {
+    items.map((item: itemType) => (
+      <a
+        href={`/item/${item.id}`}
+        style={{ backgroundColor: item.color }}
+        class="rounded-box w-[90%] h-40 hover:scale-[99%] duration-300 m-auto p-2 bg-neutral col-span-1"
+      >
+        <h3 class="text-xl">{item.title}</h3>
+        <p>{item.description}</p>
+      </a>
+    ))
+  }
+</div>

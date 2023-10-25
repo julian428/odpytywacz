@@ -1,0 +1,74 @@
+---
+import {
+  DashboardIcon,
+  ProfileIcon,
+  FilterIcon,
+  SearchIcon,
+} from "../lib/icons";
+
+const filters: {
+  name: string;
+  type: string;
+  value: string;
+  checked: boolean;
+}[] = [];
+
+const url = new URL(Astro.request.url);
+---
+
+<html data-theme="mytheme" class="w-full h-full">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <title>Odpytywacz</title>
+  </head>
+  <body class="w-full h-full p-4">
+    <nav
+      class="navbar bg-neutral lg:max-w-[80%] m-auto rounded-box sticky top-2 z-10"
+    >
+      <div class="navbar-start">
+        <a class="btn btn-ghost text-xl" href="/">Odpytywacz</a>
+      </div>
+      {
+        url.pathname === "/" && (
+          <form
+            hx-get="/api/items"
+            hx-target="#main-content"
+            class="navbar-center join"
+          >
+            <input
+              type="text"
+              name="search"
+              placeholder="Search..."
+              hx-target="#main-content"
+              hx-get="/api/items"
+              hx-trigger="keyup changed delay:200ms"
+              class="input bg-neutral join-item border border-secondary"
+            />
+            <button class="join-item btn btn-secondary text-xl">
+              <SearchIcon />
+            </button>
+          </form>
+        )
+      }
+      <div class="navbar-end">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+            <a class="text-2xl" href="/dashboard">
+              <DashboardIcon />
+            </a>
+          </li>
+          <li>
+            <a class="text-2xl" href="/profile">
+              <ProfileIcon />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main id="main-content" class="max-w-[80%] flex flex-col m-auto p-2">
+      <slot />
+    </main>
+  </body>
+</html>

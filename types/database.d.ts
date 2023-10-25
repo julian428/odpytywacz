@@ -18,7 +18,6 @@ export interface itemType {
     collectionId: string
     color: string
     content: string
-    cover: string
     created: string
     description: string
     id: string
