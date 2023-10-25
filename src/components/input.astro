@@ -1,0 +1,15 @@
+---
+import type { InputHTMLAttributes } from "react";
+const { label, inputConfig } = Astro.props as {
+  label?: string;
+  inputConfig: InputHTMLAttributes<HTMLInputElement>;
+};
+---
+
+<div class="form-control w-full max-w-xs">
+  <label class="label">
+    <span class="label-text">{label}</span>
+  </label>
+  <!-- @ts-ignore -->
+  <input {...inputConfig} class="input input-bordered w-full max-w-xs" />
+</div>
