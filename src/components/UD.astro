@@ -3,6 +3,13 @@ import { DeleteIcon, EditIcon } from "../lib/icons";
 ---
 
 <ul class="menu menu-horizontal py-0">
-  <li class="text-secondary"><a><EditIcon /></a></li>
+  <li class="text-secondary">
+    <a
+      hx-target="#dashboard-content"
+      hx-get="/api/edit/item"
+      hx-swap="innerHTML"
+      hx-select="#edit-item"><EditIcon /></a
+    >
+  </li>
   <li class="text-error"><a><DeleteIcon /></a></li>
 </ul>

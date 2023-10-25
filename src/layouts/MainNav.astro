@@ -1,10 +1,5 @@
 ---
-import {
-  DashboardIcon,
-  ProfileIcon,
-  FilterIcon,
-  SearchIcon,
-} from "../lib/icons";
+import { DashboardIcon, ProfileIcon, SearchIcon } from "@lib/icons";
 
 const filters: {
   name: string;
@@ -41,7 +36,7 @@ const url = new URL(Astro.request.url);
             <input
               type="text"
               name="search"
-              hx-select="#items"
+              hx-select=".item"
               placeholder="Search..."
               hx-target="#main-content"
               hx-get="/api/items"
@@ -69,7 +64,10 @@ const url = new URL(Astro.request.url);
         </ul>
       </div>
     </nav>
-    <main id="main-content" class="max-w-[80%] flex flex-col m-auto p-2">
+    <main
+      id="main-content"
+      class="max-w-[80%] grid grid-cols-12 auto-rows-max m-auto p-2"
+    >
       <slot />
     </main>
   </body>

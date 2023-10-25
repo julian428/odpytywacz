@@ -1,8 +1,8 @@
 ---
 import axios from "axios";
-import { FolderIcon, OpenFolderIcon } from "../lib/icons";
-import MainNav from "../layouts/MainNav.astro";
-import CUD from "../components/CUD.astro";
+import { FolderIcon } from "@lib/icons";
+import MainNav from "@layouts/MainNav.astro";
+import CUD from "@components/CUD.astro";
 
 const pb_loc = import.meta.env.PB_LOCATION;
 const userData = Astro.locals.user;
@@ -20,7 +20,7 @@ try {
 ---
 
 <MainNav>
-  <aside>
+  <aside class="col-span-4">
     <ul class="menu menu-xs bg-neutral rounded-lg max-w-xs w-full">
       {
         playlists.map((playlist: Playlist) => {
@@ -46,4 +46,7 @@ try {
       }
     </ul>
   </aside>
+  <article class="col-span-8" id="dashboard-content">
+    Chose something to edit
+  </article>
 </MainNav>
