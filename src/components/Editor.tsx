@@ -26,7 +26,7 @@ export default function Editor({ content, saveContent, saveParams }: Props) {
     }, delay);
   };
   return (
-    <div className="prose">
+    <div className="prose w-full">
       <CKEditor
         data={content}
         editor={ClassicEditor}

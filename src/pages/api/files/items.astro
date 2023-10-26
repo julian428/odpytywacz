@@ -1,7 +1,6 @@
 ---
 import axios from "axios";
 import { CreateFileIcon, FileIcon, FolderIcon } from "@lib/icons";
-import UD from "@components/UD.astro";
 const url = new URL(Astro.request.url);
 const pb_loc = import.meta.env.PB_LOCATION;
 
@@ -15,6 +14,12 @@ const items = res.data.items;
 {
   items.map((item: Item) => {
     const articleBody = JSON.stringify({ content: item.content, id: item.id });
+    const itemBody = JSON.stringify({
+      color: item.color,
+      cover: item.cover,
+      title: item.title,
+      description: item.description,
+    });
     return (
       <li class="item">
         <details>
@@ -22,8 +27,19 @@ const items = res.data.items;
             <FolderIcon />
             {item.title}
           </summary>
-          <UD />
           <ul>
+            <li>
+              <a
+                hx-target="#dashboard-content"
+                hx-post="/api/edit/item"
+                hx-vals={itemBody}
+                hx-swap="innerHTML"
+                hx-select="#edit-item"
+              >
+                <FileIcon />
+                config.txt
+              </a>
+            </li>
             <li>
               <a
                 hx-target="#dashboard-content"

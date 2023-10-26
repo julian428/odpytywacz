@@ -1,7 +1,7 @@
 ---
 import { CreateFolderIcon, DeleteIcon, EditIcon } from "@lib/icons";
-import Input from "./input.astro";
-import Textarea from "./textarea.astro";
+import Input from "./Input.tsx";
+import Textarea from "./Textarea";
 
 const { data } = Astro.props as { data: Playlist };
 ---
@@ -25,18 +25,13 @@ const { data } = Astro.props as { data: Playlist };
         <form class="w-full flex flex-col justify-center items-center gap-4">
           <Input
             label="Title"
-            inputConfig={{
-              class: "input input-bordered w-full max-w-xs",
-              value: data.title,
-            }}
+            defaultValue={data.title}
+            className="input input-bordered max-w-xs m-auto"
           />
           <Textarea
             label="Description"
-            inputConfig={{
-              class:
-                "textarea textarea-bordered h-48 w-full max-w-xs resize-none",
-            }}
-            value={data.description}
+            defaultValue={data.description}
+            className="textarea textarea-bordered h-48 w-full max-w-xs resize-none"
           />
           <button class="btn">save</button>
         </form>
