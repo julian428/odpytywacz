@@ -14,6 +14,7 @@ const items = res.data.items;
 
 {
   items.map((item: Item) => {
+    const articleBody = JSON.stringify({ content: item.content, id: item.id });
     return (
       <li class="item">
         <details>
@@ -24,7 +25,13 @@ const items = res.data.items;
           <UD />
           <ul>
             <li>
-              <a>
+              <a
+                hx-target="#dashboard-content"
+                hx-post="/api/edit/article"
+                hx-swap="innerHTML"
+                hx-select="#edit-article"
+                hx-vals={articleBody}
+              >
                 <FileIcon />
                 article.md
               </a>

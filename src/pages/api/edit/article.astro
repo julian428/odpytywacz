@@ -1,0 +1,38 @@
+---
+import Editor from "@components/Editor";
+const pb_loc = import.meta.env.PB_LOCATION;
+
+let content = "";
+let id: string | null = null;
+try {
+  const body = await Astro.request.formData();
+  content = (body.get("content") as string | null) || "";
+  id = body.get("id") as string | null;
+} catch (error) {
+  console.log(error);
+}
+
+const save = async (editor: any, id: string, pb_loc: string) => {
+  try {
+    await fetch(`${pb_loc}/api/collections/item/records/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: editor.getData(),
+      }),
+    });
+    console.log("saved");
+  } catch (error) {
+    console.log("couldn't save");
+  }
+};
+---
+
+<div id="edit-article">
+  <Editor
+    content={content}
+    saveContent={save.toString()}
+    saveParams={[id, pb_loc]}
+    client:only
+  />
+</div>
