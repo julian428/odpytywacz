@@ -2,7 +2,8 @@
 import axios from "axios";
 import {
   CreateFileIcon,
-  FileIcon,
+  ConfigFileIcon,
+  MarkdownFileIcon,
   FolderIcon,
   OpenFolderIcon,
 } from "@lib/icons";
@@ -50,7 +51,7 @@ const itemId = urlParams.get("itemId");
                 hx-swap="innerHTML"
                 hx-select="#dashboard-content"
               >
-                <FileIcon />
+                <ConfigFileIcon />
                 config.txt
               </a>
             </li>
@@ -63,7 +64,7 @@ const itemId = urlParams.get("itemId");
                 hx-select="#dashboard-content"
                 hx-vals={articleBody}
               >
-                <FileIcon />
+                <MarkdownFileIcon />
                 article.md
               </a>
             </li>

@@ -10,5 +10,8 @@ export {
   AiFillFolder as FolderIcon,
   AiFillFolderOpen as OpenFolderIcon,
   AiFillFile as FileIcon,
+  AiFillFileMarkdown as MarkdownFileIcon,
+  AiFillFileUnknown as QuestionFileIcon,
+  AiFillFileText as ConfigFileIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";

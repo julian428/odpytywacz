@@ -1,6 +1,6 @@
 ---
 import axios from "axios";
-import { FileIcon } from "@lib/icons";
+import { QuestionFileIcon } from "@lib/icons";
 const url = new URL(Astro.request.url);
 const pb_loc = import.meta.env.PB_LOCATION;
 
@@ -16,7 +16,7 @@ const questions = res.data.items;
     return (
       <li class="question">
         <a>
-          <FileIcon />
+          <QuestionFileIcon />
           {question.title}
         </a>
       </li>
