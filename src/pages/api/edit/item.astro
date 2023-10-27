@@ -1,5 +1,5 @@
 ---
-import ItemConfig from "@components/ItemConfig";
+import Wrapper from "@components/item/Wrapper";
 
 let data: {
   cover: string;
@@ -20,5 +20,5 @@ try {
 ---
 
 <div id="edit-item" class="col-span-6">
-  <ItemConfig client:only {...data} />
+  <Wrapper client:only data={data} />
 </div>
