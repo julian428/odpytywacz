@@ -5,13 +5,15 @@ export {
   AiOutlineSearch as SearchIcon,
   AiFillFolderAdd as CreateFolderIcon,
   AiFillFileAdd as CreateFileIcon,
-  AiFillEdit as EditIcon,
-  AiFillDelete as DeleteIcon,
   AiFillFolder as FolderIcon,
+  AiOutlineFolder as GhostFolderIcon,
   AiFillFolderOpen as OpenFolderIcon,
-  AiFillFile as FileIcon,
   AiFillFileMarkdown as MarkdownFileIcon,
   AiFillFileUnknown as QuestionFileIcon,
   AiFillFileText as ConfigFileIcon,
+  AiOutlineFileText as GhostFileIcon,
+  AiOutlineFileMarkdown as GhostMarkdownFileIcon,
+  AiOutlineFileUnknown as GhostQuestionFileIcon,
+  AiOutlineFileText as GhostConfigFileIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";

@@ -1,5 +1,6 @@
 ---
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import { GhostConfigFileIcon, GhostFolderIcon } from "@lib/icons";
 import axios from "axios";
 
 export const prerender = false;
@@ -32,12 +33,27 @@ if (method === "POST") {
 ---
 
 <DashboardLayout>
-  <nav
-    class="menu w-full menu-horizontal gap-4 flex justify-between border-b border-base-100"
-  >
-    <h1 class="self-start text-3xl tracking-wide font-light">
-      Edit the <b>{data.title}</b> playlist metadata.
-    </h1>
+  <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
+    <div class="text-sm breadcrumbs">
+      <ul>
+        <li>
+          <a href="/dashboard" hx-boost="true">
+            <span class="pr-1">
+              <GhostFolderIcon />
+            </span>
+            {data.title}
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class="text-error pr-1">
+              <GhostConfigFileIcon />
+            </span>
+             config.yaml
+          </a>
+        </li>
+      </ul>
+    </div>
     <form class="space-x-2">
       <button class="btn btn-sm hover:bg-error rounded-none">delete</button>
       <button class="btn btn-sm hover:bg-success hover:text-black rounded-none"
