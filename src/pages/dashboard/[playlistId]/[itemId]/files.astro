@@ -22,7 +22,13 @@ try {
   questions.map((question) => {
     return (
       <li class="question">
-        <a>
+        <a
+          hx-post={`/dashboard/${playlistId}/${itemId}/${question.id}`}
+          hx-target="#dashboard-content"
+          hx-select="#dashboard-content"
+          hx-trigger="click"
+          hx-replace-url="true"
+        >
           <span class="text-error">
             <QuestionFileIcon />
           </span>

@@ -39,7 +39,13 @@ try {
           </summary>
           <ul>
             <li>
-              <a>
+              <a
+                hx-post={`/dashboard/${playlistId}/${item.id}/config`}
+                hx-target="#dashboard-content"
+                hx-select="#dashboard-content"
+                hx-trigger="click"
+                hx-replace-url="true"
+              >
                 <span class="text-primary">
                   <ConfigFileIcon />
                 </span>
@@ -47,7 +53,13 @@ try {
               </a>
             </li>
             <li>
-              <a>
+              <a
+                hx-post={`/dashboard/${playlistId}/${item.id}/article`}
+                hx-target="#dashboard-content"
+                hx-select="#dashboard-content"
+                hx-trigger="click"
+                hx-replace-url="true"
+              >
                 <span class="text-warning">
                   <MarkdownFileIcon />
                 </span>
