@@ -43,6 +43,7 @@ interface Item {
     content: string
     color: string
     cover: string
+    expand?: {playlist: Playlist}
 }
 
 interface Question {

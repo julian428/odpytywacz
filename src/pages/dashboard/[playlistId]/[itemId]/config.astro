@@ -1,7 +1,54 @@
 ---
+import Wrapper from "@components/item/Wrapper";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import axios from "axios";
 
 export const prerender = false;
+const pb_loc = import.meta.env.PB_LOCATION;
+const method = Astro.request.method;
+
+let data = {
+  id: "",
+  title: "",
+  description: "",
+  color: "",
+  cover: "",
+  parentId: "",
+  parentTitle: "",
+};
+
+if (method === "POST") {
+  try {
+    const formBody = await Astro.request.formData();
+    data.id = (formBody.get("id") as string) || "";
+    data.title = (formBody.get("title") as string) || "";
+    data.description = (formBody.get("description") as string) || "";
+    data.color = (formBody.get("color") as string) || "";
+    data.cover = (formBody.get("cover") as string) || "";
+    data.parentId = (formBody.get("parentId") as string) || "";
+    data.parentTitle = (formBody.get("parentTitle") as string) || "";
+  } catch (error) {
+    console.log(error);
+  }
+} else if (method === "GET") {
+  const { itemId } = Astro.params;
+  try {
+    const response = await axios.get(
+      `${pb_loc}/api/collections/item/records/${itemId}?expand=playlist`
+    );
+    data.id = response.data.id;
+    data.title = response.data.title;
+    data.description = response.data.description;
+    data.color = response.data.color;
+    data.cover = response.data.cover;
+    data.parentId = response.data.expand.playlist.id;
+    data.parentTitle = response.data.expand.playlist.title;
+  } catch (error) {
+    console.log(error);
+  }
+}
 ---
 
-<DashboardLayout>config item</DashboardLayout>
+<DashboardLayout>
+  <Wrapper client:load defaultData={data} />
+</DashboardLayout>

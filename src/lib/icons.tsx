@@ -17,3 +17,4 @@ export {
   AiOutlineFileText as GhostConfigFileIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";
+export { IoMdColorPalette as ColorIcon } from "react-icons/io";

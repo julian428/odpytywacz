@@ -18,7 +18,7 @@ let items: Item[] = [];
 
 try {
   const response = await axios.get(
-    `${pb_loc}/api/collections/item/records?filter=playlist = "${playlistId}"`
+    `${pb_loc}/api/collections/item/records?filter=playlist = "${playlistId}"&expand=playlist`
   );
   items = response.data.items;
 } catch (error) {
@@ -30,6 +30,15 @@ try {
   items.map((item) => {
     const itemIsOpen = item.id === itemId;
     const questionsIsOpen = itemIsOpen && questionId;
+    const itemData = {
+      id: item.id,
+      color: item.color,
+      cover: item.cover,
+      title: item.title,
+      description: item.description,
+      parentId: item.expand?.playlist.id,
+      parentTitle: item.expand?.playlist.title,
+    };
     return (
       <li class="item">
         <details open={itemIsOpen} class="group/item">
@@ -49,6 +58,7 @@ try {
                 hx-target="#dashboard-content"
                 hx-select="#dashboard-content"
                 hx-trigger="click"
+                hx-vals={JSON.stringify(itemData)}
                 hx-replace-url="true"
               >
                 <span class="text-error">
