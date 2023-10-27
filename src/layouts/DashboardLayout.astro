@@ -1,11 +1,12 @@
 ---
 import axios from "axios";
-import { FolderIcon } from "@lib/icons";
+import { FolderIcon, OpenFolderIcon } from "@lib/icons";
 import MainNav from "./MainNav.astro";
 import CUD from "@components/CUD.astro";
 
 const pb_loc = import.meta.env.PB_LOCATION;
 const userData = Astro.locals.user;
+const { playlistId, itemId } = Astro.params;
 
 let playlists = [];
 
@@ -24,17 +25,23 @@ try {
     <ul class="menu menu-xs bg-neutral rounded-lg max-w-xs w-full">
       {
         playlists.map((playlist: Playlist) => {
+          const openPlaylist = playlist.id === playlistId;
           return (
             <li
-              hx-get={`/api/files/items?filter=playlist = "${playlist.id}"`}
+              hx-get={`/api/files/items?filter=playlist = "${playlist.id}"&itemId=${itemId}`}
               hx-target={`#items-${playlist.id}`}
               hx-swap="innerHTML"
-              hx-trigger="click once"
+              hx-trigger={`${openPlaylist ? "load" : "click"} once`}
               hx-select=".item"
             >
-              <details>
+              <details open={openPlaylist} class="group/playlist">
                 <summary>
-                  <FolderIcon />
+                  <span class="hidden group-open/playlist:block">
+                    <OpenFolderIcon />
+                  </span>
+                  <span class="block group-open/playlist:hidden">
+                    <FolderIcon />
+                  </span>
                   {playlist.title}
                 </summary>
                 <CUD data={playlist} />
