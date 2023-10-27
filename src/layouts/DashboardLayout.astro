@@ -21,8 +21,8 @@ try {
 ---
 
 <MainNav>
-  <aside class="col-span-4">
-    <ul class="menu menu-xs bg-neutral rounded-lg max-w-xs w-full">
+  <aside class="col-span-3 overflow-y-auto border-r border-base-100 box-border">
+    <ul class="menu bg-neutral w-full">
       {
         playlists.map((playlist: Playlist) => {
           const openPlaylist = playlist.id === playlistId;
@@ -53,7 +53,7 @@ try {
       }
     </ul>
   </aside>
-  <article class="col-span-8" id="dashboard-content">
+  <article class="col-span-9 bg-neutral" id="dashboard-content">
     <slot />
   </article>
 </MainNav>
