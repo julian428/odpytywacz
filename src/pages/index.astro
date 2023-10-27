@@ -1,8 +1,29 @@
 ---
 import MainNav from "@layouts/MainNav.astro";
-import Items from "./api/items.astro";
+
+import axios from "axios";
+const pb_loc = import.meta.env.PB_LOCATION;
+
+const url = new URL(Astro.request.url);
+const search = url.searchParams.get("search") as string | null;
+
+const res = await axios.get(
+  `${pb_loc}/api/collections/item/records?filter=title ~ "${search || ""}"`
+);
+const items = res.data.items;
 ---
 
 <MainNav>
-  <Items />
+  {
+    items.map((item: Item) => (
+      <a
+        href={`/item/${item.id}`}
+        style={{ backgroundColor: item.color }}
+        class="rounded-box w-[90%] h-40 hover:scale-[99%] duration-300 m-auto p-2 bg-neutral col-span-3 item"
+      >
+        <h3 class="text-xl">{item.title}</h3>
+        <p>{item.description}</p>
+      </a>
+    ))
+  }
 </MainNav>
