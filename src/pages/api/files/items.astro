@@ -16,11 +16,13 @@ const res = await axios.get(
 
 const items = res.data.items;
 const itemId = urlParams.get("itemId");
+const questionId = urlParams.get("questionId");
 ---
 
 {
   items.map((item: Item) => {
     const openItem = item.id === itemId;
+    const openQuestions = openItem && questionId;
     const articleBody = JSON.stringify({ content: item.content, id: item.id });
     const itemBody = JSON.stringify({
       id: item.id,
@@ -73,9 +75,9 @@ const itemId = urlParams.get("itemId");
               hx-swap="innerHTML"
               hx-target={`#questions-${item.id}`}
               hx-select=".question"
-              hx-trigger="click once"
+              hx-trigger={`${openQuestions ? "load" : "click"} once`}
             >
-              <details class="group/questions">
+              <details open={openQuestions} class="group/questions">
                 <summary>
                   <span class="hidden group-open/questions:block">
                     <OpenFolderIcon />

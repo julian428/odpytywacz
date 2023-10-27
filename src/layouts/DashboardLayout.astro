@@ -6,7 +6,7 @@ import CUD from "@components/CUD.astro";
 
 const pb_loc = import.meta.env.PB_LOCATION;
 const userData = Astro.locals.user;
-const { playlistId, itemId } = Astro.params;
+const { playlistId, itemId, questionId } = Astro.params;
 
 let playlists = [];
 
@@ -28,7 +28,7 @@ try {
           const openPlaylist = playlist.id === playlistId;
           return (
             <li
-              hx-get={`/api/files/items?filter=playlist = "${playlist.id}"&itemId=${itemId}`}
+              hx-get={`/api/files/items?filter=playlist = "${playlist.id}"&itemId=${itemId}&questionId=${questionId}`}
               hx-target={`#items-${playlist.id}`}
               hx-swap="innerHTML"
               hx-trigger={`${openPlaylist ? "load" : "click"} once`}
