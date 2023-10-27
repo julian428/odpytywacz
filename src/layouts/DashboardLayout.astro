@@ -1,10 +1,11 @@
 ---
 import MainNav from "@layouts/MainNav.astro";
+const { playlistId, itemId, questionId } = Astro.params;
 ---
 
 <MainNav>
   <ul
-    hx-get="/dashboard/files"
+    hx-get={`/dashboard/files?playlistId=${playlistId}&itemId=${itemId}&questionId=${questionId}`}
     hx-trigger="load"
     hx-swap="innerHTML"
     hx-select=".playlist"

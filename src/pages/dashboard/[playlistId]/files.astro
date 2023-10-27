@@ -10,6 +10,9 @@ import axios from "axios";
 export const prerender = false;
 const pb_loc = import.meta.env.PB_LOCATION;
 const { playlistId } = Astro.params;
+const urlparams = new URL(Astro.url).searchParams;
+const itemId = urlparams.get("itemId");
+const questionId = urlparams.get("questionId");
 
 let items: Item[] = [];
 
@@ -25,9 +28,11 @@ try {
 
 {
   items.map((item) => {
+    const itemIsOpen = item.id === itemId;
+    const questionsIsOpen = itemIsOpen && questionId;
     return (
       <li class="item">
-        <details class="group/item">
+        <details open={itemIsOpen} class="group/item">
           <summary>
             <span class="hidden group-open/item:block">
               <OpenFolderIcon />
@@ -67,11 +72,12 @@ try {
               </a>
             </li>
             <li>
-              <details class="group/questions">
+              <details open={questionsIsOpen} class="group/questions">
                 <summary
                   hx-get={`/dashboard/${playlistId}/${item.id}/files`}
                   hx-target={`#questions-${item.id}`}
                   hx-swap="innerHTML"
+                  hx-trigger={`${questionsIsOpen ? "load" : "click"} once`}
                   hx-select=".question"
                 >
                   <span class="hidden group-open/questions:block">

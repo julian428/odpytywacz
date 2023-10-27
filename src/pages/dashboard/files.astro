@@ -4,6 +4,10 @@ import axios from "axios";
 
 const userData = Astro.locals.user;
 const pb_loc = import.meta.env.PB_LOCATION;
+const urlparams = new URL(Astro.url).searchParams;
+const playlistId = urlparams.get("playlistId");
+const itemId = urlparams.get("itemId");
+const questionId = urlparams.get("questionId");
 
 let playlists: Playlist[] = [];
 
@@ -24,14 +28,15 @@ try {
       title: playlist.title,
       description: playlist.description,
     };
+    const isOpen = playlist.id === playlistId;
     return (
       <li class="playlist">
-        <details class="group/playlist">
+        <details open={isOpen} class="group/playlist">
           <summary
-            hx-get={`/dashboard/${playlist.id}/files`}
+            hx-get={`/dashboard/${playlist.id}/files?itemId=${itemId}&questionId=${questionId}`}
             hx-target={`#playlist-${playlist.id}`}
             hx-swap="afterend"
-            hx-trigger="click once"
+            hx-trigger={`${isOpen ? "load" : "click"} once`}
             hx-select=".item"
           >
             <span class="hidden group-open/playlist:block">
