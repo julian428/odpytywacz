@@ -19,7 +19,7 @@ const url = new URL(Astro.request.url);
     <title>Odpytywacz</title>
   </head>
   <body class="w-full h-full p-4">
-    <nav class="navbar bg-neutral lg:max-w-[80%] m-auto sticky top-2 z-10">
+    <nav class="navbar bg-neutral max-w-[80%] m-auto sticky top-2 z-10">
       <div class="navbar-start">
         <a class="btn btn-ghost text-xl" href="/">Odpytywacz</a>
       </div>
@@ -62,11 +62,11 @@ const url = new URL(Astro.request.url);
         </ul>
       </div>
     </nav>
-    <main
+    <div
       id="main-content"
-      class="max-w-[80%] grid grid-cols-12 auto-rows-auto m-auto pt-2 relative"
+      class="max-w-[80%] grid grid-cols-12 grid-rows-5 m-auto pt-2 h-[90%] relative"
     >
       <slot />
-    </main>
+    </div>
   </body>
 </html>

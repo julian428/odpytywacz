@@ -1,0 +1,81 @@
+---
+import {
+  ConfigFileIcon,
+  FolderIcon,
+  MarkdownFileIcon,
+  OpenFolderIcon,
+} from "@lib/icons";
+import axios from "axios";
+
+export const prerender = false;
+const pb_loc = import.meta.env.PB_LOCATION;
+const { playlistId } = Astro.params;
+
+let items: Item[] = [];
+
+try {
+  const response = await axios.get(
+    `${pb_loc}/api/collections/item/records?filter=playlist = "${playlistId}"`
+  );
+  items = response.data.items;
+} catch (error) {
+  console.log(error);
+}
+---
+
+{
+  items.map((item) => {
+    return (
+      <li class="item">
+        <details class="group/item">
+          <summary>
+            <span class="hidden group-open/item:block">
+              <OpenFolderIcon />
+            </span>
+            <span class="block group-open/item:hidden">
+              <FolderIcon />
+            </span>
+            {item.title}
+          </summary>
+          <ul>
+            <li>
+              <a>
+                <span class="text-primary">
+                  <ConfigFileIcon />
+                </span>
+                config.txt
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="text-warning">
+                  <MarkdownFileIcon />
+                </span>
+                article.md
+              </a>
+            </li>
+            <li>
+              <details class="group/questions">
+                <summary
+                  hx-get={`/dashboard/${playlistId}/${item.id}/files`}
+                  hx-target={`#questions-${item.id}`}
+                  hx-swap="innerHTML"
+                  hx-select=".question"
+                >
+                  <span class="hidden group-open/questions:block">
+                    <OpenFolderIcon />
+                  </span>
+                  <span class="block group-open/questions:hidden">
+                    <FolderIcon />
+                  </span>
+                  questions
+                </summary>
+                <ul id={`questions-${item.id}`} />
+              </details>
+            </li>
+          </ul>
+        </details>
+      </li>
+    );
+  })
+}

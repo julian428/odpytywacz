@@ -1,5 +1,15 @@
 ---
-import DashboardLayout from "@layouts/DashboardLayout.astro";
+import MainNav from "@layouts/MainNav.astro";
 ---
 
-<DashboardLayout>Chose something to edit</DashboardLayout>
+<MainNav>
+  <ul
+    hx-get="/dashboard/files"
+    hx-trigger="load"
+    hx-swap="innerHTML"
+    hx-select=".playlist"
+    class="bg-neutral menu row-span-full col-span-3 overflow-y-auto border-r border-base-100"
+  >
+  </ul>
+  <main class="bg-neutral row-span-full col-span-9"></main>
+</MainNav>

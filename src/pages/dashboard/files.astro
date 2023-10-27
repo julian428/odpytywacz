@@ -1,0 +1,54 @@
+---
+import { ConfigFileIcon, FolderIcon, OpenFolderIcon } from "@lib/icons";
+import axios from "axios";
+
+const userData = Astro.locals.user;
+const pb_loc = import.meta.env.PB_LOCATION;
+
+let playlists: Playlist[] = [];
+
+try {
+  const response = await axios.get(
+    `${pb_loc}/api/collections/playlist/records?filter=owner = "${userData?.record.id}"`
+  );
+  playlists = response.data.items;
+} catch (error) {
+  console.log(error);
+}
+---
+
+{
+  playlists.map((playlist) => {
+    return (
+      <li class="playlist">
+        <details class="group/playlist">
+          <summary
+            hx-get={`/dashboard/${playlist.id}/files`}
+            hx-target={`#playlist-${playlist.id}`}
+            hx-swap="afterend"
+            hx-trigger="click once"
+            hx-select=".item"
+          >
+            <span class="hidden group-open/playlist:block">
+              <OpenFolderIcon />
+            </span>
+            <span class="block group-open/playlist:hidden">
+              <FolderIcon />
+            </span>
+            {playlist.title}
+          </summary>
+          <ul>
+            <li id={`playlist-${playlist.id}`}>
+              <a>
+                <span class="text-primary">
+                  <ConfigFileIcon />
+                </span>
+                config.txt
+              </a>
+            </li>
+          </ul>
+        </details>
+      </li>
+    );
+  })
+}

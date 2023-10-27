@@ -1,0 +1,34 @@
+---
+import { QuestionFileIcon } from "@lib/icons";
+import axios from "axios";
+
+export const prerender = false;
+const pb_loc = import.meta.env.PB_LOCATION;
+const { playlistId, itemId } = Astro.params;
+
+let questions: Question[] = [];
+
+try {
+  const response = await axios.get(
+    `${pb_loc}/api/collections/question/records?filter=item = "${itemId}"`
+  );
+  questions = response.data.items;
+} catch (error) {
+  console.log(error);
+}
+---
+
+{
+  questions.map((question) => {
+    return (
+      <li class="question">
+        <a>
+          <span class="text-error">
+            <QuestionFileIcon />
+          </span>
+          {question.title}
+        </a>
+      </li>
+    );
+  })
+}
