@@ -19,6 +19,11 @@ try {
 
 {
   playlists.map((playlist) => {
+    const playlistData = {
+      id: playlist.id,
+      title: playlist.title,
+      description: playlist.description,
+    };
     return (
       <li class="playlist">
         <details class="group/playlist">
@@ -43,13 +48,14 @@ try {
                 hx-post={`/dashboard/${playlist.id}/config`}
                 hx-target="#dashboard-content"
                 hx-trigger="click"
+                hx-vals={JSON.stringify(playlistData)}
                 hx-select="#dashboard-content"
                 hx-replace-url="true"
               >
-                <span class="text-primary">
+                <span class="text-error">
                   <ConfigFileIcon />
                 </span>
-                config.txt
+                config.yaml
               </a>
             </li>
           </ul>

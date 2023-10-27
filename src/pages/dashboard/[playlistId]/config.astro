@@ -1,7 +1,70 @@
 ---
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import axios from "axios";
 
 export const prerender = false;
+const pb_loc = import.meta.env.PB_LOCATION;
+const method = Astro.request.method;
+
+let data = { id: "", title: "", description: "" };
+
+if (method === "POST") {
+  try {
+    const formBody = await Astro.request.formData();
+    data.id = (formBody.get("id") as string) || "";
+    data.title = (formBody.get("title") as string) || "";
+    data.description = (formBody.get("description") as string) || "";
+  } catch (error) {
+    console.log(error);
+  }
+} else if (method === "GET") {
+  const { playlistId } = Astro.params;
+  try {
+    const response = await axios.get(
+      `${pb_loc}/api/collections/playlist/records/${playlistId}?fields=id,title,description`
+    );
+
+    data = response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 ---
 
-<DashboardLayout>config</DashboardLayout>
+<DashboardLayout>
+  <nav
+    class="menu w-full menu-horizontal gap-4 flex justify-between border-b border-base-100"
+  >
+    <h1 class="self-start text-3xl tracking-wide font-light">
+      Edit the <b>{data.title}</b> playlist metadata.
+    </h1>
+    <form class="space-x-2">
+      <button class="btn btn-sm hover:bg-error rounded-none">delete</button>
+      <button class="btn btn-sm hover:bg-success hover:text-black rounded-none"
+        >save</button
+      >
+    </form>
+  </nav>
+  <div
+    class="flex text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+  >
+    <label for="title">title:</label>
+    <input
+      id="title"
+      value={data.title}
+      type="text"
+      class="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
+    />
+  </div>
+  <div
+    class="flex flex-col text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+  >
+    <label for="description">description:</label>
+    <textarea
+      id="description"
+      rows={20}
+      class="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"
+      >{data.description}</textarea
+    >
+  </div>
+</DashboardLayout>
