@@ -49,12 +49,10 @@ const save = async (editor: any, id: string, pb_loc: string) => {
 ---
 
 <DashboardLayout>
-  <div id="edit-article" class="w-full">
-    <Editor
-      content={content}
-      saveContent={save.toString()}
-      saveParams={[id, pb_loc]}
-      client:only
-    />
-  </div>
+  <Editor
+    content={content}
+    saveContent={save.toString()}
+    saveParams={[id, pb_loc]}
+    client:only
+  />
 </DashboardLayout>

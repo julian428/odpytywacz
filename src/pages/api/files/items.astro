@@ -48,7 +48,7 @@ const itemId = urlParams.get("itemId");
                 hx-replace-url="true"
                 hx-vals={itemBody}
                 hx-swap="innerHTML"
-                hx-select="#edit-item"
+                hx-select="#dashboard-content"
               >
                 <FileIcon />
                 config.txt
@@ -60,7 +60,7 @@ const itemId = urlParams.get("itemId");
                 hx-post={`/dashboard/${item.playlist}/${item.id}/article`}
                 hx-replace-url="true"
                 hx-swap="innerHTML"
-                hx-select="#edit-article"
+                hx-select="#dashboard-content"
                 hx-vals={articleBody}
               >
                 <FileIcon />
