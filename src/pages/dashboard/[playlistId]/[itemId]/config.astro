@@ -1,0 +1,47 @@
+---
+import Wrapper from "@components/item/Wrapper";
+import DashboardLayout from "@layouts/DashboardLayout.astro";
+import axios from "axios";
+
+export const prerender = false;
+const method = Astro.request.method;
+const pb_loc = import.meta.env.PB_LOCATION;
+
+let data: {
+  id: string | null;
+  cover: string;
+  color: string;
+  title: string;
+  description: string;
+} = { id: "", cover: "", color: "#000000", description: "", title: "" };
+
+if (method === "POST") {
+  try {
+    const formBody = await Astro.request.formData();
+    data.color = (formBody.get("color") as string) || "";
+    data.cover = (formBody.get("cover") as string) || "";
+    data.title = (formBody.get("title") as string) || "";
+    data.description = (formBody.get("description") as string) || "";
+  } catch (error) {
+    console.log(error);
+  }
+} else if (method === "GET") {
+  const { itemId } = Astro.params;
+
+  try {
+    const res = await axios.get(
+      `${pb_loc}/api/collections/item/records/${itemId}?fields=cover,color,title,description,id`
+    );
+
+    data = res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+---
+
+<DashboardLayout>
+  <div id="edit-item" class="col-span-6">
+    <Wrapper client:only data={data} />
+  </div>
+</DashboardLayout>

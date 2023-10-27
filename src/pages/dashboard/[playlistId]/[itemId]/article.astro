@@ -1,0 +1,60 @@
+---
+import Editor from "@components/Editor";
+import DashboardLayout from "@layouts/DashboardLayout.astro";
+import axios from "axios";
+const pb_loc = import.meta.env.PB_LOCATION;
+
+export const prerender = false;
+const method = Astro.request.method;
+
+let content = "";
+let id: string | null = null;
+
+if (method === "POST") {
+  try {
+    const body = await Astro.request.formData();
+    content = (body.get("content") as string | null) || "";
+    id = body.get("id") as string | null;
+  } catch (error) {
+    console.log(error);
+  }
+} else if (method === "GET") {
+  const { itemId } = Astro.params;
+  id = itemId || null;
+
+  try {
+    const res = await axios.get(
+      `${pb_loc}/api/collections/item/records/${itemId}?fields=content`
+    );
+    content = res.data.content;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const save = async (editor: any, id: string, pb_loc: string) => {
+  try {
+    await fetch(`${pb_loc}/api/collections/item/records/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: editor.getData(),
+      }),
+    });
+    console.log("saved");
+  } catch (error) {
+    console.log("couldn't save");
+  }
+};
+---
+
+<DashboardLayout>
+  <div id="edit-article" class="w-full">
+    <Editor
+      content={content}
+      saveContent={save.toString()}
+      saveParams={[id, pb_loc]}
+      client:only
+    />
+  </div>
+</DashboardLayout>

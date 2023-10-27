@@ -15,6 +15,7 @@ const items = res.data.items;
   items.map((item: Item) => {
     const articleBody = JSON.stringify({ content: item.content, id: item.id });
     const itemBody = JSON.stringify({
+      id: item.id,
       color: item.color,
       cover: item.cover,
       title: item.title,
@@ -31,7 +32,8 @@ const items = res.data.items;
             <li>
               <a
                 hx-target="#dashboard-content"
-                hx-post="/api/edit/item"
+                hx-post={`/dashboard/${item.playlist}/${item.id}/config`}
+                hx-replace-url="true"
                 hx-vals={itemBody}
                 hx-swap="innerHTML"
                 hx-select="#edit-item"
@@ -43,7 +45,8 @@ const items = res.data.items;
             <li>
               <a
                 hx-target="#dashboard-content"
-                hx-post="/api/edit/article"
+                hx-post={`/dashboard/${item.playlist}/${item.id}/article`}
+                hx-replace-url="true"
                 hx-swap="innerHTML"
                 hx-select="#edit-article"
                 hx-vals={articleBody}

@@ -1,7 +1,7 @@
 ---
 import axios from "axios";
 import { FolderIcon } from "@lib/icons";
-import MainNav from "@layouts/MainNav.astro";
+import MainNav from "./MainNav.astro";
 import CUD from "@components/CUD.astro";
 
 const pb_loc = import.meta.env.PB_LOCATION;
@@ -47,6 +47,6 @@ try {
     </ul>
   </aside>
   <article class="col-span-8" id="dashboard-content">
-    Chose something to edit
+    <slot />
   </article>
 </MainNav>
