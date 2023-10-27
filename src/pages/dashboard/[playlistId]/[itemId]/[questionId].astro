@@ -1,0 +1,17 @@
+---
+import DashboardLayout from "@layouts/DashboardLayout.astro";
+
+export const prerender = false;
+const method = Astro.request.method;
+
+if (method === "POST") {
+  try {
+    const body = await Astro.request.formData();
+    console.log(body);
+  } catch (error) {
+    console.log(error);
+  }
+}
+---
+
+<DashboardLayout>question</DashboardLayout>

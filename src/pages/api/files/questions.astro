@@ -1,21 +1,45 @@
 ---
 import axios from "axios";
 import { QuestionFileIcon } from "@lib/icons";
-const url = new URL(Astro.request.url);
+const urlParams = new URL(Astro.request.url).searchParams;
 const pb_loc = import.meta.env.PB_LOCATION;
 
-const res = await axios.get(
-  `${pb_loc}/api/collections/question/records${url.search}`
-);
+let questions: Question[] = [];
+try {
+  const res = await axios.get(
+    `${pb_loc}/api/collections/question/records?filter=${urlParams.get(
+      "filter"
+    )}`
+  );
+  questions = res.data.items;
+} catch (error) {
+  console.log(error);
+}
 
-const questions = res.data.items;
+const playlsitId = urlParams.get("playlistId");
 ---
 
 {
-  questions.map((question: Question) => {
+  questions.map((question) => {
+    const questionBody = JSON.stringify({
+      id: question.id,
+      question: question.question,
+      answears: question.answears,
+      decoys: question.decoys,
+      show: question.show,
+      title: question.title,
+      type: question.type,
+    });
     return (
       <li class="question">
-        <a>
+        <a
+          hx-post={`/dashboard/${playlsitId}/${question.item}/${question.id}`}
+          hx-replace-url="true"
+          hx-swap="innerHTML"
+          hx-select="#dashboard-content"
+          hx-target="#dashboard-content"
+          hx-vals={questionBody}
+        >
           <QuestionFileIcon />
           {question.title}
         </a>

@@ -69,7 +69,7 @@ const itemId = urlParams.get("itemId");
               </a>
             </li>
             <li
-              hx-get={`/api/files/questions?filter=item = "${item.id}"`}
+              hx-get={`/api/files/questions?filter=item = "${item.id}"&playlistId=${item.playlist}`}
               hx-swap="innerHTML"
               hx-target={`#questions-${item.id}`}
               hx-select=".question"
