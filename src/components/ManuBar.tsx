@@ -22,6 +22,7 @@ export default function MenuBar() {
     <ul className="menu menu-xs items-center [&_li>*]:rounded-none menu-horizontal border-b border-base-100">
       <li>
         <button
+          type="button"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 2 }).run()
           }
@@ -34,6 +35,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 3 }).run()
           }
@@ -46,6 +48,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 4 }).run()
           }
@@ -59,6 +62,7 @@ export default function MenuBar() {
       <li className="border h-full m-0 border-base-100 mx-2"></li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
           className={`text-2xl ${editor.isActive("bold") && "text-primary"}`}
@@ -68,6 +72,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={`text-2xl ${editor.isActive("italic") && "text-primary"}`}
@@ -77,6 +82,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={`text-2xl ${editor.isActive("strike") && "text-primary"}`}
@@ -86,6 +92,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editor.can().chain().focus().toggleCode().run()}
           className={`text-2xl ${editor.isActive("code") && "text-primary"}`}
@@ -96,6 +103,7 @@ export default function MenuBar() {
       <li className="border h-full m-0 border-base-100 mx-2"></li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`text-2xl ${
             editor.isActive("bulletList") && "text-primary"
@@ -106,6 +114,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={`text-2xl ${
             editor.isActive("orderedList") && "text-primary"
@@ -116,6 +125,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
           <GoHorizontalRule />
@@ -124,6 +134,7 @@ export default function MenuBar() {
       <li className="border h-full m-0 border-base-100 mx-2"></li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={`text-2xl ${
             editor.isActive("codeBlock") && "text-primary"
@@ -134,6 +145,7 @@ export default function MenuBar() {
       </li>
       <li>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={`text-2xl ${
             editor.isActive("blockquote") && "text-primary"
