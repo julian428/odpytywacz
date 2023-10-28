@@ -5,6 +5,7 @@ import {
   GhostCreateFolderIcon,
   CollapseAllIcon,
 } from "@lib/icons";
+
 const { playlistId, itemId, questionId } = Astro.params;
 ---
 
@@ -17,6 +18,7 @@ const { playlistId, itemId, questionId } = Astro.params;
       hx-trigger="load"
       hx-swap="afterend"
       hx-select=".playlist"
+      id="treeRoot"
     >
       <ul
         class="menu menu-horizontal relative [&_li>a]:p-1 [&_li>a]:text-lg gap-1 flex justify-end"
@@ -30,7 +32,14 @@ const { playlistId, itemId, questionId } = Astro.params;
           </a>
         </li>
         <li>
-          <a>
+          <a
+            hx-post={`/dashboard${
+              (playlistId && "/" + playlistId) || ""
+            }/files`}
+            hx-swap="afterend"
+            hx-target="#treeRoot"
+            hx-select=".playlist"
+          >
             <GhostCreateFolderIcon />
           </a>
         </li>

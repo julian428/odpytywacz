@@ -8,16 +8,35 @@ const urlparams = new URL(Astro.url).searchParams;
 const playlistId = urlparams.get("playlistId");
 const itemId = urlparams.get("itemId");
 const questionId = urlparams.get("questionId");
+const method = Astro.request.method;
 
 let playlists: Playlist[] = [];
 
-try {
-  const response = await axios.get(
-    `${pb_loc}/api/collections/playlist/records?filter=owner = "${userData?.record.id}"`
-  );
-  playlists = response.data.items;
-} catch (error) {
-  console.log(error);
+switch (method) {
+  case "POST":
+    try {
+      const response = await axios.post(
+        `${pb_loc}/api/collections/playlist/records`,
+        {
+          title: "New Playlist",
+          owner: userData?.record.id,
+        }
+      );
+      playlists = [response.data];
+    } catch (error) {
+      console.log(error);
+    }
+    break;
+  default:
+    try {
+      const response = await axios.get(
+        `${pb_loc}/api/collections/playlist/records?filter=owner = "${userData?.record.id}"&sort=-created`
+      );
+      playlists = response.data.items;
+    } catch (error) {
+      console.log(error);
+    }
+    break;
 }
 ---
 
