@@ -31,10 +31,7 @@ export default function Wrapper({ defaultData }: Props) {
           <div className="text-sm breadcrumbs">
             <ul>
               <li>
-                <a
-                  href={`/dashboard/${defaultData.parentId}/config`}
-                  hx-boost="true"
-                >
+                <a href={`/dashboard/${defaultData.parentId}/config`}>
                   <span className="pr-1">
                     <GhostFolderIcon />
                   </span>
