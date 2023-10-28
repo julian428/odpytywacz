@@ -7,6 +7,7 @@ import Editor from "@components/Editor";
 export const prerender = false;
 const pb_loc = import.meta.env.PB_LOCATION;
 const { playlistId, itemId, questionId } = Astro.params;
+const method = Astro.request.method;
 
 let data = {
   id: questionId,
@@ -30,16 +31,75 @@ let data = {
   },
 };
 
-try {
-  const expand = `expand=item,item.playlist`;
-  const fields = `fields=id,title,type,answears,decoys,show,question,expand.item.id,expand.item.title,expand.item.expand.playlist.id,expand.item.expand.playlist.title`;
-  const response = await axios.get(
-    `${pb_loc}/api/collections/question/records/${questionId}?${expand}&${fields}`
-  );
-  data = response.data;
-} catch (error) {
-  console.log(error);
+switch (method) {
+  case "POST":
+    try {
+      const formBody = await Astro.request.formData();
+      const title = formBody.get("title") as string;
+      const type = formBody.get("type") as string;
+      const answears = formBody.get("answears") as string;
+      const decoys = formBody.get("decoys") as string;
+      const show = formBody.get("show") as string;
+      const showd = formBody.get("showd") as string;
+      const itemTitle = formBody.get("itemTitle") as string;
+      const playlistTitle = formBody.get("playlistTitle") as string;
+      const editorContent = formBody.get("editor-content") as string;
+
+      data = {
+        id: questionId,
+        answears,
+        decoys,
+        question: editorContent,
+        show: `${show}${
+          (show.length > 0 && showd.length > 0 && ":") || ""
+        }${showd}`,
+        title,
+        type,
+        expand: {
+          item: {
+            id: itemId,
+            title: itemTitle,
+            expand: { playlist: { title: playlistTitle, id: playlistId } },
+          },
+        },
+      };
+
+      await axios.patch(
+        `${pb_loc}/api/collections/question/records/${questionId}`,
+        {
+          title,
+          type,
+          answears: answears
+            .split(";")
+            .map((answear) => answear.trim())
+            .join(";"),
+          decoys: decoys
+            .split(";")
+            .map((answear) => answear.trim())
+            .join(";"),
+          show: data.show,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    break;
+  default:
+    try {
+      const expand = `expand=item,item.playlist`;
+      const fields = `fields=id,title,type,answears,decoys,show,question,expand.item.id,expand.item.title,expand.item.expand.playlist.id,expand.item.expand.playlist.title`;
+      const response = await axios.get(
+        `${pb_loc}/api/collections/question/records/${questionId}?${expand}&${fields}`
+      );
+      data = response.data;
+    } catch (error) {
+      console.log(error);
+    }
+    break;
 }
+
+data.answears = data.answears.replaceAll(";", "; ");
+data.decoys = data.decoys.replaceAll(";", "; ");
 ---
 
 <DashboardLayout>
@@ -82,8 +142,12 @@ try {
         </ul>
       </div>
       <div class="space-x-2">
-        <button class="btn btn-sm hover:bg-error rounded-none">delete</button>
+        <button type="button" class="btn btn-sm hover:bg-error rounded-none"
+          >delete</button
+        >
         <button
+          hx-post={`/dashboard/${playlistId}/${itemId}/${questionId}`}
+          hx-swap="none"
           class="btn btn-sm hover:bg-success hover:text-black rounded-none"
           >save</button
         >
@@ -96,6 +160,7 @@ try {
       <input
         id="title"
         type="text"
+        name="title"
         value={data.title}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -107,6 +172,7 @@ try {
       <input
         id="type"
         type="text"
+        name="type"
         value={data.type}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -119,6 +185,7 @@ try {
       <input
         id="answears"
         type="text"
+        name="answears"
         value={data.answears}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -132,6 +199,7 @@ try {
       <input
         id="decoys"
         type="text"
+        name="decoys"
         value={data.decoys}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -144,6 +212,7 @@ try {
       <input
         id="show"
         type="number"
+        name="show"
         value={data.show.split(":")[0]}
         min="2"
         max="4"
@@ -157,12 +226,19 @@ try {
       <input
         id="showd"
         type="number"
+        name="showd"
         value={data.show.split(":")[1]}
         min="1"
         max="3"
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
     </div>
+    <input type="hidden" name="itemTitle" value={data.expand.item.title} />
+    <input
+      type="hidden"
+      name="playlistTitle"
+      value={data.expand.item.expand.playlist.title}
+    />
     <div class="tabs ml-1">
       <a class="tab tab-lifted tab-active">question</a>
     </div>
