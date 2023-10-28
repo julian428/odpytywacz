@@ -23,11 +23,6 @@ try {
 
 {
   playlists.map((playlist) => {
-    const playlistData = {
-      id: playlist.id,
-      title: playlist.title,
-      description: playlist.description,
-    };
     const isOpen = playlist.id === playlistId;
     return (
       <li class="playlist">
@@ -50,12 +45,9 @@ try {
           <ul>
             <li id={`playlist-${playlist.id}`}>
               <a
-                hx-post={`/dashboard/${playlist.id}/config`}
+                href={`/dashboard/${playlist.id}/config`}
                 hx-target="#dashboard-content"
-                hx-trigger="click"
-                hx-vals={JSON.stringify(playlistData)}
                 hx-select="#dashboard-content"
-                hx-replace-url="true"
               >
                 <span class="text-error">
                   <ConfigFileIcon />

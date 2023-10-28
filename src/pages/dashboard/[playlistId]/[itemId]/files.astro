@@ -23,11 +23,9 @@ try {
     return (
       <li class="question">
         <a
-          hx-post={`/dashboard/${playlistId}/${itemId}/${question.id}`}
+          href={`/dashboard/${playlistId}/${itemId}/${question.id}`}
           hx-target="#dashboard-content"
           hx-select="#dashboard-content"
-          hx-trigger="click"
-          hx-replace-url="true"
         >
           <span class="text-accent">
             <QuestionFileIcon />
