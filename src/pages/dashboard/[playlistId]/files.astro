@@ -32,7 +32,7 @@ try {
     const questionsIsOpen = itemIsOpen && questionId;
     return (
       <li class="item">
-        <details open={itemIsOpen} class="group/item">
+        <details open={itemIsOpen} class="group/item detail">
           <summary>
             <span class="hidden group-open/item:block">
               <OpenFolderIcon />
@@ -68,7 +68,7 @@ try {
               </a>
             </li>
             <li>
-              <details open={questionsIsOpen} class="group/questions">
+              <details open={questionsIsOpen} class="group/questions detail">
                 <summary
                   hx-get={`/dashboard/${playlistId}/${item.id}/files`}
                   hx-target={`#questions-${item.id}`}

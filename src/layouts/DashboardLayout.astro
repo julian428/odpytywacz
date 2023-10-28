@@ -1,20 +1,57 @@
 ---
 import MainNav from "@layouts/MainNav.astro";
+import { CreateFileIcon, CreateFolderIcon, CollapseAllIcon } from "@lib/icons";
 const { playlistId, itemId, questionId } = Astro.params;
 ---
 
 <MainNav>
   <ul
-    hx-get={`/dashboard/files?playlistId=${playlistId}&itemId=${itemId}&questionId=${questionId}`}
-    hx-trigger="load"
-    hx-swap="innerHTML"
-    hx-select=".playlist"
-    class="bg-neutral menu row-span-full col-span-3 overflow-y-auto border-r [&_li>*]:rounded-none border-base-100"
+    class="bg-neutral menu group/tree row-span-full col-span-3 overflow-y-auto border-r [&_li>*]:rounded-none border-base-100"
   >
+    <li
+      hx-get={`/dashboard/files?playlistId=${playlistId}&itemId=${itemId}&questionId=${questionId}`}
+      hx-trigger="load"
+      hx-swap="afterend"
+      hx-select=".playlist"
+    >
+      <ul
+        class="menu menu-horizontal relative [&_li>a]:duration-150 [&_li>a]:scale-0 [&_li>a]:group-hover/tree:scale-100 [&_li>a]:p-1 [&_li>a]:text-lg gap-1 flex justify-end"
+      >
+        <li>
+          <a>
+            <CreateFileIcon />
+          </a>
+        </li>
+        <li>
+          <a>
+            <CreateFolderIcon />
+          </a>
+        </li>
+        <li>
+          <a id="collapseAll">
+            <CollapseAllIcon />
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
   <main class="bg-neutral row-span-full col-span-9 overflow-y-auto">
     <div id="dashboard-content" class="grid grid-cols-1">
       <slot />
     </div>
   </main>
+  <script>
+    const collapseDetails = () => {
+      const details = document.querySelectorAll<HTMLDetailsElement>(".detail");
+      details.forEach((detail) => {
+        detail.open = false;
+      });
+    };
+
+    window.onload = () => {
+      document
+        .getElementById("collapseAll")
+        ?.addEventListener("click", collapseDetails);
+    };
+  </script>
 </MainNav>

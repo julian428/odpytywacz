@@ -18,3 +18,4 @@ export {
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";
 export { IoMdColorPalette as ColorIcon } from "react-icons/io";
+export { VscCollapseAll as CollapseAllIcon } from "react-icons/vsc";
