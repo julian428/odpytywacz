@@ -10,6 +10,7 @@ export default function Description({ state }: Props) {
       <textarea
         id="description"
         defaultValue={val}
+        name="description"
         onChange={(e) => setVal(e.target.value)}
         rows={8}
         className="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"

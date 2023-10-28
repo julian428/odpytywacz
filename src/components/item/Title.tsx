@@ -10,6 +10,7 @@ export default function Title({ state }: Props) {
       <input
         id="title"
         type="text"
+        name="title"
         defaultValue={val}
         onChange={(e) => setVal(e.target.value)}
         className="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"

@@ -1,11 +1,13 @@
 ---
 import Wrapper from "@components/item/Wrapper";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import { GhostConfigFileIcon, GhostFolderIcon } from "@lib/icons";
 import axios from "axios";
 
 export const prerender = false;
-const { itemId } = Astro.params;
+const { playlistId, itemId } = Astro.params;
 const pb_loc = import.meta.env.PB_LOCATION;
+const method = Astro.request.method;
 
 let data = {
   id: "",
@@ -17,22 +19,101 @@ let data = {
   parentTitle: "",
 };
 
-try {
-  const response = await axios.get(
-    `${pb_loc}/api/collections/item/records/${itemId}?expand=playlist`
-  );
-  data.id = response.data.id;
-  data.title = response.data.title;
-  data.description = response.data.description;
-  data.color = response.data.color;
-  data.cover = response.data.cover;
-  data.parentId = response.data.expand.playlist.id;
-  data.parentTitle = response.data.expand.playlist.title;
-} catch (error) {
-  console.log(error);
+switch (method) {
+  case "POST":
+    try {
+      const formBody = await Astro.request.formData();
+
+      const parentId = formBody.get("parentId") as string;
+      const parentTitle = formBody.get("parentTitle") as string;
+      const color = formBody.get("color") as string;
+      const cover = formBody.get("cover") as string;
+      const title = formBody.get("title") as string;
+      const description = formBody.get("description") as string;
+
+      const updatedData = {
+        color,
+        cover,
+        description,
+        title,
+      };
+      data = {
+        id: itemId || "",
+        parentId,
+        parentTitle,
+        ...updatedData,
+      };
+      await axios.patch(
+        `${pb_loc}/api/collections/item/records/${itemId}`,
+        updatedData
+      );
+    } catch (error) {}
+    break;
+  default:
+    try {
+      const response = await axios.get(
+        `${pb_loc}/api/collections/item/records/${itemId}?expand=playlist`
+      );
+      data.id = response.data.id;
+      data.title = response.data.title;
+      data.description = response.data.description;
+      data.color = response.data.color;
+      data.cover = response.data.cover;
+      data.parentId = response.data.expand.playlist.id;
+      data.parentTitle = response.data.expand.playlist.title;
+    } catch (error) {
+      console.log(error);
+    }
+    break;
 }
 ---
 
 <DashboardLayout>
-  <Wrapper client:load defaultData={data} />
+  <form>
+    <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
+      <div class="text-sm breadcrumbs">
+        <ul>
+          <li>
+            <a href={`/dashboard/${data.parentId}/config`}>
+              <span class="pr-1">
+                <GhostFolderIcon />
+              </span>
+              {data.parentTitle}
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="pr-1">
+                <GhostFolderIcon />
+              </span>
+              {data.title}
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="text-error pr-1">
+                <GhostConfigFileIcon />
+              </span>
+               config.yaml
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="space-x-2">
+        <button type="button" class="btn btn-sm hover:bg-error rounded-none">
+          delete
+        </button>
+        <button
+          hx-post={`/dashboard/${playlistId}/${itemId}/config`}
+          hx-swap="none"
+          class="btn btn-sm hover:bg-success hover:text-black rounded-none"
+        >
+          save
+        </button>
+      </div>
+    </nav>
+    <input type="hidden" name="parentId" value={data.parentId} />
+    <input type="hidden" name="parentTitle" value={data.parentTitle} />
+    <Wrapper client:load defaultData={data} />
+  </form>
 </DashboardLayout>
