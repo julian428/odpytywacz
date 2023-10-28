@@ -164,10 +164,9 @@ try {
       />
     </div>
     <div
-      class="flex flex-col text-2xl gap-2 p-2 border-t border-base-100 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+      class="flex flex-col w-full border-t border-base-100 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
     >
-      <label for="question">question:</label>
-      <Editor content={data.question} client:only />
+      <Editor client:only content={data.question} />
     </div>
   </form>
 </DashboardLayout>
