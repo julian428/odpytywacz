@@ -4,31 +4,19 @@ import { GhostConfigFileIcon, GhostFolderIcon } from "@lib/icons";
 import axios from "axios";
 
 export const prerender = false;
+const { playlistId } = Astro.params;
 const pb_loc = import.meta.env.PB_LOCATION;
-const method = Astro.request.method;
 
 let data = { id: "", title: "", description: "" };
 
-if (method === "POST") {
-  try {
-    const formBody = await Astro.request.formData();
-    data.id = (formBody.get("id") as string) || "";
-    data.title = (formBody.get("title") as string) || "";
-    data.description = (formBody.get("description") as string) || "";
-  } catch (error) {
-    console.log(error);
-  }
-} else if (method === "GET") {
-  const { playlistId } = Astro.params;
-  try {
-    const response = await axios.get(
-      `${pb_loc}/api/collections/playlist/records/${playlistId}?fields=id,title,description`
-    );
+try {
+  const response = await axios.get(
+    `${pb_loc}/api/collections/playlist/records/${playlistId}?fields=id,title,description`
+  );
 
-    data = response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  data = response.data;
+} catch (error) {
+  console.log(error);
 }
 ---
 
