@@ -13,16 +13,37 @@ const { playlistId } = Astro.params;
 const urlparams = new URL(Astro.url).searchParams;
 const itemId = urlparams.get("itemId");
 const questionId = urlparams.get("questionId");
+const method = Astro.request.method;
 
 let items: Item[] = [];
 
-try {
-  const response = await axios.get(
-    `${pb_loc}/api/collections/item/records?filter=playlist = "${playlistId}"&expand=playlist`
-  );
-  items = response.data.items;
-} catch (error) {
-  console.log(error);
+switch (method) {
+  case "POST":
+    try {
+      const userData = Astro.locals.user;
+      const response = await axios.post(
+        `${pb_loc}/api/collections/item/records`,
+        {
+          title: "New Item",
+          owner: userData?.record.id,
+          playlist: playlistId,
+        }
+      );
+      items = [response.data];
+    } catch (error) {
+      console.log(error);
+    }
+    break;
+  default:
+    try {
+      const response = await axios.get(
+        `${pb_loc}/api/collections/item/records?filter=playlist = "${playlistId}"&expand=playlist&sort=-created`
+      );
+      items = response.data.items;
+    } catch (error) {
+      console.log(error);
+    }
+    break;
 }
 ---
 

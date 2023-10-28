@@ -7,6 +7,7 @@ import {
 } from "@lib/icons";
 
 const { playlistId, itemId, questionId } = Astro.params;
+console.log(playlistId ? `#playlist-${playlistId}` : "#treeRoot");
 ---
 
 <MainNav>
@@ -37,8 +38,8 @@ const { playlistId, itemId, questionId } = Astro.params;
               (playlistId && "/" + playlistId) || ""
             }/files`}
             hx-swap="afterend"
-            hx-target="#treeRoot"
-            hx-select=".playlist"
+            hx-target={playlistId ? `#playlist-${playlistId}` : "#treeRoot"}
+            hx-select={playlistId ? ".item" : ".playlist"}
           >
             <GhostCreateFolderIcon />
           </a>
