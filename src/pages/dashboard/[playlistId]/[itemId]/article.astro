@@ -1,7 +1,66 @@
 ---
+import Editor from "@components/Editor";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import { GhostFolderIcon, GhostMarkdownFileIcon } from "@lib/icons";
+import axios from "axios";
 
 export const prerender = false;
+const { itemId } = Astro.params;
+const pb_loc = import.meta.env.PB_LOCATION;
+
+let data = {
+  id: "",
+  content: "",
+  title: "",
+  expand: { playlist: { id: "", title: "" } },
+};
+
+try {
+  const response = await axios.get(`
+  ${pb_loc}/api/collections/item/records/${itemId}?fields=id,content,title,expand.playlist.id,expand.playlist.title&expand=playlist`);
+  data = response.data;
+  console.log(data);
+} catch (error) {
+  console.log(error);
+}
 ---
 
-<DashboardLayout>article</DashboardLayout>
+<DashboardLayout>
+  <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
+    <div class="text-sm breadcrumbs">
+      <ul>
+        <li>
+          <a href={`/dashboard/${data.expand.playlist.id}/config`}>
+            <span class="pr-1">
+              <GhostFolderIcon />
+            </span>
+            {data.expand.playlist.title}
+          </a>
+        </li>
+        <li>
+          <a href={`/dashboard/${data.expand.playlist.id}/${data.id}/config`}>
+            <span class="pr-1">
+              <GhostFolderIcon />
+            </span>
+            {data.title}
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class="text-primary pr-1">
+              <GhostMarkdownFileIcon />
+            </span>
+             article.md
+          </a>
+        </li>
+      </ul>
+    </div>
+    <form class="space-x-2">
+      <button class="btn btn-sm hover:bg-error rounded-none">delete</button>
+      <button class="btn btn-sm hover:bg-success hover:text-black rounded-none"
+        >save</button
+      >
+    </form>
+  </nav>
+  <Editor content={data.content} client:only />
+</DashboardLayout>

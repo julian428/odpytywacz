@@ -4,7 +4,7 @@ import { useState } from "react";
 
 interface Props {
   content?: string;
-  saveContent: string;
+  saveContent?: string;
   saveParams?: any[];
 }
 
