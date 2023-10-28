@@ -19,7 +19,6 @@ try {
   const response = await axios.get(`
   ${pb_loc}/api/collections/item/records/${itemId}?fields=id,content,title,expand.playlist.id,expand.playlist.title&expand=playlist`);
   data = response.data;
-  console.log(data);
 } catch (error) {
   console.log(error);
 }

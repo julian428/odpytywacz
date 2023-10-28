@@ -1,7 +1,173 @@
 ---
+import Editor from "@components/Editor";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import { GhostFolderIcon, GhostQuestionFileIcon } from "@lib/icons";
+import axios from "axios";
 
 export const prerender = false;
+const pb_loc = import.meta.env.PB_LOCATION;
+const { playlistId, itemId, questionId } = Astro.params;
+
+let data = {
+  id: questionId,
+  title: "",
+  type: "",
+  answears: "",
+  decoys: "",
+  show: "",
+  question: "",
+  expand: {
+    item: {
+      id: itemId,
+      title: "",
+      expand: {
+        playlist: {
+          id: playlistId,
+          title: "",
+        },
+      },
+    },
+  },
+};
+
+try {
+  const expand = `expand=item,item.playlist`;
+  const fields = `fields=id,title,type,answears,decoys,show,question,expand.item.id,expand.item.title,expand.item.expand.playlist.id,expand.item.expand.playlist.title`;
+  const response = await axios.get(
+    `${pb_loc}/api/collections/question/records/${questionId}?${expand}&${fields}`
+  );
+  data = response.data;
+} catch (error) {
+  console.log(error);
+}
 ---
 
-<DashboardLayout>question</DashboardLayout>
+<DashboardLayout>
+  <form>
+    <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
+      <div class="text-sm breadcrumbs">
+        <ul>
+          <li>
+            <a href={`/dashboard/${playlistId}/config`}>
+              <span class="pr-1">
+                <GhostFolderIcon />
+              </span>
+              {data.expand.item.expand.playlist.title}
+            </a>
+          </li>
+          <li>
+            <a href={`/dashboard/${playlistId}/${itemId}/config`}>
+              <span class="pr-1">
+                <GhostFolderIcon />
+              </span>
+              {data.expand.item.title}
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="pr-1">
+                <GhostFolderIcon />
+              </span>
+               questions
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="text-accent pr-1">
+                <GhostQuestionFileIcon />
+              </span>
+               replace
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="space-x-2">
+        <button class="btn btn-sm hover:bg-error rounded-none">delete</button>
+        <button
+          class="btn btn-sm hover:bg-success hover:text-black rounded-none"
+          >save</button
+        >
+      </div>
+    </nav>
+    <div
+      class="flex text-2xl gap-2 p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="title">title:</label>
+      <input
+        id="title"
+        type="text"
+        value={data.title}
+        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+      />
+    </div>
+    <div
+      class="flex text-2xl gap-2 p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="type">type:</label>
+      <input
+        id="type"
+        type="text"
+        value={data.type}
+        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+      />
+    </div>
+    <div
+      class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="answears">answears:</label>
+      <span>[</span>
+      <input
+        id="answears"
+        type="text"
+        value={data.answears}
+        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+      />
+      <span>]</span>
+    </div>
+    <div
+      class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="decoys">decoys:</label>
+      <span>[</span>
+      <input
+        id="decoys"
+        type="text"
+        value={data.decoys}
+        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+      />
+      <span>]</span>
+    </div>
+    <div
+      class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="show" class="whitespace-nowrap">show-answears:</label>
+      <input
+        id="show"
+        type="number"
+        value={data.show.split(":")[0]}
+        min="2"
+        max="4"
+        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+      />
+    </div>
+    <div
+      class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="showd" class="whitespace-nowrap">show-decoys:</label>
+      <input
+        id="showd"
+        type="number"
+        value={data.show.split(":")[1]}
+        min="1"
+        max="3"
+        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+      />
+    </div>
+    <div
+      class="flex flex-col text-2xl gap-2 p-2 border-t border-base-100 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="question">question:</label>
+      <Editor content={data.question} client:only />
+    </div>
+  </form>
+</DashboardLayout>
