@@ -163,9 +163,10 @@ try {
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
     </div>
-    <div
-      class="flex flex-col w-full border-t border-base-100 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
-    >
+    <div class="tabs ml-1">
+      <a class="tab tab-lifted tab-active">question</a>
+    </div>
+    <div class="flex flex-col w-full border-t border-base-100">
       <Editor client:only content={data.question} />
     </div>
   </form>
