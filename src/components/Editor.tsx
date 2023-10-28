@@ -4,6 +4,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./ManuBar";
+import { useState } from "react";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -20,17 +21,24 @@ const extensions = [
 ];
 
 export default function Editor({ content }: { content: string }) {
+  const [editorContent, setEditorContent] = useState(content);
   return (
-    <EditorProvider
-      slotBefore={<MenuBar />}
-      extensions={extensions}
-      content={content}
-      children={null}
-      editorProps={{
-        attributes: {
-          class: "p-2 outline-none max-w-none prose prose-xl",
-        },
-      }}
-    ></EditorProvider>
+    <>
+      <input type="hidden" name="editor-content" value={editorContent} />
+      <EditorProvider
+        slotBefore={<MenuBar />}
+        extensions={extensions}
+        content={content}
+        children={null}
+        onUpdate={(editor) => {
+          setEditorContent(editor.editor.getHTML());
+        }}
+        editorProps={{
+          attributes: {
+            class: "p-2 outline-none max-w-none prose prose-xl",
+          },
+        }}
+      ></EditorProvider>
+    </>
   );
 }
