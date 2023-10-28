@@ -4,7 +4,9 @@ export { ImStatsBars as StatsIcon } from "react-icons/im";
 export {
   AiOutlineSearch as SearchIcon,
   AiFillFolderAdd as CreateFolderIcon,
+  AiOutlineFolderAdd as GhostCreateFolderIcon,
   AiFillFileAdd as CreateFileIcon,
+  AiOutlineFileAdd as GhostCreateFileIcon,
   AiFillFolder as FolderIcon,
   AiOutlineFolder as GhostFolderIcon,
   AiFillFolderOpen as OpenFolderIcon,
