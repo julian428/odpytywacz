@@ -32,9 +32,13 @@ export default function Wrapper({ defaultData }: Props) {
         <Title state={title} />
         <Description state={description} />
       </div>
-      <div className="p-2">
-        <h2 className="text-2xl">Preview:</h2>
-        <div className="flex justify-center items-center h-full">
+      <div className="relative">
+        <div className="tabs absolute">
+          <a className="tab tab-lifted tab-active -translate-y-full left-2">
+            previev
+          </a>
+        </div>
+        <div className="flex justify-center items-center h-full translate-y-1/2">
           <ItemCard
             data={{
               color: color[0],
