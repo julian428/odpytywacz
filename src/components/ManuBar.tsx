@@ -19,7 +19,7 @@ export default function MenuBar() {
   }
 
   return (
-    <ul className="menu menu-xs items-center [&_li>*]:rounded-none menu-horizontal border-b border-base-100">
+    <ul className="menu menu-xs items-center bg-neutral sticky top-0 z-10 [&_li>*]:rounded-none menu-horizontal border-b border-base-100">
       <li>
         <button
           type="button"
