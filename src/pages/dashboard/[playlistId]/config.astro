@@ -6,69 +6,102 @@ import axios from "axios";
 export const prerender = false;
 const { playlistId } = Astro.params;
 const pb_loc = import.meta.env.PB_LOCATION;
+const method = Astro.request.method;
 
 let data = { id: "", title: "", description: "" };
 
-try {
-  const response = await axios.get(
-    `${pb_loc}/api/collections/playlist/records/${playlistId}?fields=id,title,description`
-  );
+switch (method) {
+  case "POST":
+    try {
+      const formBody = await Astro.request.formData();
+      const id = formBody.get("id") as string;
+      const title = formBody.get("title") as string;
+      const description = formBody.get("description") as string;
 
-  data = response.data;
-} catch (error) {
-  console.log(error);
+      data = { id, title, description };
+
+      await axios.patch(`${pb_loc}/api/collections/playlist/records/${id}`, {
+        title,
+        description,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    break;
+
+  default:
+    try {
+      const response = await axios.get(
+        `${pb_loc}/api/collections/playlist/records/${playlistId}?fields=id,title,description`
+      );
+
+      data = response.data;
+    } catch (error) {
+      console.log(error);
+    }
+    break;
 }
 ---
 
 <DashboardLayout>
-  <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
-    <div class="text-sm breadcrumbs">
-      <ul>
-        <li>
-          <a href="/dashboard">
-            <span class="pr-1">
-              <GhostFolderIcon />
-            </span>
-            {data.title}
-          </a>
-        </li>
-        <li>
-          <a>
-            <span class="text-error pr-1">
-              <GhostConfigFileIcon />
-            </span>
-             config.yaml
-          </a>
-        </li>
-      </ul>
-    </div>
-    <form class="space-x-2">
-      <button class="btn btn-sm hover:bg-error rounded-none">delete</button>
-      <button class="btn btn-sm hover:bg-success hover:text-black rounded-none"
-        >save</button
-      >
-    </form>
-  </nav>
-  <div
-    class="flex text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
-  >
-    <label for="title">title:</label>
-    <input
-      id="title"
-      value={data.title}
-      type="text"
-      class="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
-    />
-  </div>
-  <div
-    class="flex flex-col text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
-  >
-    <label for="description">description:</label>
-    <textarea
-      id="description"
-      rows={20}
-      class="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"
-      >{data.description}</textarea
+  <form>
+    <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
+      <div class="text-sm breadcrumbs">
+        <ul>
+          <li>
+            <a href="/dashboard">
+              <span class="pr-1">
+                <GhostFolderIcon />
+              </span>
+              {data.title}
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="text-error pr-1">
+                <GhostConfigFileIcon />
+              </span>
+               config.yaml
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="space-x-2">
+        <button type="button" class="btn btn-sm hover:bg-error rounded-none"
+          >delete</button
+        >
+        <button
+          hx-post={`/dashboard/${playlistId}/config`}
+          hx-swap="none"
+          class="btn btn-sm hover:bg-success hover:text-black rounded-none"
+          >save</button
+        >
+      </div>
+    </nav>
+    <div
+      class="flex text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
     >
-  </div>
+      <input type="hidden" name="id" value={data.id} />
+      <label for="title">title:</label>
+      <input
+        id="title"
+        value={data.title}
+        name="title"
+        type="text"
+        class="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
+      />
+    </div>
+    <div
+      class="flex flex-col text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+    >
+      <label for="description">description:</label>
+      <textarea
+        id="description"
+        name="description"
+        rows={20}
+        class="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"
+        >{data.description}</textarea
+      >
+    </div>
+  </form>
 </DashboardLayout>
