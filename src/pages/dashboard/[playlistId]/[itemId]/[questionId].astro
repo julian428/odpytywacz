@@ -196,6 +196,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="title"
         type="text"
         name="title"
+        maxlength="64"
         value={data.title}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -208,6 +209,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="type"
         type="text"
         name="type"
+        pattern="^(open|closed)$"
         value={data.type}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -221,6 +223,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="answears"
         type="text"
         name="answears"
+        maxlength="1024"
         value={data.answears}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -235,6 +238,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="decoys"
         type="text"
         name="decoys"
+        maxlength="1024"
         value={data.decoys}
         class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
