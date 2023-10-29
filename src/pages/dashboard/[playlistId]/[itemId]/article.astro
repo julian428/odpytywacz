@@ -1,8 +1,14 @@
 ---
 import Editor from "@components/Editor";
+import ErrorAlert from "@components/alerts/errorAlert.astro";
+import SuccessAlert from "@components/alerts/successAlert.astro";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
-import { GhostFolderIcon, GhostMarkdownFileIcon } from "@lib/icons";
-import axios from "axios";
+import {
+  GhostFolderIcon,
+  GhostMarkdownFileIcon,
+  SpinnerIcon,
+} from "@lib/icons";
+import axios, { AxiosError } from "axios";
 
 export const prerender = false;
 const { playlistId, itemId } = Astro.params;
@@ -14,6 +20,12 @@ let data = {
   content: "",
   title: "",
   expand: { playlist: { id: "", title: "" } },
+};
+
+let message = {
+  show: false,
+  type: "",
+  message: "",
 };
 
 switch (method) {
@@ -39,8 +51,17 @@ switch (method) {
       await axios.patch(`${pb_loc}/api/collections/item/records/${itemId}`, {
         content,
       });
+      message.show = true;
+      message.type = "success";
+      message.message = "Updated the article.";
     } catch (error) {
-      console.log(error);
+      message.show = true;
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Invalid data.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
   default:
@@ -49,14 +70,27 @@ switch (method) {
   ${pb_loc}/api/collections/item/records/${itemId}?fields=id,content,title,expand.playlist.id,expand.playlist.title&expand=playlist`);
       data = response.data;
     } catch (error) {
-      console.log(error);
+      message.show = true;
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Can't find this article.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
 }
 ---
 
 <DashboardLayout>
-  <form class="flex flex-col relative">
+  <form
+    hx-post={`/dashboard/${playlistId}/${itemId}/article`}
+    hx-swap="outerHTML"
+    hx-target="#dashboard-content"
+    hx-select="#dashboard-content"
+    hx-indicator="#loading"
+    class="flex flex-col relative"
+  >
     <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
       <div class="text-sm breadcrumbs">
         <ul>
@@ -88,8 +122,6 @@ switch (method) {
       </div>
       <div class="space-x-2">
         <button
-          hx-post={`/dashboard/${playlistId}/${itemId}/article`}
-          hx-swap="none"
           class="btn btn-sm hover:bg-success hover:text-black rounded-none"
           >save</button
         >
@@ -103,4 +135,19 @@ switch (method) {
     />
     <Editor client:only content={data.content} />
   </form>
+  <div
+    id="loading"
+    class="htmx-indicator alert text-base px-4 py-2 rounded-none w-fit absolute flex justify-between bottom-4 right-4"
+  >
+    <div class="animate-spin">
+      <SpinnerIcon />
+    </div>
+     Loading
+  </div>
+  {
+    message.show && message.type === "success" && (
+      <SuccessAlert message={message} />
+    )
+  }
+  {message.show && message.type === "error" && <ErrorAlert message={message} />}
 </DashboardLayout>
