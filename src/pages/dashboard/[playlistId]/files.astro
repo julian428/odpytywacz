@@ -1,4 +1,5 @@
 ---
+import Spinner from "@components/spinner.astro";
 import {
   ConfigFileIcon,
   FolderIcon,
@@ -111,6 +112,7 @@ switch (method) {
                     <FolderIcon />
                   </span>
                   questions
+                  <Spinner />
                 </summary>
                 <ul>
                   <li class="hidden" id={`questions-${item.id}`} />
