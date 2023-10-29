@@ -14,9 +14,9 @@ export default function ColorPicker({ state }: Props) {
         value={val}
         onChange={(e) => setVal(e.target.value)}
         type="text"
-        maxLength={7}
+        spellCheck={false}
         pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
-        className="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+        className="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
       <label
         style={{ color: val }}

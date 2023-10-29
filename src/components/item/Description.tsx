@@ -14,7 +14,7 @@ export default function Description({ state }: Props) {
         name="description"
         onChange={(e) => setVal(e.target.value)}
         rows={8}
-        className="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"
+        className="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"
       ></textarea>
     </div>
   );

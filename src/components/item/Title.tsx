@@ -11,11 +11,10 @@ export default function Title({ state }: Props) {
         id="title"
         type="text"
         name="title"
-        required
-        maxLength={256}
+        pattern="^(.{0,64})$"
         defaultValue={val}
         onChange={(e) => setVal(e.target.value)}
-        className="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
+        className="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
       />
     </div>
   );
