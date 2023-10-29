@@ -21,3 +21,4 @@ export {
 export { GoFilter as FilterIcon } from "react-icons/go";
 export { IoMdColorPalette as ColorIcon } from "react-icons/io";
 export { VscCollapseAll as CollapseAllIcon } from "react-icons/vsc";
+export { LiaSpinnerSolid as SpinnerIcon } from "react-icons/lia";

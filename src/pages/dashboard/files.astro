@@ -1,4 +1,5 @@
 ---
+import Spinner from "@components/spinner.astro";
 import { ConfigFileIcon, FolderIcon, OpenFolderIcon } from "@lib/icons";
 import axios from "axios";
 
@@ -75,6 +76,7 @@ switch (method) {
             <li id={`items-${playlist.id}`}>
               <a
                 href={`/dashboard/${playlist.id}/config`}
+                hx-swap="outerHTML transition:true"
                 hx-target="#dashboard-content"
                 hx-select="#dashboard-content"
               >
@@ -82,6 +84,7 @@ switch (method) {
                   <ConfigFileIcon />
                 </span>
                 config.yaml
+                <Spinner />
               </a>
             </li>
           </ul>
