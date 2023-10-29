@@ -4,7 +4,7 @@ import SuccessAlert from "@components/alerts/successAlert.astro";
 import Wrapper from "@components/item/Wrapper";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
 import { GhostConfigFileIcon, GhostFolderIcon, SpinnerIcon } from "@lib/icons";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const prerender = false;
 const { playlistId, itemId } = Astro.params;
@@ -76,7 +76,13 @@ switch (method) {
       data.parentId = response.data.expand.playlist.id;
       data.parentTitle = response.data.expand.playlist.title;
     } catch (error) {
-      console.log(error);
+      message.show = true;
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Can't find this item.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
 }

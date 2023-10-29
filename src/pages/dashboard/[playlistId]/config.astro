@@ -3,7 +3,7 @@ import DashboardLayout from "@layouts/DashboardLayout.astro";
 import { GhostConfigFileIcon, GhostFolderIcon, SpinnerIcon } from "@lib/icons";
 import SuccessAlert from "@components/alerts/successAlert.astro";
 import ErrorAlert from "@components/alerts/errorAlert.astro";
-import axios, { AxiosError } from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import Spinner from "@components/spinner.astro";
 
 export const prerender = false;
@@ -53,7 +53,13 @@ switch (method) {
 
       data = response.data;
     } catch (error) {
-      console.log(error);
+      message.show = true;
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Can't find this playlist.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
 }
