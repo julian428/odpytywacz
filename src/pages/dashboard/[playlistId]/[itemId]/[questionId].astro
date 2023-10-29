@@ -196,9 +196,9 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="title"
         type="text"
         name="title"
-        maxlength="64"
+        pattern="^(.{0,64})$"
         value={data.title}
-        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+        class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
     </div>
     <div
@@ -211,7 +211,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         name="type"
         pattern="^(open|closed)$"
         value={data.type}
-        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+        class="w-full bg-transparent invalid:decoration-wavy invalid:underline invalid:decoration-error outline-none italic text-xl opacity-50 tracking-wide"
       />
     </div>
     <div
@@ -223,9 +223,9 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="answears"
         type="text"
         name="answears"
-        maxlength="1024"
+        pattern="^(.{0,1024})$"
         value={data.answears}
-        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+        class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
       <span>]</span>
     </div>
@@ -238,9 +238,9 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="decoys"
         type="text"
         name="decoys"
-        maxlength="1024"
+        pattern="^(.{0,1024})$"
         value={data.decoys}
-        class="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
+        class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
       <span>]</span>
     </div>
