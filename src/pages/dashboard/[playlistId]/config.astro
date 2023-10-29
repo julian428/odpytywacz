@@ -69,7 +69,7 @@ switch (method) {
       <div class="space-x-2">
         <button
           hx-post={`/dashboard/${playlistId}/files`}
-          hx-target={`#playlist-${playlistId}`}
+          hx-target={`#items-${playlistId}`}
           hx-swap="afterend"
           hx-select=".item"
           type="button"
@@ -77,8 +77,13 @@ switch (method) {
         >
           + item</button
         >
-        <button type="button" class="btn btn-sm hover:bg-error rounded-none"
-          >delete</button
+        <button
+          hx-delete={`/dashboard/files?id=${playlistId}`}
+          hx-swap="outerHTML"
+          hx-replace-url="/dashboard"
+          hx-target={`#playlist-${playlistId}`}
+          type="button"
+          class="btn btn-sm hover:bg-error rounded-none">delete</button
         >
         <button
           hx-post={`/dashboard/${playlistId}/config`}

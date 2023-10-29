@@ -13,6 +13,16 @@ const method = Astro.request.method;
 let playlists: Playlist[] = [];
 
 switch (method) {
+  case "DELETE":
+    const playlistId = urlparams.get("id");
+    try {
+      const response = await axios.delete(
+        `${pb_loc}/api/collections/playlist/records/${playlistId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    break;
   case "POST":
     try {
       const response = await axios.post(
@@ -44,11 +54,11 @@ switch (method) {
   playlists.map((playlist) => {
     const isOpen = playlist.id === playlistId;
     return (
-      <li class="item">
+      <li class="item" id={`playlist-${playlist.id}`}>
         <details open={isOpen} class="group/playlist detail">
           <summary
             hx-get={`/dashboard/${playlist.id}/files?itemId=${itemId}&questionId=${questionId}`}
-            hx-target={`#playlist-${playlist.id}`}
+            hx-target={`#items-${playlist.id}`}
             hx-swap="afterend"
             hx-trigger={`${isOpen ? "load" : "click"} once`}
             hx-select=".item"
@@ -62,7 +72,7 @@ switch (method) {
             {playlist.title}
           </summary>
           <ul>
-            <li id={`playlist-${playlist.id}`}>
+            <li id={`items-${playlist.id}`}>
               <a
                 href={`/dashboard/${playlist.id}/config`}
                 hx-target="#dashboard-content"
