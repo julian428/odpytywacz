@@ -67,6 +67,16 @@ switch (method) {
         </ul>
       </div>
       <div class="space-x-2">
+        <button
+          hx-post={`/dashboard/${playlistId}/files`}
+          hx-target={`#playlist-${playlistId}`}
+          hx-swap="afterend"
+          hx-select=".item"
+          type="button"
+          class="btn btn-sm hover:bg-warning rounded-none"
+        >
+          + item</button
+        >
         <button type="button" class="btn btn-sm hover:bg-error rounded-none"
           >delete</button
         >

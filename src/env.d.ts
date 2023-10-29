@@ -16,6 +16,7 @@ declare namespace App {
               token: string
         } | null
         loggedIn: boolean
+        params: Record<string, string | undefined>
     }
 
 }

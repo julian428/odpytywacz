@@ -44,7 +44,7 @@ switch (method) {
   playlists.map((playlist) => {
     const isOpen = playlist.id === playlistId;
     return (
-      <li class="playlist">
+      <li class="item">
         <details open={isOpen} class="group/playlist detail">
           <summary
             hx-get={`/dashboard/${playlist.id}/files?itemId=${itemId}&questionId=${questionId}`}

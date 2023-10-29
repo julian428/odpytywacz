@@ -7,7 +7,6 @@ import {
 } from "@lib/icons";
 
 const { playlistId, itemId, questionId } = Astro.params;
-console.log(playlistId ? `#playlist-${playlistId}` : "#treeRoot");
 ---
 
 <MainNav>
@@ -18,7 +17,7 @@ console.log(playlistId ? `#playlist-${playlistId}` : "#treeRoot");
       hx-get={`/dashboard/files?playlistId=${playlistId}&itemId=${itemId}&questionId=${questionId}`}
       hx-trigger="load"
       hx-swap="afterend"
-      hx-select=".playlist"
+      hx-select=".item"
       id="treeRoot"
     >
       <ul
@@ -28,18 +27,11 @@ console.log(playlistId ? `#playlist-${playlistId}` : "#treeRoot");
           dashboard
         </li>
         <li>
-          <a>
-            <GhostCreateFileIcon />
-          </a>
-        </li>
-        <li>
           <a
-            hx-post={`/dashboard${
-              (playlistId && "/" + playlistId) || ""
-            }/files`}
+            hx-post="/dashboard/files"
             hx-swap="afterend"
-            hx-target={playlistId ? `#playlist-${playlistId}` : "#treeRoot"}
-            hx-select={playlistId ? ".item" : ".playlist"}
+            hx-target="#treeRoot"
+            hx-select=".item"
           >
             <GhostCreateFolderIcon />
           </a>
