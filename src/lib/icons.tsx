@@ -21,6 +21,7 @@ export {
   AiOutlineFileUnknown as GhostQuestionFileIcon,
   AiOutlineFileText as GhostConfigFileIcon,
   AiOutlineCheckCircle as SuccessIcon,
+  AiOutlineInfoCircle as InfoIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";
 export { IoMdColorPalette as ColorIcon } from "react-icons/io";

@@ -1,0 +1,11 @@
+---
+import { InfoIcon } from "@lib/icons";
+
+const { tip } = Astro.props;
+---
+
+<div class="tooltip tooltip-left tooltip-info" data-tip={tip || "no tip"}>
+  <button type="button" class="btn btn-circle btn-ghost btn-xs text-lg">
+    <InfoIcon />
+  </button>
+</div>

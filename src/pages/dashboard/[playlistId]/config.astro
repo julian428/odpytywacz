@@ -5,6 +5,7 @@ import SuccessAlert from "@components/alerts/successAlert.astro";
 import ErrorAlert from "@components/alerts/errorAlert.astro";
 import axios, { Axios, AxiosError } from "axios";
 import Spinner from "@components/spinner.astro";
+import Tooltip from "@components/tooltip.astro";
 
 export const prerender = false;
 const { playlistId } = Astro.params;
@@ -122,7 +123,7 @@ switch (method) {
       </div>
     </nav>
     <div
-      class="flex text-2xl p-2 group focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+      class="flex text-2xl gap-2 p-2 group focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
     >
       <input type="hidden" name="id" value={data.id} />
       <label for="title">title:</label>
@@ -132,8 +133,9 @@ switch (method) {
         pattern="^(.{1,64})$"
         name="title"
         type="text"
-        class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
+        class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
+      <Tooltip tip="length: 1 - 64" />
     </div>
     <div
       class="flex flex-col text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"

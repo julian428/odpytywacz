@@ -46,7 +46,9 @@ const { playlistId, itemId, questionId } = Astro.params;
       </ul>
     </li>
   </ul>
-  <main class="bg-neutral row-span-full col-span-9 overflow-y-auto">
+  <main
+    class="bg-neutral row-span-full col-span-9 overflow-x-hidden overflow-y-auto"
+  >
     <div id="dashboard-content" class="grid grid-cols-1">
       <slot />
     </div>
