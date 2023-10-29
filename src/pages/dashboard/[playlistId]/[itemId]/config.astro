@@ -110,7 +110,13 @@ switch (method) {
         >
           + question</button
         >
-        <button type="button" class="btn btn-sm hover:bg-error rounded-none">
+        <button
+          hx-delete={`/dashboard/${playlistId}/${itemId}/files`}
+          hx-swap="outerHTML"
+          hx-replace-url={`/dashboard/${playlistId}/config`}
+          hx-target={`#item-${itemId}`}
+          class="btn btn-sm hover:bg-error rounded-none"
+        >
           delete
         </button>
         <button

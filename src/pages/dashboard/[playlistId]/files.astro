@@ -52,7 +52,7 @@ switch (method) {
     const itemIsOpen = item.id === itemId;
     const questionsIsOpen = itemIsOpen && questionId;
     return (
-      <li class="item">
+      <li class="item" id={`item-${item.id}`}>
         <details open={itemIsOpen} class="group/item detail">
           <summary>
             <span class="hidden group-open/item:block">
