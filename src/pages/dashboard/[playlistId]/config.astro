@@ -1,7 +1,10 @@
 ---
 import DashboardLayout from "@layouts/DashboardLayout.astro";
-import { GhostConfigFileIcon, GhostFolderIcon } from "@lib/icons";
-import axios from "axios";
+import { GhostConfigFileIcon, GhostFolderIcon, SpinnerIcon } from "@lib/icons";
+import SuccessAlert from "@components/alerts/successAlert.astro";
+import ErrorAlert from "@components/alerts/errorAlert.astro";
+import axios, { AxiosError } from "axios";
+import Spinner from "@components/spinner.astro";
 
 export const prerender = false;
 const { playlistId } = Astro.params;
@@ -9,9 +12,15 @@ const pb_loc = import.meta.env.PB_LOCATION;
 const method = Astro.request.method;
 
 let data = { id: "", title: "", description: "" };
+let message = {
+  show: false,
+  type: "",
+  message: "",
+};
 
 switch (method) {
   case "POST":
+    message.show = true;
     try {
       const formBody = await Astro.request.formData();
       const id = formBody.get("id") as string;
@@ -24,8 +33,15 @@ switch (method) {
         title,
         description,
       });
+      message.type = "success";
+      message.message = "Updated the config file.";
     } catch (error) {
-      console.log(error);
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Invalid data.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
 
@@ -44,7 +60,12 @@ switch (method) {
 ---
 
 <DashboardLayout>
-  <form>
+  <form
+    hx-post={`/dashboard/${playlistId}/config`}
+    hx-swap="outerHTML"
+    hx-select="#dashboard-content"
+    hx-target="#dashboard-content"
+  >
     <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
       <div class="text-sm breadcrumbs">
         <ul>
@@ -72,6 +93,7 @@ switch (method) {
           hx-target={`#items-${playlistId}`}
           hx-swap="afterend"
           hx-select=".item"
+          hx-indicator="#loading"
           type="button"
           class="btn btn-sm hover:bg-warning rounded-none"
         >
@@ -87,21 +109,22 @@ switch (method) {
           delete
         </button>
         <button
-          hx-post={`/dashboard/${playlistId}/config`}
-          hx-swap="none"
           class="btn btn-sm hover:bg-success hover:text-black rounded-none"
-          >save</button
         >
+          save
+        </button>
       </div>
     </nav>
     <div
-      class="flex text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
+      class="flex text-2xl p-2 group focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
     >
       <input type="hidden" name="id" value={data.id} />
       <label for="title">title:</label>
       <input
         id="title"
         value={data.title}
+        required
+        maxlength="256"
         name="title"
         type="text"
         class="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
@@ -114,10 +137,29 @@ switch (method) {
       <textarea
         id="description"
         name="description"
-        rows={20}
+        rows={5}
         class="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"
         >{data.description}</textarea
       >
     </div>
+    <div
+      id="loading"
+      class="htmx-indicator alert text-base px-4 py-2 rounded-none w-fit absolute flex justify-between bottom-4 right-4"
+    >
+      <div class="animate-spin">
+        <SpinnerIcon />
+      </div>
+       Loading
+    </div>
+    {
+      message.show && message.type === "success" && (
+        <SuccessAlert message={message} />
+      )
+    }
+    {
+      message.show && message.type === "error" && (
+        <ErrorAlert message={message} />
+      )
+    }
   </form>
 </DashboardLayout>

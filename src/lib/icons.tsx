@@ -1,4 +1,7 @@
-export { BiSolidDashboard as DashboardIcon } from "react-icons/bi";
+export {
+  BiSolidDashboard as DashboardIcon,
+  BiErrorAlt as ErrorIcon,
+} from "react-icons/bi";
 export { CgProfile as ProfileIcon } from "react-icons/cg";
 export { ImStatsBars as StatsIcon } from "react-icons/im";
 export {
@@ -17,6 +20,7 @@ export {
   AiOutlineFileMarkdown as GhostMarkdownFileIcon,
   AiOutlineFileUnknown as GhostQuestionFileIcon,
   AiOutlineFileText as GhostConfigFileIcon,
+  AiOutlineCheckCircle as SuccessIcon,
 } from "react-icons/ai";
 export { GoFilter as FilterIcon } from "react-icons/go";
 export { IoMdColorPalette as ColorIcon } from "react-icons/io";

@@ -1,0 +1,25 @@
+---
+import { ErrorIcon } from "@lib/icons";
+const { message } = Astro.props;
+---
+
+{
+  message && (
+    <>
+      <div
+        class="alert animate-fade-left alert-error text-base px-4 py-2 rounded-none w-fit absolute flex justify-between bottom-4 right-4"
+      >
+        <ErrorIcon/>
+        {message.message}
+      </div>
+      <script>
+        setTimeout(() => {
+          document.querySelector('.alert-error')?.classList.replace('animate-fade-left', 'animate-jump-out')
+          return setTimeout(()=>{
+            document.querySelector('.alert-error')?.remove();
+          }, 1000)
+        }, 3000); 
+      </script>
+    </>
+  )
+}
