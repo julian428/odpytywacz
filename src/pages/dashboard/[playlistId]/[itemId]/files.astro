@@ -1,4 +1,5 @@
 ---
+import Spinner from "@components/spinner.astro";
 import { QuestionFileIcon } from "@lib/icons";
 import axios from "axios";
 
@@ -63,6 +64,7 @@ switch (method) {
             <QuestionFileIcon />
           </span>
           {question.title}
+          <Spinner />
         </a>
       </li>
     );
