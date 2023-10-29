@@ -1,7 +1,9 @@
 ---
+import ErrorAlert from "@components/alerts/errorAlert.astro";
+import SuccessAlert from "@components/alerts/successAlert.astro";
 import Wrapper from "@components/item/Wrapper";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
-import { GhostConfigFileIcon, GhostFolderIcon } from "@lib/icons";
+import { GhostConfigFileIcon, GhostFolderIcon, SpinnerIcon } from "@lib/icons";
 import axios from "axios";
 
 export const prerender = false;
@@ -17,6 +19,11 @@ let data = {
   cover: "",
   parentId: "",
   parentTitle: "",
+};
+let message = {
+  show: false,
+  type: "",
+  message: "",
 };
 
 switch (method) {
@@ -47,7 +54,14 @@ switch (method) {
         `${pb_loc}/api/collections/item/records/${itemId}`,
         updatedData
       );
-    } catch (error) {}
+      message.show = true;
+      message.type = "success";
+      message.message = "Updated the config file.";
+    } catch (error) {
+      message.show = true;
+      message.type = "error";
+      message.message = "Something went wrong";
+    }
     break;
   default:
     try {
@@ -69,7 +83,12 @@ switch (method) {
 ---
 
 <DashboardLayout>
-  <form>
+  <form
+    hx-post={`/dashboard/${playlistId}/${itemId}/config`}
+    hx-swap="outerHTML"
+    hx-select="#dashboard-content"
+    hx-target="#dashboard-content"
+  >
     <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
       <div class="text-sm breadcrumbs">
         <ul>
@@ -106,6 +125,7 @@ switch (method) {
           hx-swap="afterend"
           hx-select=".question"
           type="button"
+          hx-indicator="#loading"
           class="btn btn-sm hover:bg-warning rounded-none"
         >
           + question</button
@@ -120,8 +140,6 @@ switch (method) {
           delete
         </button>
         <button
-          hx-post={`/dashboard/${playlistId}/${itemId}/config`}
-          hx-swap="none"
           class="btn btn-sm hover:bg-success hover:text-black rounded-none"
         >
           save
@@ -131,5 +149,24 @@ switch (method) {
     <input type="hidden" name="parentId" value={data.parentId} />
     <input type="hidden" name="parentTitle" value={data.parentTitle} />
     <Wrapper client:load defaultData={data} />
+    <div
+      id="loading"
+      class="htmx-indicator alert text-base px-4 py-2 rounded-none w-fit absolute flex justify-between bottom-4 right-4"
+    >
+      <div class="animate-spin">
+        <SpinnerIcon />
+      </div>
+       Loading
+    </div>
+    {
+      message.show && message.type === "success" && (
+        <SuccessAlert message={message} />
+      )
+    }
+    {
+      message.show && message.type === "error" && (
+        <ErrorAlert message={message} />
+      )
+    }
   </form>
 </DashboardLayout>
