@@ -16,7 +16,12 @@ switch (method) {
     const questionId = new URL(Astro.url).searchParams.get("questionId");
     try {
       await axios.delete(
-        `${pb_loc}/api/collections/question/records/${questionId}`
+        `${pb_loc}/api/collections/question/records/${questionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
+        }
       );
     } catch (error) {
       console.log(error);

@@ -15,6 +15,7 @@ export const prerender = false;
 const pb_loc = import.meta.env.PB_LOCATION;
 const { playlistId, itemId, questionId } = Astro.params;
 const method = Astro.request.method;
+const userData = Astro.locals.user;
 
 let data = {
   id: questionId,
@@ -90,6 +91,11 @@ switch (method) {
             .map((answear) => answear.trim())
             .join(";"),
           show: data.show,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
         }
       );
       message.show = true;
