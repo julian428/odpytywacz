@@ -1,5 +1,10 @@
 ---
 import DashboardLayout from "@layouts/DashboardLayout.astro";
+import Content from "../abouts/about_dashboard.mdx";
 ---
 
-<DashboardLayout>edit</DashboardLayout>
+<DashboardLayout>
+  <div class="p-2 prose max-w-none prose-pre:max-w-xl">
+    <Content />
+  </div>
+</DashboardLayout>

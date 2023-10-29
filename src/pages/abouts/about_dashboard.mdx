@@ -1,0 +1,50 @@
+## Dashboard tutorial
+
+1. Create a playlist by clicking the `create folder` icon.
+
+   > every folders properties are stored in the `config.yaml` file.
+
+   - The `title` property is **required** and its **maximum length** is **64** characters
+   - The `description` property is **not required** and its **maximum length** is **1024** characters
+
+2. To create an item press the `+ ITEM` button in the **top right** corner of the _config.yaml_ folder.
+
+   > after changing any values in any file you have to press the `SAVE` button to save the file.
+
+   - Every item folder in addition to the _config.yaml_ file has an `article.md` file where you can edit the items article
+
+   > by pressing the `DELETE` button in the **config.yaml** file you will delete the folder with all it's children
+
+   - The `color` property has to be a hexadecimal color value proceeded by a `#` sign.
+   - You can enter the color value manually or press the `collor pallete` icon to choose a color.
+   - The cover property has to be an `url` pointing to an image
+   - You can **preview** the Items **final look** at the bottom of the _config.yaml_ file in real-time.
+   - the **title** and **description** properties constraints remain **the same**.
+
+3. You can add **questions** to the item by pressing the `+ QUESTION` button.
+
+   - The type of the question can be `open` or `closed`.
+     - **open** the user writes his answear as text.
+     - **closed** the user can choose from a pool of answears.
+   - The `answears` and `decoys` properties are lists separated by the `;` character.
+     - **answears** are _compared_ to the users answear if the _type_ property is **open**
+     - **answears** are _shown_ as options to choose if the _type_ is **closed**, the quantity shown is dependant on the **show-answears** property
+     - **decoys** are only used if the _type_ is **closed** they are the other options to choose from.
+   - The **show-options** property can be `2, 3, 4`
+   - The **show-answears** property has to be always less than the _show-options_ value
+   - The **question tab** content will be displayed to the user as the question.
+
+   ***
+
+## File tree
+
+```
+    > "playlist"
+        - config.yaml
+        > "item"
+            - config.yaml
+            - article.md
+            > questions
+                - "question"
+                - "question"
+```
