@@ -100,6 +100,16 @@ switch (method) {
         </ul>
       </div>
       <div class="space-x-2">
+        <button
+          hx-post={`/dashboard/${playlistId}/${itemId}/files`}
+          hx-target={`#questions-${itemId}`}
+          hx-swap="afterend"
+          hx-select=".question"
+          type="button"
+          class="btn btn-sm hover:bg-warning rounded-none"
+        >
+          + question</button
+        >
         <button type="button" class="btn btn-sm hover:bg-error rounded-none">
           delete
         </button>

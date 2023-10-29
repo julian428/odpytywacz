@@ -4,17 +4,39 @@ import axios from "axios";
 
 export const prerender = false;
 const pb_loc = import.meta.env.PB_LOCATION;
+const method = Astro.request.method;
 const { playlistId, itemId } = Astro.params;
+const userData = Astro.locals.user;
 
 let questions: Question[] = [];
 
-try {
-  const response = await axios.get(
-    `${pb_loc}/api/collections/question/records?filter=item = "${itemId}"`
-  );
-  questions = response.data.items;
-} catch (error) {
-  console.log(error);
+switch (method) {
+  case "POST":
+    try {
+      const response = await axios.post(
+        `${pb_loc}/api/collections/question/records`,
+        {
+          type: "open",
+          item: itemId,
+          owner: userData?.record.id,
+          title: "New Question",
+        }
+      );
+      questions = [response.data];
+    } catch (error) {
+      console.log(error);
+    }
+    break;
+  default:
+    try {
+      const response = await axios.get(
+        `${pb_loc}/api/collections/question/records?filter=item = "${itemId}"`
+      );
+      questions = response.data.items;
+    } catch (error) {
+      console.log(error);
+    }
+    break;
 }
 ---
 

@@ -93,7 +93,7 @@ switch (method) {
                 <summary
                   hx-get={`/dashboard/${playlistId}/${item.id}/files`}
                   hx-target={`#questions-${item.id}`}
-                  hx-swap="innerHTML"
+                  hx-swap="afterend"
                   hx-trigger={`${questionsIsOpen ? "load" : "click"} once`}
                   hx-select=".question"
                 >
@@ -105,7 +105,9 @@ switch (method) {
                   </span>
                   questions
                 </summary>
-                <ul id={`questions-${item.id}`} />
+                <ul>
+                  <li class="hidden" id={`questions-${item.id}`} />
+                </ul>
               </details>
             </li>
           </ul>
