@@ -18,6 +18,13 @@ const method = Astro.request.method;
 let items: Item[] = [];
 
 switch (method) {
+  case "DELETE":
+    try {
+      await axios.delete(`${pb_loc}/api/collections/item/records/${itemId}`);
+    } catch (error) {
+      console.log(error);
+    }
+    break;
   case "POST":
     try {
       const userData = Astro.locals.user;

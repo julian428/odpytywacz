@@ -12,8 +12,11 @@ let questions: Question[] = [];
 
 switch (method) {
   case "DELETE":
+    const questionId = new URL(Astro.url).searchParams.get("questionId");
     try {
-      await axios.delete(`${pb_loc}/api/collections/item/records/${itemId}`);
+      await axios.delete(
+        `${pb_loc}/api/collections/question/records/${questionId}`
+      );
     } catch (error) {
       console.log(error);
     }
@@ -50,7 +53,7 @@ switch (method) {
 {
   questions.map((question) => {
     return (
-      <li class="question">
+      <li class="question" id={`question-${question.id}`}>
         <a
           href={`/dashboard/${playlistId}/${itemId}/${question.id}`}
           hx-target="#dashboard-content"

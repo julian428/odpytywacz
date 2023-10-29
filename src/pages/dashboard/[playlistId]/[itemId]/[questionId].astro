@@ -142,15 +142,20 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         </ul>
       </div>
       <div class="space-x-2">
-        <button type="button" class="btn btn-sm hover:bg-error rounded-none"
-          >delete</button
+        <button
+          hx-delete={`/dashboard/${itemId}/${playlistId}/files?questionId=${questionId}`}
+          hx-target={`#question-${questionId}`}
+          hx-swap="outerHTML"
+          hx-replace-url={`/dashboard/${playlistId}/${itemId}/config`}
+          class="btn btn-sm hover:bg-error rounded-none">delete</button
         >
         <button
           hx-post={`/dashboard/${playlistId}/${itemId}/${questionId}`}
           hx-swap="none"
           class="btn btn-sm hover:bg-success hover:text-black rounded-none"
-          >save</button
         >
+          save
+        </button>
       </div>
     </nav>
     <div

@@ -111,7 +111,7 @@ switch (method) {
           + question</button
         >
         <button
-          hx-delete={`/dashboard/${playlistId}/${itemId}/files`}
+          hx-delete={`/dashboard/${playlistId}/files?itemId=${itemId}`}
           hx-swap="outerHTML"
           hx-replace-url={`/dashboard/${playlistId}/config`}
           hx-target={`#item-${itemId}`}
