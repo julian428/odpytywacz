@@ -15,13 +15,18 @@ const urlparams = new URL(Astro.url).searchParams;
 const itemId = urlparams.get("itemId");
 const questionId = urlparams.get("questionId");
 const method = Astro.request.method;
+const userData = Astro.locals.user;
 
 let items: Item[] = [];
 
 switch (method) {
   case "DELETE":
     try {
-      await axios.delete(`${pb_loc}/api/collections/item/records/${itemId}`);
+      await axios.delete(`${pb_loc}/api/collections/item/records/${itemId}`, {
+        headers: {
+          Authorization: `Bearer ${userData?.token}`,
+        },
+      });
     } catch (error) {
       console.log(error);
     }

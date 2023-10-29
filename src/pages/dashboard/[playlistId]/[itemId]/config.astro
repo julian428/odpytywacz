@@ -10,6 +10,7 @@ export const prerender = false;
 const { playlistId, itemId } = Astro.params;
 const pb_loc = import.meta.env.PB_LOCATION;
 const method = Astro.request.method;
+const userData = Astro.locals.user;
 
 let data = {
   id: "",
@@ -52,7 +53,12 @@ switch (method) {
       };
       await axios.patch(
         `${pb_loc}/api/collections/item/records/${itemId}`,
-        updatedData
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
+        }
       );
       message.show = true;
       message.type = "success";
