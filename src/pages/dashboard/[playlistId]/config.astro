@@ -3,14 +3,14 @@ import DashboardLayout from "@layouts/DashboardLayout.astro";
 import { GhostConfigFileIcon, GhostFolderIcon, SpinnerIcon } from "@lib/icons";
 import SuccessAlert from "@components/alerts/successAlert.astro";
 import ErrorAlert from "@components/alerts/errorAlert.astro";
-import axios, { Axios, AxiosError } from "axios";
-import Spinner from "@components/spinner.astro";
+import axios, { AxiosError } from "axios";
 import Tooltip from "@components/Tooltip";
 
 export const prerender = false;
 const { playlistId } = Astro.params;
 const pb_loc = import.meta.env.PB_LOCATION;
 const method = Astro.request.method;
+const userData = Astro.locals.user;
 
 let data = { id: "", title: "", description: "" };
 let message = {
@@ -29,17 +29,24 @@ switch (method) {
       const description = formBody.get("description") as string;
 
       data = { id, title, description };
-
-      await axios.patch(`${pb_loc}/api/collections/playlist/records/${id}`, {
-        title,
-        description,
-      });
+      await axios.patch(
+        `${pb_loc}/api/collections/playlist/records/${id}`,
+        {
+          title,
+          description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
+        }
+      );
       message.type = "success";
       message.message = "Updated the config file.";
     } catch (error) {
       message.type = "error";
       if (error instanceof AxiosError) {
-        message.message = "Invalid data.";
+        message.message = error.response?.statusText || "Something went wrong.";
       } else {
         message.message = "Something went wrong.";
       }

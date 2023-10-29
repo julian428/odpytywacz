@@ -17,8 +17,13 @@ switch (method) {
   case "DELETE":
     const playlistId = urlparams.get("id");
     try {
-      const response = await axios.delete(
-        `${pb_loc}/api/collections/playlist/records/${playlistId}`
+      await axios.delete(
+        `${pb_loc}/api/collections/playlist/records/${playlistId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
+        }
       );
     } catch (error) {
       console.log(error);
