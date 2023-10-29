@@ -11,7 +11,7 @@ const { playlistId, itemId, questionId } = Astro.params;
 
 <MainNav>
   <ul
-    class="bg-neutral menu group/tree row-span-full col-span-3 overflow-y-auto border-r border-base-100"
+    class="bg-neutral menu row-span-full flex-nowrap col-span-3 overflow-y-auto menu-vertical border-r border-base-100"
   >
     <li
       hx-get={`/dashboard/files?playlistId=${playlistId}&itemId=${itemId}&questionId=${questionId}`}
