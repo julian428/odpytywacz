@@ -129,11 +129,10 @@ switch (method) {
       <input
         id="title"
         value={data.title}
-        required
-        maxlength="256"
+        pattern="^(.{1,64})$"
         name="title"
         type="text"
-        class="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
+        class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
       />
     </div>
     <div
@@ -141,6 +140,7 @@ switch (method) {
     >
       <label for="description">description:</label>
       <textarea
+        maxlength="1024"
         id="description"
         name="description"
         rows={5}
