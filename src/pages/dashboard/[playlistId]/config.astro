@@ -1,5 +1,4 @@
 ---
-import Spinner from "@components/spinner.astro";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
 import { GhostConfigFileIcon, GhostFolderIcon } from "@lib/icons";
 import axios from "axios";
@@ -83,8 +82,10 @@ switch (method) {
           hx-swap="outerHTML"
           hx-replace-url="/dashboard"
           hx-target={`#playlist-${playlistId}`}
-          class="btn btn-sm hover:bg-error rounded-none">delete</button
+          class="btn btn-sm hover:bg-error rounded-none"
         >
+          delete
+        </button>
         <button
           hx-post={`/dashboard/${playlistId}/config`}
           hx-swap="none"
