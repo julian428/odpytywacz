@@ -1,3 +1,4 @@
+import Tooltip from "@components/Tooltip";
 import { ColorIcon } from "@lib/icons";
 
 interface Props {
@@ -14,6 +15,7 @@ export default function ColorPicker({ state }: Props) {
         value={val}
         onChange={(e) => setVal(e.target.value)}
         type="text"
+        placeholder="Type hex color..."
         spellCheck={false}
         pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
         className="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
@@ -33,6 +35,7 @@ export default function ColorPicker({ state }: Props) {
         type="color"
         className="bg-transparent w-0 scale-0 outline-none"
       />
+      <Tooltip tip="hexadecimal color, example: #fafa06" />
     </div>
   );
 }

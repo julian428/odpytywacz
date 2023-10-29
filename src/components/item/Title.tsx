@@ -1,3 +1,5 @@
+import Tooltip from "@components/Tooltip";
+
 interface Props {
   state: [string, React.Dispatch<React.SetStateAction<string>>];
 }
@@ -16,6 +18,7 @@ export default function Title({ state }: Props) {
         onChange={(e) => setVal(e.target.value)}
         className="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"
       />
+      <Tooltip tip="length: 1 - 64" />
     </div>
   );
 }

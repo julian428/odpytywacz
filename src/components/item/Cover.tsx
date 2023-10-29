@@ -1,3 +1,5 @@
+import Tooltip from "@components/Tooltip";
+
 interface Props {
   state: [string, React.Dispatch<React.SetStateAction<string>>];
 }
@@ -10,6 +12,7 @@ export default function Cover({ state }: Props) {
       <input
         id="cover"
         type="text"
+        placeholder="Type url here..."
         defaultValue={val}
         onChange={(e) => setVal(e.target.value)}
         name="cover"
