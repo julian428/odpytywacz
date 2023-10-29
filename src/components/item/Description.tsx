@@ -5,7 +5,7 @@ interface Props {
 export default function Description({ state }: Props) {
   const [val, setVal] = state;
   return (
-    <div className="flex flex-col text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300">
+    <div className="flex flex-col mb-8 text-2xl p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300">
       <label htmlFor="description">description:</label>
       <textarea
         id="description"
