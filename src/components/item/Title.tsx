@@ -11,6 +11,8 @@ export default function Title({ state }: Props) {
         id="title"
         type="text"
         name="title"
+        required
+        maxLength={256}
         defaultValue={val}
         onChange={(e) => setVal(e.target.value)}
         className="w-full bg-transparent outline-none pl-2 italic text-xl opacity-50 tracking-wide"

@@ -10,6 +10,7 @@ export default function Description({ state }: Props) {
       <textarea
         id="description"
         defaultValue={val}
+        maxLength={1024}
         name="description"
         onChange={(e) => setVal(e.target.value)}
         rows={8}

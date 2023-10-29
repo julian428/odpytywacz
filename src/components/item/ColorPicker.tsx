@@ -15,6 +15,7 @@ export default function ColorPicker({ state }: Props) {
         onChange={(e) => setVal(e.target.value)}
         type="text"
         maxLength={7}
+        pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
         className="w-full bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
       <label
