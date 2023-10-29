@@ -132,6 +132,7 @@ switch (method) {
         value={data.title}
         pattern="^(.{1,64})$"
         name="title"
+        spellcheck="false"
         type="text"
         class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
@@ -144,6 +145,7 @@ switch (method) {
       <textarea
         maxlength="1024"
         id="description"
+        spellcheck="false"
         name="description"
         rows={10}
         class="w-full bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"

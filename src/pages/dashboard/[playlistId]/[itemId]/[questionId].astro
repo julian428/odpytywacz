@@ -9,6 +9,7 @@ import axios, { AxiosError } from "axios";
 import Editor from "@components/Editor";
 import SuccessAlert from "@components/alerts/successAlert.astro";
 import ErrorAlert from "@components/alerts/errorAlert.astro";
+import Tooltip from "@components/Tooltip";
 
 export const prerender = false;
 const pb_loc = import.meta.env.PB_LOCATION;
@@ -196,10 +197,12 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="title"
         type="text"
         name="title"
-        pattern="^(.{0,64})$"
+        spellcheck="false"
+        pattern="^(.{1,64})$"
         value={data.title}
         class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
+      <Tooltip tip="length: 1 - 64" />
     </div>
     <div
       class="flex text-2xl gap-2 p-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
@@ -213,6 +216,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         value={data.type}
         class="w-full bg-transparent invalid:decoration-wavy invalid:underline invalid:decoration-error outline-none italic text-xl opacity-50 tracking-wide"
       />
+      <Tooltip tip="open or closed" />
     </div>
     <div
       class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
@@ -223,11 +227,13 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="answears"
         type="text"
         name="answears"
+        placeholder="answear 1; answear 2"
         pattern="^(.{0,1024})$"
         value={data.answears}
         class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
       <span>]</span>
+      <Tooltip tip="length: 0 - 1024, separate different answears with ';'" />
     </div>
     <div
       class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"
@@ -238,11 +244,13 @@ data.decoys = data.decoys.replaceAll(";", "; ");
         id="decoys"
         type="text"
         name="decoys"
+        placeholder="decoy 1; decoy 2"
         pattern="^(.{0,1024})$"
         value={data.decoys}
         class="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none italic text-xl opacity-50 tracking-wide"
       />
       <span>]</span>
+      <Tooltip tip="length: 0 - 1024, separate different decoys by a ';'" />
     </div>
     <div
       class="flex text-2xl p-2 gap-2 focus-within:bg-accent focus-within:bg-opacity-10 duration-300"

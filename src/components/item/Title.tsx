@@ -12,6 +12,7 @@ export default function Title({ state }: Props) {
       <input
         id="title"
         type="text"
+        spellCheck={false}
         name="title"
         pattern="^(.{0,64})$"
         defaultValue={val}

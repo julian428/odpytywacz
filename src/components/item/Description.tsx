@@ -12,6 +12,7 @@ export default function Description({ state }: Props) {
         defaultValue={val}
         maxLength={1024}
         name="description"
+        spellCheck={false}
         onChange={(e) => setVal(e.target.value)}
         rows={8}
         className="w-full invalid:decoration-wavy invalid:underline invalid:decoration-error bg-transparent outline-none resize-none italic text-xl opacity-50 tracking-wide"

@@ -12,6 +12,7 @@ export default function Cover({ state }: Props) {
       <input
         id="cover"
         type="text"
+        spellCheck={false}
         placeholder="Type url here..."
         defaultValue={val}
         onChange={(e) => setVal(e.target.value)}
