@@ -1,8 +1,14 @@
 ---
 import DashboardLayout from "@layouts/DashboardLayout.astro";
-import { GhostFolderIcon, GhostQuestionFileIcon } from "@lib/icons";
-import axios from "axios";
+import {
+  GhostFolderIcon,
+  GhostQuestionFileIcon,
+  SpinnerIcon,
+} from "@lib/icons";
+import axios, { AxiosError } from "axios";
 import Editor from "@components/Editor";
+import SuccessAlert from "@components/alerts/successAlert.astro";
+import ErrorAlert from "@components/alerts/errorAlert.astro";
 
 export const prerender = false;
 const pb_loc = import.meta.env.PB_LOCATION;
@@ -29,6 +35,11 @@ let data = {
       },
     },
   },
+};
+let message = {
+  show: false,
+  type: "",
+  message: "",
 };
 
 switch (method) {
@@ -80,8 +91,17 @@ switch (method) {
           show: data.show,
         }
       );
+      message.show = true;
+      message.type = "success";
+      message.message = "Updated the question.";
     } catch (error) {
-      console.log(error);
+      message.show = true;
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Invalid data.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
   default:
@@ -93,7 +113,13 @@ switch (method) {
       );
       data = response.data;
     } catch (error) {
-      console.log(error);
+      message.show = true;
+      message.type = "error";
+      if (error instanceof AxiosError) {
+        message.message = "Can't find this question.";
+      } else {
+        message.message = "Something went wrong.";
+      }
     }
     break;
 }
@@ -103,7 +129,13 @@ data.decoys = data.decoys.replaceAll(";", "; ");
 ---
 
 <DashboardLayout>
-  <form>
+  <form
+    hx-post={`/dashboard/${playlistId}/${itemId}/${questionId}`}
+    hx-swap="outerHTML"
+    hx-target="#dashboard-content"
+    hx-select="#dashboard-content"
+    hx-indicator="#loading"
+  >
     <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
       <div class="text-sm breadcrumbs">
         <ul>
@@ -150,8 +182,6 @@ data.decoys = data.decoys.replaceAll(";", "; ");
           class="btn btn-sm hover:bg-error rounded-none">delete</button
         >
         <button
-          hx-post={`/dashboard/${playlistId}/${itemId}/${questionId}`}
-          hx-swap="none"
           class="btn btn-sm hover:bg-success hover:text-black rounded-none"
         >
           save
@@ -251,4 +281,19 @@ data.decoys = data.decoys.replaceAll(";", "; ");
       <Editor client:only content={data.question} />
     </div>
   </form>
+  <div
+    id="loading"
+    class="htmx-indicator alert text-base px-4 py-2 rounded-none w-fit absolute flex justify-between bottom-4 right-4"
+  >
+    <div class="animate-spin">
+      <SpinnerIcon />
+    </div>
+     Loading
+  </div>
+  {
+    message.show && message.type === "success" && (
+      <SuccessAlert message={message} />
+    )
+  }
+  {message.show && message.type === "error" && <ErrorAlert message={message} />}
 </DashboardLayout>
