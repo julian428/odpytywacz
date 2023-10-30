@@ -1,8 +1,19 @@
 ---
+import ErrorAlert from "@components/alerts/errorAlert.astro";
+import SuccessAlert from "@components/alerts/successAlert.astro";
 import MainNav from "@layouts/MainNav.astro";
-import { GhostCreateFolderIcon, CollapseAllIcon } from "@lib/icons";
+import {
+  GhostCreateFolderIcon,
+  CollapseAllIcon,
+  SpinnerIcon,
+} from "@lib/icons";
 
-const { playlistId, itemId, questionId } = Astro.params;
+interface Props {
+  message?: AlertMessage;
+}
+
+const { message } = Astro.props;
+const { playlistId, itemId, questionId } = Astro.locals.params;
 ---
 
 <MainNav>
@@ -51,8 +62,19 @@ const { playlistId, itemId, questionId } = Astro.params;
   >
     <div id="dashboard-content" class="grid grid-cols-1">
       <slot />
+      {
+        message?.show && message.type === "success" && (
+          <SuccessAlert message={message} />
+        )
+      }
+      {
+        message?.show && message.type === "error" && (
+          <ErrorAlert message={message} />
+        )
+      }
     </div>
   </main>
+
   <script>
     const collapseDetails = () => {
       const details = document.querySelectorAll<HTMLDetailsElement>(".detail");

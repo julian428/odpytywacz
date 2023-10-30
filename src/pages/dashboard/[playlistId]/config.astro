@@ -13,7 +13,7 @@ const method = Astro.request.method;
 const userData = Astro.locals.user;
 
 let data = { id: "", title: "", description: "" };
-let message = {
+let message: AlertMessage = {
   show: false,
   type: "",
   message: "",
@@ -73,7 +73,7 @@ switch (method) {
 }
 ---
 
-<DashboardLayout>
+<DashboardLayout message={message}>
   <form
     hx-post={`/dashboard/${playlistId}/config`}
     hx-swap="outerHTML"
@@ -159,24 +159,5 @@ switch (method) {
         >{data.description}</textarea
       >
     </div>
-    <div
-      id="loading"
-      class="htmx-indicator alert text-base px-4 py-2 rounded-none w-fit absolute flex justify-between bottom-4 right-4"
-    >
-      <div class="animate-spin">
-        <SpinnerIcon />
-      </div>
-       Loading
-    </div>
-    {
-      message.show && message.type === "success" && (
-        <SuccessAlert message={message} />
-      )
-    }
-    {
-      message.show && message.type === "error" && (
-        <ErrorAlert message={message} />
-      )
-    }
   </form>
 </DashboardLayout>
