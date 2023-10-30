@@ -40,6 +40,11 @@ switch (method) {
           title: "New Item",
           owner: userData?.record.id,
           playlist: playlistId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
         }
       );
       items = [response.data];
