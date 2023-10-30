@@ -1,7 +1,5 @@
 ---
 import Editor from "@components/Editor";
-import ErrorAlert from "@components/alerts/errorAlert.astro";
-import SuccessAlert from "@components/alerts/successAlert.astro";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
 import {
   GhostFolderIcon,
@@ -22,7 +20,7 @@ let data = {
   expand: { playlist: { id: "", title: "" } },
 };
 
-let message = {
+let message: AlertMessage = {
   show: false,
   type: "",
   message: "",
@@ -82,7 +80,7 @@ switch (method) {
 }
 ---
 
-<DashboardLayout>
+<DashboardLayout message={message}>
   <form
     hx-post={`/dashboard/${playlistId}/${itemId}/article`}
     hx-swap="outerHTML"
@@ -144,10 +142,4 @@ switch (method) {
     </div>
      Loading
   </div>
-  {
-    message.show && message.type === "success" && (
-      <SuccessAlert message={message} />
-    )
-  }
-  {message.show && message.type === "error" && <ErrorAlert message={message} />}
 </DashboardLayout>
