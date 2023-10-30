@@ -1,11 +1,8 @@
 ---
 import Editor from "@components/Editor";
+import FileNav from "@components/fileNav.astro";
 import DashboardLayout from "@layouts/DashboardLayout.astro";
-import {
-  GhostFolderIcon,
-  GhostMarkdownFileIcon,
-  SpinnerIcon,
-} from "@lib/icons";
+import { SpinnerIcon } from "@lib/icons";
 import axios, { AxiosError } from "axios";
 
 export const prerender = false;
@@ -81,50 +78,28 @@ switch (method) {
 ---
 
 <DashboardLayout message={message}>
-  <form
-    hx-post={`/dashboard/${playlistId}/${itemId}/article`}
-    hx-swap="outerHTML"
-    hx-target="#dashboard-content"
-    hx-select="#dashboard-content"
-    hx-indicator="#loading"
-    class="flex flex-col relative"
-  >
-    <nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
-      <div class="text-sm breadcrumbs">
-        <ul>
-          <li>
-            <a href={`/dashboard/${playlistId}/config`}>
-              <span class="pr-1">
-                <GhostFolderIcon />
-              </span>
-              {data.expand.playlist.title}
-            </a>
-          </li>
-          <li>
-            <a href={`/dashboard/${data.expand.playlist.id}/${data.id}/config`}>
-              <span class="pr-1">
-                <GhostFolderIcon />
-              </span>
-              {data.title}
-            </a>
-          </li>
-          <li>
-            <a>
-              <span class="text-primary pr-1">
-                <GhostMarkdownFileIcon />
-              </span>
-               article.md
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="space-x-2">
-        <button
-          class="btn btn-sm hover:bg-success hover:text-black rounded-none"
-          >save</button
-        >
-      </div>
-    </nav>
+  <form class="flex flex-col relative">
+    <FileNav
+      bread_crumbs={[
+        {
+          href: `/dashboard/${playlistId}/config`,
+          title: data.expand.playlist.title,
+          type: ".",
+        },
+        {
+          href: `/dashboard/${data.expand.playlist.id}/${data.id}/config`,
+          title: data.title,
+          type: ".",
+        },
+        {
+          href: "",
+          title: "article",
+          type: ".md",
+          className: "text-primary",
+        },
+      ]}
+      save_content={{ url: `/dashboard/${playlistId}/${itemId}/article` }}
+    />
     <input type="hidden" name="title" value={data.title} />
     <input
       type="hidden"

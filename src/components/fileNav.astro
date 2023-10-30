@@ -1,0 +1,105 @@
+---
+import {
+  GhostConfigFileIcon,
+  GhostFolderIcon,
+  GhostMarkdownFileIcon,
+  GhostQuestionFileIcon,
+} from "@lib/icons";
+import type { ComponentProps } from "react";
+
+interface Props {
+  bread_crumbs: {
+    href: string;
+    type: "." | ".yaml" | ".md" | ".question";
+    className?: ComponentProps<"div">["className"];
+    title: string;
+  }[];
+  save_content: {
+    url: string;
+  };
+  delete_content?: {
+    url: string;
+    target: string;
+  };
+  create_content?: {
+    title: string;
+    url: string;
+    target: string;
+    select: string;
+    indicator: string;
+  };
+}
+
+const { bread_crumbs, save_content, delete_content, create_content } =
+  Astro.props;
+---
+
+<nav class="w-full p-2 gap-4 flex justify-between border-b border-base-100">
+  <div class="text-sm breadcrumbs">
+    <ul>
+      {
+        bread_crumbs.map((bread_crumb) => {
+          const { href, title, type, className } = bread_crumb;
+          return (
+            <li>
+              <a href={href}>
+                <span class={className + " pr-1"}>
+                  {type === "." ? (
+                    <GhostFolderIcon />
+                  ) : type === ".md" ? (
+                    <GhostMarkdownFileIcon />
+                  ) : type === ".question" ? (
+                    <GhostQuestionFileIcon />
+                  ) : (
+                    <GhostConfigFileIcon />
+                  )}
+                </span>
+                {`${title}${type}`}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+  <div class="space-x-2">
+    {
+      create_content && (
+        <button
+          hx-post={create_content.url}
+          hx-target={create_content.target}
+          hx-swap="afterend"
+          hx-select={create_content.select}
+          hx-indicator={create_content.indicator}
+          class="btn btn-sm hover:bg-warning rounded-none"
+        >
+          {create_content.title}
+        </button>
+      )
+    }
+    {
+      delete_content && (
+        <button
+          hx-delete={delete_content.url}
+          hx-target={delete_content.target}
+          hx-swap="outerHTML"
+          hx-replace-url="/dashboard"
+          hx-confirm="Are you sure you want to delete this?"
+          class="btn btn-sm hover:bg-error rounded-none"
+        >
+          delete
+        </button>
+      )
+    }
+    <button
+      hx-post={save_content.url}
+      hx-swap="outerHTML"
+      hx-select="#dashboard-content"
+      hx-indicator="#loading"
+      hx-target="#dashboard-content"
+      class="btn btn-sm hover:bg-success hover:text-black rounded-none"
+    >
+      save
+    </button>
+  </div>
+</nav>
