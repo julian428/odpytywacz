@@ -3,6 +3,7 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
 import MenuBar from "./ManuBar";
 import { useState } from "react";
 
@@ -18,6 +19,7 @@ const extensions = [
       keepAttributes: false,
     },
   }),
+  Image,
 ];
 
 export default function Editor({ content }: { content: string }) {

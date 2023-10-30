@@ -1,6 +1,7 @@
 export {
   BiSolidDashboard as DashboardIcon,
   BiErrorAlt as ErrorIcon,
+  BiImageAdd as AddImageIcon,
 } from "react-icons/bi";
 export { CgProfile as ProfileIcon } from "react-icons/cg";
 export { ImStatsBars as StatsIcon } from "react-icons/im";

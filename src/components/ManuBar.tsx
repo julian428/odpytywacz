@@ -1,4 +1,6 @@
+import { AddImageIcon } from "@lib/icons";
 import { useCurrentEditor } from "@tiptap/react";
+import { useCallback } from "react";
 import {
   BiBold,
   BiCodeAlt,
@@ -17,6 +19,14 @@ export default function MenuBar() {
   if (!editor) {
     return null;
   }
+
+  const addImage = useCallback(() => {
+    const url = window.prompt("URL");
+
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
 
   return (
     <ul className="menu menu-xs items-center bg-neutral sticky top-0 z-10 [&_li>*]:rounded-none menu-horizontal border-b border-base-100">
@@ -152,6 +162,11 @@ export default function MenuBar() {
           }`}
         >
           &ldquo; &rdquo;
+        </button>
+      </li>
+      <li>
+        <button type="button" onClick={addImage} className="text-2xl">
+          <AddImageIcon />
         </button>
       </li>
     </ul>
