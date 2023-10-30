@@ -1,11 +1,10 @@
 ---
+import axios from "axios";
 import ItemCard from "@components/ItemCard";
 import MainNav from "@layouts/MainNav.astro";
 import { SearchIcon } from "@lib/icons";
 
-import axios from "axios";
 const pb_loc = import.meta.env.PB_LOCATION;
-
 const url = new URL(Astro.request.url);
 const search = url.searchParams.get("search") as string | null;
 
@@ -20,8 +19,8 @@ const items = res.data.items;
     <input
       type="text"
       name="search"
-      hx-select="#items"
       placeholder="Search..."
+      hx-select="#items"
       hx-target="#items"
       hx-swap="outerHTML"
       hx-get="/"
