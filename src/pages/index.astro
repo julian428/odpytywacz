@@ -1,6 +1,7 @@
 ---
 import ItemCard from "@components/ItemCard";
 import MainNav from "@layouts/MainNav.astro";
+import { SearchIcon } from "@lib/icons";
 
 import axios from "axios";
 const pb_loc = import.meta.env.PB_LOCATION;
@@ -15,5 +16,26 @@ const items = res.data.items;
 ---
 
 <MainNav>
-  {items.map((item: Item) => <ItemCard data={{ ...item }} />)}
+  <div class="join col-span-full m-auto">
+    <input
+      type="text"
+      name="search"
+      hx-select="#items"
+      placeholder="Search..."
+      hx-target="#items"
+      hx-swap="outerHTML"
+      hx-get="/"
+      hx-trigger="keyup changed delay:200ms"
+      class="input bg-neutral join-item border border-secondary"
+    />
+    <button class="join-item btn btn-secondary text-xl">
+      <SearchIcon />
+    </button>
+  </div>
+  <main
+    id="items"
+    class="grid grid-cols-12 grid-rows-4 row-span-4 col-span-full"
+  >
+    {items.map((item: Item) => <ItemCard data={{ ...item }} />)}
+  </main>
 </MainNav>

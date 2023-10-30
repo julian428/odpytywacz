@@ -1,14 +1,5 @@
 ---
-import { DashboardIcon, ProfileIcon, SearchIcon } from "@lib/icons";
-
-const filters: {
-  name: string;
-  type: string;
-  value: string;
-  checked: boolean;
-}[] = [];
-
-const url = new URL(Astro.request.url);
+import { DashboardIcon, ProfileIcon } from "@lib/icons";
 ---
 
 <html data-theme="mytheme" class="w-full h-full">
@@ -24,30 +15,6 @@ const url = new URL(Astro.request.url);
       <div class="navbar-start">
         <a class="btn btn-ghost text-xl" href="/">Odpytywacz</a>
       </div>
-      {
-        url.pathname === "/" && (
-          <form
-            hx-get="/api/items"
-            hx-target="#main-content"
-            hx-select="#items"
-            class="navbar-center join"
-          >
-            <input
-              type="text"
-              name="search"
-              hx-select=".item"
-              placeholder="Search..."
-              hx-target="#main-content"
-              hx-get="/"
-              hx-trigger="keyup changed delay:200ms"
-              class="input bg-neutral join-item border border-secondary"
-            />
-            <button class="join-item btn btn-secondary text-xl">
-              <SearchIcon />
-            </button>
-          </form>
-        )
-      }
       <div class="navbar-end">
         <ul class="menu menu-horizontal px-1">
           <li>
