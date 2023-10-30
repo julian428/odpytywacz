@@ -21,7 +21,7 @@ let data = {
   parentId: "",
   parentTitle: "",
 };
-let message = {
+let message: AlertMessage = {
   show: false,
   type: "",
   message: "",
@@ -94,7 +94,7 @@ switch (method) {
 }
 ---
 
-<DashboardLayout>
+<DashboardLayout message={message}>
   <form
     hx-post={`/dashboard/${playlistId}/${itemId}/config`}
     hx-swap="outerHTML"
@@ -146,6 +146,7 @@ switch (method) {
           hx-delete={`/dashboard/${playlistId}/files?itemId=${itemId}`}
           hx-swap="outerHTML"
           hx-replace-url={`/dashboard/${playlistId}/config`}
+          hx-confirm="Are you sure you want to delete this item?"
           hx-target={`#item-${itemId}`}
           class="btn btn-sm hover:bg-error rounded-none"
         >
@@ -170,15 +171,5 @@ switch (method) {
       </div>
        Loading
     </div>
-    {
-      message.show && message.type === "success" && (
-        <SuccessAlert message={message} />
-      )
-    }
-    {
-      message.show && message.type === "error" && (
-        <ErrorAlert message={message} />
-      )
-    }
   </form>
 </DashboardLayout>

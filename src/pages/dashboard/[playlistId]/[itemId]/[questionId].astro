@@ -38,7 +38,7 @@ let data = {
     },
   },
 };
-let message = {
+let message: AlertMessage = {
   show: false,
   type: "",
   message: "",
@@ -135,7 +135,7 @@ data.answears = data.answears.replaceAll(";", "; ");
 data.decoys = data.decoys.replaceAll(";", "; ");
 ---
 
-<DashboardLayout>
+<DashboardLayout message={message}>
   <form
     hx-post={`/dashboard/${playlistId}/${itemId}/${questionId}`}
     hx-swap="outerHTML"
@@ -185,6 +185,7 @@ data.decoys = data.decoys.replaceAll(";", "; ");
           hx-delete={`/dashboard/${itemId}/${playlistId}/files?questionId=${questionId}`}
           hx-target={`#question-${questionId}`}
           hx-swap="outerHTML"
+          hx-confirm="Are you sure you want to delete this question?"
           hx-replace-url={`/dashboard/${playlistId}/${itemId}/config`}
           class="btn btn-sm hover:bg-error rounded-none">delete</button
         >
@@ -308,10 +309,4 @@ data.decoys = data.decoys.replaceAll(";", "; ");
     </div>
      Loading
   </div>
-  {
-    message.show && message.type === "success" && (
-      <SuccessAlert message={message} />
-    )
-  }
-  {message.show && message.type === "error" && <ErrorAlert message={message} />}
 </DashboardLayout>
