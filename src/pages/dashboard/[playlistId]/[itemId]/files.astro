@@ -36,6 +36,11 @@ switch (method) {
           item: itemId,
           owner: userData?.record.id,
           title: "New Question",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
         }
       );
       questions = [response.data];
