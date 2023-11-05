@@ -6,6 +6,6 @@ interface Props {
 
 export default function H2({ children }: Props) {
   return (
-    <h3 className="lg:text-5xl text-3xl font-bold truncate">{children}</h3>
+    <h3 className="lg:text-5xl text-3xl font-bold">{children}</h3>
   );
 }
